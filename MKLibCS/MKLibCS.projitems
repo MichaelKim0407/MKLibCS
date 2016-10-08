@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>cf199d70-2714-4ff7-a48a-bc4219d10bb7</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MKLibCS</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionsUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Hash.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)File\ExceptionInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)File\Exceptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)File\FileNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)File\FileSLAttributes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)File\FileSLItemInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)File\FileUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)File\FileUtilPrivate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Generic\Create.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Generic\Exceptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Generic\GenericMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Generic\GenericMethodAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Generic\GenericUsageAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Generic\GenericUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Generic\ParseFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\ILogFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\Log.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\Advanced\IVector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\Advanced\Vector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\Advanced\Vector1.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Maths\Advanced\Vector3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Abs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Add.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Divide.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Max.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Min.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Multiply.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Negative.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\One.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Sign.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Sqrt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Subtract.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Zero.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\MathGenerics.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\MathUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\MemberTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TargetSpecific\TargetSpecificUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Data\" />
+  </ItemGroup>
+</Project>
