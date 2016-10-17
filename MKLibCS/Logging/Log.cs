@@ -137,14 +137,14 @@ namespace MKLibCS.Logging
             }
         }
 
-        static private List<ILogFile> files = new List<ILogFile>();
+        private static List<ILogFile> files = new List<ILogFile>();
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        static public ILogFile AddLogFile(ILogFile file)
+        public static ILogFile AddLogFile(ILogFile file)
         {
             files.Add(file);
             return file;
@@ -155,7 +155,7 @@ namespace MKLibCS.Logging
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        static public ILogFile AddLogFile(string fileName)
+        public static ILogFile AddLogFile(string fileName)
         {
             var file = new LogFile(fileName);
             files.Add(file);
@@ -169,7 +169,7 @@ namespace MKLibCS.Logging
         /// <param name="format"></param>
         /// <param name="timeFormat"></param>
         /// <returns></returns>
-        static public ILogFile AddLogFile(string fileName, Level level, string format, string timeFormat)
+        public static ILogFile AddLogFile(string fileName, Level level, string format, string timeFormat)
         {
             var file = new LogFile(fileName, level, fileName, timeFormat);
             files.Add(file);

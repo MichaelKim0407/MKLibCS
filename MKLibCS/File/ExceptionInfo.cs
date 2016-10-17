@@ -13,7 +13,7 @@ namespace MKLibCS.File
         /// <summary>
         /// 
         /// </summary>
-        static public ExceptionInfo Empty;
+        public static ExceptionInfo Empty;
         
         /// <summary>
         /// 
@@ -49,7 +49,7 @@ namespace MKLibCS.File
         /// </summary>
         /// <param name="memberInfo"></param>
         /// <returns></returns>
-        static public implicit operator ExceptionInfo(MemberInfo memberInfo)
+        public static implicit operator ExceptionInfo(MemberInfo memberInfo)
         {
             if (memberInfo == null)
                 return Empty;

@@ -12,7 +12,7 @@ namespace MKLibCS.Reflection
     /// <summary>
     /// Utilities and extensions for System.Reflection types.
     /// </summary>
-    static public class ReflectionUtil
+    public static class ReflectionUtil
     {
         #region Create
 
@@ -21,7 +21,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <typeparam name="T">The delegate type.</typeparam>
         /// <param name="method">The System.Reflection.MethodInfo object representing the method.</param>
-        static public T CreateDelegate<T>(this MethodInfo method)
+        public static T CreateDelegate<T>(this MethodInfo method)
         {
             return (T)(object)method.CreateDelegate(typeof(T));
         }
@@ -36,7 +36,7 @@ namespace MKLibCS.Reflection
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
         /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        static public IEnumerable<MethodInfo> FindAllMethodsWithAttribute(this TypeInfo type, Type attributeType)
+        public static IEnumerable<MethodInfo> FindAllMethodsWithAttribute(this TypeInfo type, Type attributeType)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
@@ -51,7 +51,7 @@ namespace MKLibCS.Reflection
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
         /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        static public IEnumerable<MethodInfo> FindAllMethodsWithAttribute<T>(this TypeInfo type)
+        public static IEnumerable<MethodInfo> FindAllMethodsWithAttribute<T>(this TypeInfo type)
             where T : Attribute
         {
             if (type == null)
@@ -65,7 +65,7 @@ namespace MKLibCS.Reflection
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
         /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        static public IEnumerable<TypeInfo> FindAllNestedTypesWithAttribute(this TypeInfo type, Type attributeType)
+        public static IEnumerable<TypeInfo> FindAllNestedTypesWithAttribute(this TypeInfo type, Type attributeType)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
@@ -80,7 +80,7 @@ namespace MKLibCS.Reflection
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
         /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        static public IEnumerable<TypeInfo> FindAllNestedTypesWithAttribute<T>(this TypeInfo type)
+        public static IEnumerable<TypeInfo> FindAllNestedTypesWithAttribute<T>(this TypeInfo type)
             where T : Attribute
         {
             if (type == null)
@@ -94,7 +94,7 @@ namespace MKLibCS.Reflection
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
         /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        static public IEnumerable<PropertyInfo> FindAllPropertiesWithAttribute(this TypeInfo type, Type attributeType)
+        public static IEnumerable<PropertyInfo> FindAllPropertiesWithAttribute(this TypeInfo type, Type attributeType)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
@@ -109,7 +109,7 @@ namespace MKLibCS.Reflection
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
         /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        static public IEnumerable<PropertyInfo> FindAllPropertiesWithAttribute<T>(this TypeInfo type)
+        public static IEnumerable<PropertyInfo> FindAllPropertiesWithAttribute<T>(this TypeInfo type)
             where T : Attribute
         {
             if (type == null)
@@ -124,7 +124,7 @@ namespace MKLibCS.Reflection
         /// <param name="attributeType"></param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException">assembly is null.</exception>
-        static public IEnumerable<TypeInfo> FindAllTypesWithAttribute(this Assembly assembly, Type attributeType)
+        public static IEnumerable<TypeInfo> FindAllTypesWithAttribute(this Assembly assembly, Type attributeType)
         {
             if (assembly == null)
                 throw new ArgumentNullException("assembly");
@@ -140,7 +140,7 @@ namespace MKLibCS.Reflection
         /// <param name="assembly"></param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException">assembly is null.</exception>
-        static public IEnumerable<TypeInfo> FindAllTypesWithAttribute<T>(this Assembly assembly)
+        public static IEnumerable<TypeInfo> FindAllTypesWithAttribute<T>(this Assembly assembly)
             where T : Attribute
         {
             if (assembly == null)
@@ -160,7 +160,7 @@ namespace MKLibCS.Reflection
         /// <param name="assembly"></param>
         /// <param name="attributeType"></param>
         /// <returns></returns>
-        static public Attribute GetCustomAttribute(this Assembly assembly, Type attributeType)
+        public static Attribute GetCustomAttribute(this Assembly assembly, Type attributeType)
         {
             return Attribute.GetCustomAttribute(assembly, attributeType);
         }
@@ -172,7 +172,7 @@ namespace MKLibCS.Reflection
         /// <param name="assembly"></param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException">assembly is null.</exception>
-        static public T GetCustomAttribute<T>(this Assembly assembly)
+        public static T GetCustomAttribute<T>(this Assembly assembly)
             where T : Attribute
         {
             if (assembly == null)
@@ -185,7 +185,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="m">The member.</param>
         /// <param name="attributeType">The type of the attribute.</param>
-        static public Attribute GetCustomAttribute(this MemberInfo m, Type attributeType)
+        public static Attribute GetCustomAttribute(this MemberInfo m, Type attributeType)
         {
             return Attribute.GetCustomAttribute(m, attributeType);
         }
@@ -196,7 +196,7 @@ namespace MKLibCS.Reflection
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="m">The member.</param>
         /// <exception cref="System.ArgumentNullException">m is null.</exception>
-        static public T GetCustomAttribute<T>(this MemberInfo m)
+        public static T GetCustomAttribute<T>(this MemberInfo m)
             where T : Attribute
         {
             if (m == null)
@@ -213,7 +213,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        static public IEnumerable<TypeInfo> GetSelfAndInheritedTypes(this TypeInfo type)
+        public static IEnumerable<TypeInfo> GetSelfAndInheritedTypes(this TypeInfo type)
         {
             var t = type;
             while (t != null)
@@ -230,7 +230,7 @@ namespace MKLibCS.Reflection
         /// <param name="type"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        static public IEnumerable<T> GetSelfAndInherited<T>(this TypeInfo type, Func<TypeInfo, T> func)
+        public static IEnumerable<T> GetSelfAndInherited<T>(this TypeInfo type, Func<TypeInfo, T> func)
         {
             foreach (var t in type.GetSelfAndInheritedTypes())
                 yield return func(t);
@@ -243,7 +243,7 @@ namespace MKLibCS.Reflection
         /// <param name="type"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        static public IEnumerable<T> GetSelfAndInherited<T>(this TypeInfo type, Func<TypeInfo, IEnumerable<T>> func)
+        public static IEnumerable<T> GetSelfAndInherited<T>(this TypeInfo type, Func<TypeInfo, IEnumerable<T>> func)
         {
             foreach (var t in type.GetSelfAndInheritedTypes())
                 foreach (var item in func(t))
@@ -255,7 +255,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        static public IEnumerable<FieldInfo> GetFields(this TypeInfo type)
+        public static IEnumerable<FieldInfo> GetFields(this TypeInfo type)
         {
             return type.GetSelfAndInherited(t => t.DeclaredFields);
         }
@@ -265,7 +265,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        static public IEnumerable<MemberInfo> GetMembers(this TypeInfo type)
+        public static IEnumerable<MemberInfo> GetMembers(this TypeInfo type)
         {
             return type.GetSelfAndInherited(t => t.DeclaredMembers);
         }
@@ -275,7 +275,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        static public IEnumerable<MethodInfo> GetMethods(this TypeInfo type)
+        public static IEnumerable<MethodInfo> GetMethods(this TypeInfo type)
         {
             return type.GetSelfAndInherited(t => t.DeclaredMethods);
         }
@@ -286,7 +286,7 @@ namespace MKLibCS.Reflection
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        static public IEnumerable<MethodInfo> GetMethods(this TypeInfo type, string name)
+        public static IEnumerable<MethodInfo> GetMethods(this TypeInfo type, string name)
         {
             foreach (var method in type.GetMethods())
                 if (method.Name == name)
@@ -299,7 +299,7 @@ namespace MKLibCS.Reflection
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        static public MethodInfo GetMethod(this TypeInfo type, string name)
+        public static MethodInfo GetMethod(this TypeInfo type, string name)
         {
             return type.GetMethods(name).First();
         }
@@ -309,7 +309,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        static public IEnumerable<TypeInfo> GetNestedTypes(this TypeInfo type)
+        public static IEnumerable<TypeInfo> GetNestedTypes(this TypeInfo type)
         {
             return type.GetSelfAndInherited(t => t.DeclaredNestedTypes);
         }
@@ -319,7 +319,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        static public IEnumerable<PropertyInfo> GetProperties(this TypeInfo type)
+        public static IEnumerable<PropertyInfo> GetProperties(this TypeInfo type)
         {
             return type.GetSelfAndInherited(t => t.DeclaredProperties);
         }
@@ -331,14 +331,14 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        static public IEnumerable<MemberInfo> GetFieldsAndProperties(this TypeInfo type)
+        public static IEnumerable<MemberInfo> GetFieldsAndProperties(this TypeInfo type)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
             return CollectionsUtil.Combine<MemberInfo>(type.GetFields(), type.GetProperties());
         }
 
-        static private MemberTypes GetMemberTypeDefault(this MemberInfo member)
+        private static MemberTypes GetMemberTypeDefault(this MemberInfo member)
         {
             if (member is ConstructorInfo)
                 return MemberTypes.Constructor;
@@ -361,7 +361,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="member"></param>
         /// <returns></returns>
-        static public MemberTypes GetMemberType(this MemberInfo member)
+        public static MemberTypes GetMemberType(this MemberInfo member)
         {
             if (member == null)
                 throw new ArgumentNullException("member");
@@ -384,7 +384,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        static public TypeInfo GetObjTypeInfo(this object obj)
+        public static TypeInfo GetObjTypeInfo(this object obj)
         {
             return obj.GetType().GetTypeInfo();
         }
@@ -397,7 +397,7 @@ namespace MKLibCS.Reflection
         /// <returns>The value of the member.</returns>
         /// <exception cref="System.ArgumentNullException">member is null.</exception>
         /// <exception cref="System.ArgumentException">member is not System.Reflection.FieldInfo or System.Reflection.PropertyInfo.</exception>
-        static public object GetValue(this MemberInfo member, object obj)
+        public static object GetValue(this MemberInfo member, object obj)
         {
             if (member == null)
                 throw new ArgumentNullException("member");
@@ -415,7 +415,7 @@ namespace MKLibCS.Reflection
         /// <param name="member">The System.Reflection.MemberInfo object that provides information for the member.</param>
         /// <exception cref="System.ArgumentNullException">member is null.</exception>
         /// <exception cref="System.ArgumentException">member is not System.Reflection.FieldInfo or System.Reflection.PropertyInfo.</exception>
-        static public Type GetValueType(this MemberInfo member)
+        public static Type GetValueType(this MemberInfo member)
         {
             if (member == null)
                 throw new ArgumentNullException("member");
@@ -439,7 +439,7 @@ namespace MKLibCS.Reflection
         /// <param name="value">The value to set.</param>
         /// <exception cref="System.ArgumentNullException">member is null.</exception>
         /// <exception cref="System.ArgumentException">member is not System.Reflection.FieldInfo or System.Reflection.PropertyInfo.</exception>
-        static public void SetValue(this MemberInfo member, object obj, object value)
+        public static void SetValue(this MemberInfo member, object obj, object value)
         {
             if (member == null)
                 throw new ArgumentNullException("member");

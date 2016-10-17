@@ -7,9 +7,9 @@ namespace MKLibCS.Maths
         /// <summary>
         /// Generic value 1
         /// </summary>
-        static public GenericMethod One { get; set; }
+        public static GenericMethod One { get; set; }
 
-        static private void InitOne()
+        private static void InitOne()
         {
             One = GenericMethod.Get("One", "One");
 

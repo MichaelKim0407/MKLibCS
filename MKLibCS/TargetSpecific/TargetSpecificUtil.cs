@@ -5,13 +5,13 @@ namespace MKLibCS.TargetSpecific
     /// <summary>
     /// 
     /// </summary>
-    static public class TargetSpecificUtil
+    public static class TargetSpecificUtil
     {
-        static private string _Target = null;
+        private static string _Target = null;
         /// <summary>
         /// 
         /// </summary>
-        static public string Target
+        public static string Target
         {
             get { return _Target; }
             set
@@ -35,14 +35,14 @@ namespace MKLibCS.TargetSpecific
         /// <summary>
         /// 
         /// </summary>
-        static public GenericMethod GetMemberType { get; private set; }
+        public static GenericMethod GetMemberType { get; private set; }
         /// <summary>
         /// 
         /// </summary>
-        static public GenericMethod StreamReader { get; private set; }
+        public static GenericMethod StreamReader { get; private set; }
         /// <summary>
         /// 
         /// </summary>
-        static public GenericMethod StreamWriter { get; private set; }
+        public static GenericMethod StreamWriter { get; private set; }
     }
 }

@@ -13,7 +13,7 @@ namespace MKLibCS.Generic
     /// <summary>
     /// 
     /// </summary>
-    static public partial class GenericUtil
+    public static partial class GenericUtil
     {
         static GenericUtil()
         {
@@ -21,14 +21,14 @@ namespace MKLibCS.Generic
             InitParseFormat();
         }
 
-        static private List<Type> initFinished = new List<Type>();
-        static private List<Type> initOngoing = new List<Type>();
+        private static List<Type> initFinished = new List<Type>();
+        private static List<Type> initOngoing = new List<Type>();
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="type"></param>
-        static public void InitType(Type type)
+        public static void InitType(Type type)
         {
             var attr = type.GetTypeInfo().GetCustomAttribute<GenericUsageAttribute>();
             if (attr != null && !initFinished.Contains(type) && !initOngoing.Contains(type))
@@ -43,12 +43,12 @@ namespace MKLibCS.Generic
             }
         }
 
-        static private void ForceInit(Type type)
+        private static void ForceInit(Type type)
         {
             RuntimeHelpers.RunClassConstructor(type.TypeHandle);
         }
 
-        static private void LoadGenericMethods(Type type)
+        private static void LoadGenericMethods(Type type)
         {
             var typeInfo = type.GetTypeInfo();
             foreach (var member in typeInfo.GetMembers())

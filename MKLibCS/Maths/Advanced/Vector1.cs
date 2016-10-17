@@ -33,7 +33,7 @@ namespace MKLibCS.Maths.Advanced
         /// 
         /// </summary>
         /// <param name="x"></param>
-        static public implicit operator Vector1<T>(T x)
+        public static implicit operator Vector1<T>(T x)
         {
             return new Vector1<T>(x);
         }
@@ -54,7 +54,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec1"></param>
         /// <param name="vec2"></param>
         /// <returns></returns>
-        static public bool operator ==(Vector1<T> vec1, Vector1<T> vec2)
+        public static bool operator ==(Vector1<T> vec1, Vector1<T> vec2)
         {
             return vec1.Equals(vec2);
         }
@@ -65,7 +65,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec1"></param>
         /// <param name="vec2"></param>
         /// <returns></returns>
-        static public bool operator !=(Vector1<T> vec1, Vector1<T> vec2)
+        public static bool operator !=(Vector1<T> vec1, Vector1<T> vec2)
         {
             return !(vec1 == vec2);
         }
@@ -119,13 +119,13 @@ namespace MKLibCS.Maths.Advanced
         /// 
         /// </summary>
         [GenericMethod(GenericMethodType.Creator)]
-        static public Vector1<T> Zero { get { return MathGenerics.Zero.GetValue<T>(); } }
+        public static Vector1<T> Zero { get { return MathGenerics.Zero.GetValue<T>(); } }
 
         /// <summary>
         /// 
         /// </summary>
         [GenericMethod("One", GenericMethodType.Creator)]
-        static public Vector1<T> XUnit { get { return MathGenerics.One.GetValue<T>(); } }
+        public static Vector1<T> XUnit { get { return MathGenerics.One.GetValue<T>(); } }
 
         /// <summary>
         /// 
@@ -133,7 +133,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec"></param>
         /// <returns></returns>
         [GenericMethod]
-        static public Vector1<T> operator -(Vector1<T> vec)
+        public static Vector1<T> operator -(Vector1<T> vec)
         {
             return (T)MathGenerics.Negative.Do(vec.x);
         }
@@ -150,7 +150,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec2"></param>
         /// <returns></returns>
         [GenericMethod]
-        static public Vector1<T> operator +(Vector1<T> vec1, Vector1<T> vec2)
+        public static Vector1<T> operator +(Vector1<T> vec1, Vector1<T> vec2)
         {
             return (T)MathGenerics.Add.Do(vec1.x, vec2.x);
         }
@@ -172,7 +172,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec2"></param>
         /// <returns></returns>
         [GenericMethod]
-        static public Vector1<T> operator -(Vector1<T> vec1, Vector1<T> vec2)
+        public static Vector1<T> operator -(Vector1<T> vec1, Vector1<T> vec2)
         {
             return (T)MathGenerics.Subtract.Do(vec1.x, vec2.x);
         }
@@ -194,7 +194,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec2"></param>
         /// <returns></returns>
         [GenericMethod]
-        static public Vector1<T> operator *(Vector1<T> vec1, Vector1<T> vec2)
+        public static Vector1<T> operator *(Vector1<T> vec1, Vector1<T> vec2)
         {
             return (T)MathGenerics.Multiply.Do(vec1.x, vec2.x);
         }
@@ -216,7 +216,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec2"></param>
         /// <returns></returns>
         [GenericMethod]
-        static public Vector1<T> operator /(Vector1<T> vec1, Vector1<T> vec2)
+        public static Vector1<T> operator /(Vector1<T> vec1, Vector1<T> vec2)
         {
             return (T)MathGenerics.Divide.Do(vec1.x, vec2.x);
         }

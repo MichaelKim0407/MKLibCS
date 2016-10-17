@@ -9,9 +9,9 @@ namespace MKLibCS.Maths
         /// <summary>
         /// 
         /// </summary>
-        static public GenericMethod Sqrt { get; private set; }
+        public static GenericMethod Sqrt { get; private set; }
 
-        static private void InitSqrt()
+        private static void InitSqrt()
         {
             Sqrt = GenericMethod.Get("Sqrt", "Sqrt");
 

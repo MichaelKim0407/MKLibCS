@@ -7,9 +7,9 @@ namespace MKLibCS.Maths
         /// <summary>
         /// Generic "+" method
         /// </summary>
-        static public GenericMethod Add { get; private set; }
+        public static GenericMethod Add { get; private set; }
 
-        static private void InitAdd()
+        private static void InitAdd()
         {
             Add = GenericMethod.Get("Add", "Add", "op_Addition");
 

@@ -9,9 +9,9 @@ namespace MKLibCS.Maths
         /// <summary>
         /// 
         /// </summary>
-        static public GenericMethod Abs { get; private set; }
+        public static GenericMethod Abs { get; private set; }
 
-        static private void InitAbs()
+        private static void InitAbs()
         {
             Abs = GenericMethod.Get("Abs", "Abs");
 

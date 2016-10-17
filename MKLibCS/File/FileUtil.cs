@@ -11,9 +11,9 @@ namespace MKLibCS.File
     /// <summary>
     /// 
     /// </summary>
-    static public class FileUtil
+    public static class FileUtil
     {
-        static private void LoadDefault(this object obj)
+        private static void LoadDefault(this object obj)
         {
             if (obj.GetObjTypeInfo().IsSLCustomLoadDefaultType())
                 obj.GetSLCustomLoadDefaultMethod()();
@@ -26,7 +26,7 @@ namespace MKLibCS.File
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="node"></param>
-        static public void Load(this object obj, FileNode node)
+        public static void Load(this object obj, FileNode node)
         {
             obj.LoadDefault();
             if (node != null)
@@ -38,7 +38,7 @@ namespace MKLibCS.File
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="node"></param>
-        static public void Save(this object obj, FileNode node)
+        public static void Save(this object obj, FileNode node)
         {
             WriteNode(node, obj, null);
         }
@@ -48,7 +48,7 @@ namespace MKLibCS.File
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="fileName"></param>
-        static public void LoadFile(this object obj, string fileName)
+        public static void LoadFile(this object obj, string fileName)
         {
             obj.Load(new FileNode(fileName));
         }
@@ -58,7 +58,7 @@ namespace MKLibCS.File
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="fileName"></param>
-        static public void SaveFile(this object obj, string fileName)
+        public static void SaveFile(this object obj, string fileName)
         {
             FileNode node = new FileNode();
             obj.Save(node);
@@ -72,7 +72,7 @@ namespace MKLibCS.File
         /// <param name="name"></param>
         /// <param name="val"></param>
         /// <param name="member"></param>
-        static public void LoadItem(
+        public static void LoadItem(
             this FileNode node,
             string name,
             ref object val,
@@ -89,7 +89,7 @@ namespace MKLibCS.File
         /// <param name="name"></param>
         /// <param name="val"></param>
         /// <param name="member"></param>
-        static public void SaveItem(
+        public static void SaveItem(
             this FileNode node,
             string name,
             object val,
@@ -105,7 +105,7 @@ namespace MKLibCS.File
 
         #region Read
 
-        static private void ReadFieldOrProperty(
+        private static void ReadFieldOrProperty(
             this object obj,
             MemberInfo member,
             FileNode node,
@@ -117,12 +117,12 @@ namespace MKLibCS.File
             member.SetValue(obj, val);
         }
 
-        static private object CreateObject(Type type)
+        private static object CreateObject(Type type)
         {
             return GenericUtil.CreateInstance(type);
         }
 
-        static private void Read(
+        private static void Read(
             FileNode node,
             string name,
             ref object result,
@@ -157,7 +157,7 @@ namespace MKLibCS.File
             }
         }
 
-        static private void ReadItem(
+        private static void ReadItem(
             string value,
             ref object result,
             ExceptionInfo exceptionInfo
@@ -191,7 +191,7 @@ namespace MKLibCS.File
                 throw new TypeNotSupportedException(true, type);
         }
 
-        static private void ReadNode(
+        private static void ReadNode(
             FileNode node,
             ref object result,
             ExceptionInfo exceptionInfo
@@ -278,7 +278,7 @@ namespace MKLibCS.File
 
         #region Write
 
-        static private void Write(
+        private static void Write(
             FileNode node,
             string name,
             object value,
@@ -312,7 +312,7 @@ namespace MKLibCS.File
                 throw new TypeNotSupportedException(false, type);
         }
 
-        static private void WriteNode(
+        private static void WriteNode(
             FileNode node,
             object value,
             ExceptionInfo exceptionInfo

@@ -9,9 +9,9 @@ namespace MKLibCS.Maths
         /// <summary>
         /// 
         /// </summary>
-        static public GenericMethod Sign { get; private set; }
+        public static GenericMethod Sign { get; private set; }
 
-        static private void InitSign()
+        private static void InitSign()
         {
             Sign = GenericMethod.Get("Sign", "Sign");
 

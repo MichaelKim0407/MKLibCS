@@ -7,9 +7,9 @@ namespace MKLibCS.Maths
         /// <summary>
         /// Generic "-" (subtract) method
         /// </summary>
-        static public GenericMethod Subtract { get; private set; }
+        public static GenericMethod Subtract { get; private set; }
 
-        static private void InitSubtract()
+        private static void InitSubtract()
         {
             Subtract = GenericMethod.Get("Subtract", "Subtract", "op_Subtraction");
 

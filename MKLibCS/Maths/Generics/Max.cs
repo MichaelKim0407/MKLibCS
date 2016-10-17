@@ -9,9 +9,9 @@ namespace MKLibCS.Maths
         /// <summary>
         /// 
         /// </summary>
-        static public GenericMethod Max { get; private set; }
+        public static GenericMethod Max { get; private set; }
 
-        static private void InitMax()
+        private static void InitMax()
         {
             Max = GenericMethod.Get("Max", "Max");
 

@@ -7,9 +7,9 @@ namespace MKLibCS.Maths
         /// <summary>
         /// Generic "*" method
         /// </summary>
-        static public GenericMethod Multiply { get; private set; }
+        public static GenericMethod Multiply { get; private set; }
 
-        static private void InitMultiply()
+        private static void InitMultiply()
         {
             Multiply = GenericMethod.Get("Multiply", "Multiply", "op_Multiply");
 

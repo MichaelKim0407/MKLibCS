@@ -7,9 +7,9 @@ namespace MKLibCS.Generic
         /// <summary>
         /// 
         /// </summary>
-        static public GenericMethod Create { get; set; }
+        public static GenericMethod Create { get; set; }
 
-        static private void InitCreate()
+        private static void InitCreate()
         {
             Create = GenericMethod.Get("Create");
 
@@ -21,7 +21,7 @@ namespace MKLibCS.Generic
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        static public object CreateInstance(Type type)
+        public static object CreateInstance(Type type)
         {
             try
             {

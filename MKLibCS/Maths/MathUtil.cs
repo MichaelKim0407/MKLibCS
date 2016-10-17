@@ -7,7 +7,7 @@ namespace MKLibCS.Maths
     /// <summary>
     /// Utilities and extensions for maths
     /// </summary>
-    static public class MathUtil
+    public static class MathUtil
     {
         #region Constants
 
@@ -66,7 +66,7 @@ namespace MKLibCS.Maths
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
         /// <returns></returns>
-        static public T Abs<T>(this T value)
+        public static T Abs<T>(this T value)
         {
             return (T)MathGenerics.Abs.Do(value);
         }
@@ -77,7 +77,7 @@ namespace MKLibCS.Maths
         /// <typeparam name="T"></typeparam>
         /// <param name="x"></param>
         /// <returns></returns>
-        static public T Sqrt<T>(this T x)
+        public static T Sqrt<T>(this T x)
         {
             return (T)MathGenerics.Sqrt.Do(x);
         }
@@ -89,7 +89,7 @@ namespace MKLibCS.Maths
         /// <param name="val1"></param>
         /// <param name="val2"></param>
         /// <returns></returns>
-        static public T Max<T>(T val1, T val2)
+        public static T Max<T>(T val1, T val2)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace MKLibCS.Maths
         /// <typeparam name="T"></typeparam>
         /// <param name="values"></param>
         /// <returns></returns>
-        static public T Max<T>(params T[] values)
+        public static T Max<T>(params T[] values)
         {
             T max = values[0];
             foreach (var val in values)
@@ -130,7 +130,7 @@ namespace MKLibCS.Maths
         /// <param name="val1"></param>
         /// <param name="val2"></param>
         /// <returns></returns>
-        static public T Min<T>(T val1, T val2)
+        public static T Min<T>(T val1, T val2)
         {
             try
             {
@@ -156,7 +156,7 @@ namespace MKLibCS.Maths
         /// <typeparam name="T"></typeparam>
         /// <param name="values"></param>
         /// <returns></returns>
-        static public T Min<T>(params T[] values)
+        public static T Min<T>(params T[] values)
         {
             T min = values[0];
             foreach (var val in values)
@@ -170,7 +170,7 @@ namespace MKLibCS.Maths
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
         /// <returns></returns>
-        static public int Sign<T>(this T value)
+        public static int Sign<T>(this T value)
         {
             try
             {
@@ -202,7 +202,7 @@ namespace MKLibCS.Maths
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        static public T FortranSign<T, U>(T a, U b)
+        public static T FortranSign<T, U>(T a, U b)
         {
             T abs = a.Abs();
             if (b.Sign() < 0)
@@ -219,7 +219,7 @@ namespace MKLibCS.Maths
         /// <param name="min"></param>
         /// <param name="max"></param>
         /// <returns></returns>
-        static public T Confine<T>(T x, T min, T max) where T : IComparable<T>
+        public static T Confine<T>(T x, T min, T max) where T : IComparable<T>
         {
             if (x.CompareTo(min) < 0)
                 return min;
@@ -238,7 +238,7 @@ namespace MKLibCS.Maths
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        static public double Sin(this double x)
+        public static double Sin(this double x)
         {
             return Math.Sin(x);
         }
@@ -248,7 +248,7 @@ namespace MKLibCS.Maths
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        static public float Sin(this float x)
+        public static float Sin(this float x)
         {
             return (float)Math.Sin(x);
         }
@@ -258,7 +258,7 @@ namespace MKLibCS.Maths
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        static public double Cos(this double x)
+        public static double Cos(this double x)
         {
             return Math.Cos(x);
         }
@@ -268,7 +268,7 @@ namespace MKLibCS.Maths
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        static public float Cos(this float x)
+        public static float Cos(this float x)
         {
             return (float)Math.Cos(x);
         }
@@ -278,7 +278,7 @@ namespace MKLibCS.Maths
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        static public double ACos(this double x)
+        public static double ACos(this double x)
         {
             return Math.Acos(x);
         }
@@ -288,7 +288,7 @@ namespace MKLibCS.Maths
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        static public float ACos(this float x)
+        public static float ACos(this float x)
         {
             return (float)Math.Acos(x);
         }
@@ -298,7 +298,7 @@ namespace MKLibCS.Maths
         /// </summary>
         /// <param name="n"></param>
         /// <returns></returns>
-        static public int Factorial(this int n)
+        public static int Factorial(this int n)
         {
             if (n < 0)
                 throw new ArgumentException("must be non-negative", "n");

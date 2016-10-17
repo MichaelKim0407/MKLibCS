@@ -7,9 +7,9 @@ namespace MKLibCS.Maths
         /// <summary>
         /// Generic "-" (negative) method
         /// </summary>
-        static public GenericMethod Negative { get; private set; }
+        public static GenericMethod Negative { get; private set; }
 
-        static private void InitNegative()
+        private static void InitNegative()
         {
             Negative = GenericMethod.Get("Negative", "Negative", "op_UnaryNegation");
 

@@ -9,9 +9,9 @@ namespace MKLibCS.Maths
         /// <summary>
         /// 
         /// </summary>
-        static public GenericMethod Min { get; private set; }
+        public static GenericMethod Min { get; private set; }
 
-        static private void InitMin()
+        private static void InitMin()
         {
             Min = GenericMethod.Get("Min", "Min");
 

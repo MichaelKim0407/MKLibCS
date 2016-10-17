@@ -15,9 +15,9 @@ namespace MKLibCS.File
     /// </summary>
     public sealed class FileNode
     {
-        static private Log log = new Log(typeof(FileNode));
+        private static Log log = new Log(typeof(FileNode));
 
-        static private readonly Encoding Encoding = Encoding.UTF8;
+        private static readonly Encoding Encoding = Encoding.UTF8;
 
         /// <summary>
         /// 

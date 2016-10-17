@@ -12,7 +12,7 @@ namespace MKLibCS.TargetSpecific
         /// <summary>
         /// 
         /// </summary>
-        static public void Init()
+        public static void Init()
         {
             TargetSpecificUtil.Target = TargetSpecificUtil.Framework45;
 

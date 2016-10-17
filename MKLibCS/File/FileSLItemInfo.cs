@@ -13,7 +13,7 @@ namespace MKLibCS.File
         /// <summary>
         /// 
         /// </summary>
-        static public FileSLItemInfo Empty;
+        public static FileSLItemInfo Empty;
 
         /// <summary>
         /// 
@@ -39,7 +39,7 @@ namespace MKLibCS.File
         /// </summary>
         /// <param name="memberInfo"></param>
         /// <returns></returns>
-        static public implicit operator FileSLItemInfo(MemberInfo memberInfo)
+        public static implicit operator FileSLItemInfo(MemberInfo memberInfo)
         {
             if (memberInfo == null)
                 return Empty;

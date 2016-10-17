@@ -9,7 +9,7 @@ namespace MKLibCS.Collections
     /// <summary>
     /// Utilities and extensions for System.Collections &amp; System.Collections.Generic types
     /// </summary>
-    static public class CollectionsUtil
+    public static class CollectionsUtil
     {
         #region A
 
@@ -20,7 +20,7 @@ namespace MKLibCS.Collections
         /// <param name="list"></param>
         /// <param name="item">The item added</param>
         /// <param name="size">The number of identical items to be added</param>
-        static public void AddRange<T>(this List<T> list, T item, int size)
+        public static void AddRange<T>(this List<T> list, T item, int size)
         {
             list.AddRange(item.CreateCollection(size));
         }
@@ -35,7 +35,7 @@ namespace MKLibCS.Collections
         /// <typeparam name="T">The type of elements in collections</typeparam>
         /// <param name="collections">A collection of collections</param>
         /// <returns>The combined collection</returns>
-        static public IEnumerable<T> Combine<T>(this IEnumerable<IEnumerable<T>> collections)
+        public static IEnumerable<T> Combine<T>(this IEnumerable<IEnumerable<T>> collections)
         {
             foreach (var c in collections)
                 foreach (var item in c)
@@ -48,7 +48,7 @@ namespace MKLibCS.Collections
         /// <typeparam name="T">The type of elements in collections</typeparam>
         /// <param name="collections">An array of collections</param>
         /// <returns>The combined collection</returns>
-        static public IEnumerable<T> Combine<T>(params IEnumerable<T>[] collections)
+        public static IEnumerable<T> Combine<T>(params IEnumerable<T>[] collections)
         {
             return collections.Combine();
         }
@@ -61,7 +61,7 @@ namespace MKLibCS.Collections
         /// <param name="collection"></param>
         /// <param name="converter"></param>
         /// <returns></returns>
-        static public IEnumerable<TOutput> ConvertAll<T, TOutput>(
+        public static IEnumerable<TOutput> ConvertAll<T, TOutput>(
             this IEnumerable<T> collection,
             Func<T, TOutput> converter // NOTE: System.Converter is no longer supported
             )
@@ -77,7 +77,7 @@ namespace MKLibCS.Collections
         /// <param name="size"></param>
         /// <param name="item"></param>
         /// <returns></returns>
-        static public T[] CreateArray<T>(this T item, int size)
+        public static T[] CreateArray<T>(this T item, int size)
         {
             return item.CreateCollection(size).ToArray();
         }
@@ -89,7 +89,7 @@ namespace MKLibCS.Collections
         /// <param name="item"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        static public IEnumerable<T> CreateCollection<T>(this T item, int size)
+        public static IEnumerable<T> CreateCollection<T>(this T item, int size)
         {
             return new object[size].ConvertAll(o => item);
         }
@@ -101,7 +101,7 @@ namespace MKLibCS.Collections
         /// <param name="size"></param>
         /// <param name="item"></param>
         /// <returns></returns>
-        static public List<T> CreateList<T>(this T item, int size)
+        public static List<T> CreateList<T>(this T item, int size)
         {
             return item.CreateCollection(size).ToList();
         }
@@ -114,7 +114,7 @@ namespace MKLibCS.Collections
         /// <param name="end"></param>
         /// <param name="step"></param>
         /// <returns></returns>
-        static public T[] CreateNumericArray<T>(T start, T end, T step) where T : IComparable<T>
+        public static T[] CreateNumericArray<T>(T start, T end, T step) where T : IComparable<T>
         {
             return CreateNumericCollection(start, end, step).ToArray();
         }
@@ -127,7 +127,7 @@ namespace MKLibCS.Collections
         /// <param name="end"></param>
         /// <param name="step"></param>
         /// <returns></returns>
-        static public IEnumerable<T> CreateNumericCollection<T>(T start, T end, T step) where T : IComparable<T>
+        public static IEnumerable<T> CreateNumericCollection<T>(T start, T end, T step) where T : IComparable<T>
         {
             int compare = step.CompareTo(MathGenerics.Zero.GetValue<T>());
             if (compare == 0)
@@ -152,7 +152,7 @@ namespace MKLibCS.Collections
         /// <param name="end"></param>
         /// <param name="step"></param>
         /// <returns></returns>
-        static public List<T> CreateNumericList<T>(T start, T end, T step) where T : IComparable<T>
+        public static List<T> CreateNumericList<T>(T start, T end, T step) where T : IComparable<T>
         {
             return CreateNumericCollection(start, end, step).ToList();
         }
@@ -168,7 +168,7 @@ namespace MKLibCS.Collections
         /// <param name="collection"></param>
         /// <param name="items"></param>
         /// <returns></returns>
-        static public IEnumerable<T> Exclude<T>(this IEnumerable<T> collection, params T[] items)
+        public static IEnumerable<T> Exclude<T>(this IEnumerable<T> collection, params T[] items)
         {
             return collection.Except(items);
         }
@@ -180,7 +180,7 @@ namespace MKLibCS.Collections
         /// <param name="collection"></param>
         /// <param name="ex"></param>
         /// <returns></returns>
-        static public IEnumerable<T> Exclude<T>(this IEnumerable<T> collection, params IEnumerable<T>[] ex)
+        public static IEnumerable<T> Exclude<T>(this IEnumerable<T> collection, params IEnumerable<T>[] ex)
         {
             return collection.Except(ex.Combine());
         }
@@ -197,7 +197,7 @@ namespace MKLibCS.Collections
         /// <param name="match"></param>
         /// <returns></returns>
         [Obsolete("Use Where instead", true)]
-        static public IEnumerable<T> FindAll<T>(
+        public static IEnumerable<T> FindAll<T>(
             this IEnumerable<T> collection,
             Predicate<T> match
             )
@@ -214,7 +214,7 @@ namespace MKLibCS.Collections
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
         /// <param name="action"></param>
-        static public void ForEach<T>(
+        public static void ForEach<T>(
             this IEnumerable<T> collection,
             Action<T> action
             )
@@ -234,7 +234,7 @@ namespace MKLibCS.Collections
         /// <param name="collection"></param>
         /// <param name="item"></param>
         /// <returns></returns>
-        static public int IndexOf<T>(this IEnumerable<T> collection, T item)
+        public static int IndexOf<T>(this IEnumerable<T> collection, T item)
         {
             if (collection is List<T>)
                 return (collection as List<T>).IndexOf(item);
@@ -248,7 +248,7 @@ namespace MKLibCS.Collections
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
         /// <returns></returns>
-        static public bool IsEmpty<T>(this IEnumerable<T> collection)
+        public static bool IsEmpty<T>(this IEnumerable<T> collection)
         {
             return collection.Count() == 0;
         }
@@ -267,7 +267,7 @@ namespace MKLibCS.Collections
         /// <param name="other"></param>
         /// <param name="operation"></param>
         /// <returns></returns>
-        static public IEnumerable<V> Operation<T, U, V>(
+        public static IEnumerable<V> Operation<T, U, V>(
             this IEnumerable<T> collection,
             IEnumerable<U> other,
             Func<T, U, V> operation
@@ -291,7 +291,7 @@ namespace MKLibCS.Collections
         /// <param name="start"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        static public IEnumerable<T> Take<T>(this IEnumerable<T> collection, int start, int count)
+        public static IEnumerable<T> Take<T>(this IEnumerable<T> collection, int start, int count)
         {
             for (int i = 0; i < count; i++)
                 yield return collection.ElementAt(start + i);
@@ -304,7 +304,7 @@ namespace MKLibCS.Collections
         /// <typeparam name="U"></typeparam>
         /// <param name="keyValuePairCollection"></param>
         /// <returns></returns>
-        static public Dictionary<T, U> ToDictionary<T, U>(
+        public static Dictionary<T, U> ToDictionary<T, U>(
             this IEnumerable<KeyValuePair<T, U>> keyValuePairCollection
             )
         {
@@ -319,7 +319,7 @@ namespace MKLibCS.Collections
         /// <param name="toStringFunc"></param>
         /// <param name="seperator"></param>
         /// <returns></returns>
-        static public string ToString<T>(
+        public static string ToString<T>(
             this IEnumerable<T> collection,
             Func<T, string> toStringFunc,
             string seperator
@@ -343,7 +343,7 @@ namespace MKLibCS.Collections
         /// <param name="collection"></param>
         /// <param name="seperator"></param>
         /// <returns></returns>
-        static public string ToString<T>(this IEnumerable<T> collection, string seperator)
+        public static string ToString<T>(this IEnumerable<T> collection, string seperator)
         {
             return collection.ToString(i => i.ToString(), seperator);
         }

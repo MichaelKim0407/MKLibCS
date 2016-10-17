@@ -7,9 +7,9 @@ namespace MKLibCS.Maths
         /// <summary>
         /// Generic "/" method
         /// </summary>
-        static public GenericMethod Divide { get; private set; }
+        public static GenericMethod Divide { get; private set; }
 
-        static private void InitDivide()
+        private static void InitDivide()
         {
             Divide = GenericMethod.Get("Divide", "Divide", "op_Division");
 

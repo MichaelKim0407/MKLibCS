@@ -12,9 +12,9 @@ namespace MKLibCS.Generic
     /// </summary>
     public class GenericMethod
     {
-        static private Dictionary<string, GenericMethod> allMethods = new Dictionary<string, GenericMethod>();
+        private static Dictionary<string, GenericMethod> allMethods = new Dictionary<string, GenericMethod>();
 
-        static private Dictionary<string, string> methodBinding = new Dictionary<string, string>();
+        private static Dictionary<string, string> methodBinding = new Dictionary<string, string>();
 
         /// <summary>
         /// 
@@ -22,7 +22,7 @@ namespace MKLibCS.Generic
         /// <param name="name"></param>
         /// <param name="boundMethods"></param>
         /// <returns></returns>
-        static public GenericMethod Get(string name, params string[] boundMethods)
+        public static GenericMethod Get(string name, params string[] boundMethods)
         {
             if (!allMethods.ContainsKey(name))
                 allMethods.Add(name, new GenericMethod(name));
@@ -37,7 +37,7 @@ namespace MKLibCS.Generic
         /// <param name="methodName"></param>
         /// <returns></returns>
         /// <exception cref="MKLibCS.Generic.BindingNotFoundException"></exception>
-        static public GenericMethod GetBound(string methodName)
+        public static GenericMethod GetBound(string methodName)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace MKLibCS.Generic
             }
         }
 
-        static private void AddBinding(string methodName, string name)
+        private static void AddBinding(string methodName, string name)
         {
             if (methodBinding.ContainsKey(methodName))
                 methodBinding[methodName] = name;
@@ -81,7 +81,7 @@ namespace MKLibCS.Generic
 
         private List<TypeMethod> methods = new List<TypeMethod>();
 
-        static private Type[] NextMatchingTypes(Type[] types, Type[] subs)
+        private static Type[] NextMatchingTypes(Type[] types, Type[] subs)
         {
             var count = types.Count();
             Type[] result = new Type[count];
@@ -108,7 +108,7 @@ namespace MKLibCS.Generic
                 return result;
         }
 
-        static private IEnumerable<Type[]> AllMatchingTypes(Type[] types)
+        private static IEnumerable<Type[]> AllMatchingTypes(Type[] types)
         {
             var t = types;
             while (t != null)

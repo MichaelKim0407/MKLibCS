@@ -6,7 +6,7 @@ namespace MKLibCS.Maths
     /// Provides generic methods for maths
     /// </summary>
     [GenericUsage]
-    static public partial class MathGenerics
+    public static partial class MathGenerics
     {
         static MathGenerics()
         {

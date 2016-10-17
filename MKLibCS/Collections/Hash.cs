@@ -5,7 +5,7 @@ namespace MKLibCS.Collections
     /// <summary>
     /// Provides hash functions for collections
     /// </summary>
-    static public class Hash
+    public static class Hash
     {
         /// <summary>
         /// 
@@ -13,7 +13,7 @@ namespace MKLibCS.Collections
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
         /// <returns></returns>
-        static public int Hash_XOR<T>(this IEnumerable<T> collection)
+        public static int Hash_XOR<T>(this IEnumerable<T> collection)
         {
             int result = 0;
             foreach (var item in collection)
@@ -28,7 +28,7 @@ namespace MKLibCS.Collections
         /// <param name="collection"></param>
         /// <param name="prime"></param>
         /// <returns></returns>
-        static public int Hash_Prime<T>(
+        public static int Hash_Prime<T>(
             this IEnumerable<T> collection,
             int prime
             )
@@ -50,7 +50,7 @@ namespace MKLibCS.Collections
         /// <param name="prime"></param>
         /// <param name="prime2"></param>
         /// <returns></returns>
-        static public int Hash_Prime2<T>(
+        public static int Hash_Prime2<T>(
             this IEnumerable<T> collection,
             int prime,
             int prime2

@@ -9,13 +9,13 @@ namespace MKLibCS.Generic
         /// <summary>
         /// 
         /// </summary>
-        static public GenericMethod Parse { get; private set; }
+        public static GenericMethod Parse { get; private set; }
         /// <summary>
         /// 
         /// </summary>
-        static public GenericMethod Format { get; private set; }
+        public static GenericMethod Format { get; private set; }
 
-        static private void InitParseFormat()
+        private static void InitParseFormat()
         {
             Parse = GenericMethod.Get("Parse", "Parse");
             Format = GenericMethod.Get("Format", "Format");
@@ -41,7 +41,7 @@ namespace MKLibCS.Generic
         /// Adds parser and formatter for type T.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        static public void AddStringMethods<T>(Func<string, T> parser, Func<T, string> formatter)
+        public static void AddStringMethods<T>(Func<string, T> parser, Func<T, string> formatter)
         {
             Parse.AddParser(parser);
             Format.Add(formatter);
@@ -53,7 +53,7 @@ namespace MKLibCS.Generic
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="parser"></param>
-        static public void AddStringMethods<T>(Func<string, T> parser)
+        public static void AddStringMethods<T>(Func<string, T> parser)
         {
             AddStringMethods(parser, ToString);
         }
@@ -63,7 +63,7 @@ namespace MKLibCS.Generic
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        static public string ToString<T>(T obj)
+        public static string ToString<T>(T obj)
         {
             return obj.ToString();
         }
@@ -73,7 +73,7 @@ namespace MKLibCS.Generic
         /// </summary>
         /// <param name="str">The original string</param>
         /// <returns>The escaped string</returns>
-        static public string Escape(string str)
+        public static string Escape(string str)
         {
             return Regex.Escape(str);
         }
@@ -83,7 +83,7 @@ namespace MKLibCS.Generic
         /// </summary>
         /// <param name="str">The escaped string</param>
         /// <returns>The original string</returns>
-        static public string Unescape(string str)
+        public static string Unescape(string str)
         {
             return Regex.Unescape(str);
         }

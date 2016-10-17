@@ -115,7 +115,7 @@ namespace MKLibCS.Maths.Advanced
         /// 
         /// </summary>
         /// <param name="values"></param>
-        static public explicit operator Vector<T>(T[] values)
+        public static explicit operator Vector<T>(T[] values)
         {
             return new Vector<T>(values);
         }
@@ -141,7 +141,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec1"></param>
         /// <param name="vec2"></param>
         /// <returns></returns>
-        static public bool operator ==(Vector<T> vec1, Vector<T> vec2)
+        public static bool operator ==(Vector<T> vec1, Vector<T> vec2)
         {
             return vec1.Equals(vec2);
         }
@@ -152,7 +152,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec1"></param>
         /// <param name="vec2"></param>
         /// <returns></returns>
-        static public bool operator !=(Vector<T> vec1, Vector<T> vec2)
+        public static bool operator !=(Vector<T> vec1, Vector<T> vec2)
         {
             return !(vec1 == vec2);
         }
@@ -210,7 +210,7 @@ namespace MKLibCS.Maths.Advanced
         /// </summary>
         /// <param name="dimensions"></param>
         /// <returns></returns>
-        static public Vector<T> Zero(int dimensions)
+        public static Vector<T> Zero(int dimensions)
         {
             return new Vector<T>(Vector1<T>.Zero.CreateCollection(dimensions));
         }
@@ -230,7 +230,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="dimensions"></param>
         /// <param name="dimension"></param>
         /// <returns></returns>
-        static public Vector<T> Unit(int dimensions, int dimension)
+        public static Vector<T> Unit(int dimensions, int dimension)
         {
             var zero = Zero(dimensions);
             zero.list[dimension] = Vector1<T>.XUnit;
@@ -247,7 +247,7 @@ namespace MKLibCS.Maths.Advanced
             return Unit(Dimensions, dimension);
         }
 
-        static private Vector<T> DoOperation(
+        private static Vector<T> DoOperation(
             Vector<T> vec,
             Func<Vector1<T>, Vector1<T>> oper
             )
@@ -256,7 +256,7 @@ namespace MKLibCS.Maths.Advanced
                 vec.list.ConvertAll(oper));
         }
 
-        static private Vector<T> DoOperation(
+        private static Vector<T> DoOperation(
             Vector<T> vec1,
             Vector<T> vec2,
             Func<Vector1<T>, Vector1<T>, Vector1<T>> oper
@@ -274,7 +274,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec"></param>
         /// <returns></returns>
         [GenericMethod]
-        static public Vector<T> operator -(Vector<T> vec)
+        public static Vector<T> operator -(Vector<T> vec)
         {
             return DoOperation(vec, a => -a);
         }
@@ -294,7 +294,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec2"></param>
         /// <returns></returns>
         [GenericMethod]
-        static public Vector<T> operator +(Vector<T> vec1, Vector<T> vec2)
+        public static Vector<T> operator +(Vector<T> vec1, Vector<T> vec2)
         {
             return DoOperation(vec1, vec2, (a, b) => a + b);
         }
@@ -316,7 +316,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec2"></param>
         /// <returns></returns>
         [GenericMethod]
-        static public Vector<T> operator -(Vector<T> vec1, Vector<T> vec2)
+        public static Vector<T> operator -(Vector<T> vec1, Vector<T> vec2)
         {
             return DoOperation(vec1, vec2, (a, b) => a - b);
         }
@@ -338,7 +338,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="num"></param>
         /// <returns></returns>
         [GenericMethod]
-        static public Vector<T> operator *(Vector<T> vec, T num)
+        public static Vector<T> operator *(Vector<T> vec, T num)
         {
             return DoOperation(vec, a => a * num);
         }
@@ -350,7 +350,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec"></param>
         /// <returns></returns>
         [GenericMethod]
-        static public Vector<T> operator *(T num, Vector<T> vec)
+        public static Vector<T> operator *(T num, Vector<T> vec)
         {
             return vec * num;
         }
@@ -372,7 +372,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="num"></param>
         /// <returns></returns>
         [GenericMethod]
-        static public Vector<T> operator /(Vector<T> vec, T num)
+        public static Vector<T> operator /(Vector<T> vec, T num)
         {
             return DoOperation(vec, a => a / num);
         }
@@ -394,7 +394,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec2"></param>
         /// <returns></returns>
         [GenericMethod]
-        static public T operator *(Vector<T> vec1, Vector<T> vec2)
+        public static T operator *(Vector<T> vec1, Vector<T> vec2)
         {
             return RespectivelyMultiply(vec1, vec2).Sum;
         }
@@ -415,7 +415,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec1"></param>
         /// <param name="vec2"></param>
         /// <returns></returns>
-        static public Vector<T> RespectivelyMultiply(Vector<T> vec1, Vector<T> vec2)
+        public static Vector<T> RespectivelyMultiply(Vector<T> vec1, Vector<T> vec2)
         {
             return DoOperation(vec1, vec2, (a, b) => a * b);
         }
@@ -436,7 +436,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec1"></param>
         /// <param name="vec2"></param>
         /// <returns></returns>
-        static public Vector<T> RespectivelyDivide(Vector<T> vec1, Vector<T> vec2)
+        public static Vector<T> RespectivelyDivide(Vector<T> vec1, Vector<T> vec2)
         {
             return DoOperation(vec1, vec2, (a, b) => a / b);
         }

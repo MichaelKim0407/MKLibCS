@@ -9,19 +9,19 @@ namespace MKLibCS.File
 {
     static class FileUtilPrivate
     {
-        static public bool IsStruct(this TypeInfo type)
+        public static bool IsStruct(this TypeInfo type)
         {
             return type.IsValueType && !type.IsEnum;
         }
 
-        static public bool IsSLPredefSingle(this TypeInfo type)
+        public static bool IsSLPredefSingle(this TypeInfo type)
         {
             return (GenericUtil.Parse.Contains(type)
                 && GenericUtil.Format.Contains(type))
                 || type.IsEnum;
         }
 
-        static public bool IsSLPredefComplex(this TypeInfo type)
+        public static bool IsSLPredefComplex(this TypeInfo type)
         {
             return (type.IsGenericType
                     && (type.GetGenericTypeDefinition() == typeof(List<>)
@@ -29,7 +29,7 @@ namespace MKLibCS.File
                         || type.GetGenericTypeDefinition() == typeof(KeyValuePair<,>)));
         }
 
-        static public bool IsSLComplex(this TypeInfo type)
+        public static bool IsSLComplex(this TypeInfo type)
         {
             return type.IsSLCustomStructType()
                 || type.IsSLCustomComplexType()
@@ -38,50 +38,50 @@ namespace MKLibCS.File
 
         #region FileSLCustomAttribute
 
-        static public bool IsSLCustomType(this TypeInfo type)
+        public static bool IsSLCustomType(this TypeInfo type)
         {
             return type.GetCustomAttribute<FileSLCustomAttribute>() != null;
         }
 
-        static public FileSLCustomAttribute GetSLCustomAttribute(this TypeInfo type)
+        public static FileSLCustomAttribute GetSLCustomAttribute(this TypeInfo type)
         {
             return type.GetCustomAttribute<FileSLCustomAttribute>();
         }
 
-        static public bool IsSLCustomLoadDefaultType(this TypeInfo type)
+        public static bool IsSLCustomLoadDefaultType(this TypeInfo type)
         {
             return type.IsSLCustomType() && type.GetSLCustomAttribute().LoadDefault;
         }
 
-        static public bool IsSLCustomSingleType(this TypeInfo type)
+        public static bool IsSLCustomSingleType(this TypeInfo type)
         {
             return type.IsSLCustomType()
                 && type.GetSLCustomAttribute().method == FileSLCustomMethod.Single;
         }
 
-        static public bool IsSLCustomSingleObj(this object obj)
+        public static bool IsSLCustomSingleObj(this object obj)
         {
             return obj.GetObjTypeInfo().IsSLCustomSingleType();
         }
 
-        static public bool IsSLCustomStructType(this TypeInfo type)
+        public static bool IsSLCustomStructType(this TypeInfo type)
         {
             return type.IsSLCustomType()
                 && type.GetSLCustomAttribute().method == FileSLCustomMethod.Struct;
         }
 
-        static public bool IsSLCustomStructObj(this object obj)
+        public static bool IsSLCustomStructObj(this object obj)
         {
             return obj.GetObjTypeInfo().IsSLCustomStructType();
         }
 
-        static public bool IsSLCustomComplexType(this TypeInfo type)
+        public static bool IsSLCustomComplexType(this TypeInfo type)
         {
             return type.IsSLCustomType()
                 && type.GetSLCustomAttribute().method == FileSLCustomMethod.Complex;
         }
 
-        static public bool IsSLCustomComplexObj(this object obj)
+        public static bool IsSLCustomComplexObj(this object obj)
         {
             return obj.GetObjTypeInfo().IsSLCustomComplexType();
         }
@@ -90,12 +90,12 @@ namespace MKLibCS.File
 
         #region FileSLItemAttribute
 
-        static public FileSLItemAttribute GetFileSLItemAttribute(this MemberInfo member)
+        public static FileSLItemAttribute GetFileSLItemAttribute(this MemberInfo member)
         {
             return member.GetCustomAttribute<FileSLItemAttribute>();
         }
 
-        static public MemberInfo GetSLCustomSingleMember(this object obj)
+        public static MemberInfo GetSLCustomSingleMember(this object obj)
         {
             foreach (var member in obj.GetObjTypeInfo().GetFieldsAndProperties())
             {
@@ -107,21 +107,21 @@ namespace MKLibCS.File
             return null;
         }
 
-        static public Action<FileNode> GetSLCustomComplexLoadMethod(this object obj)
+        public static Action<FileNode> GetSLCustomComplexLoadMethod(this object obj)
         {
             return obj.GetObjTypeInfo()
                 .GetMethod(obj.GetObjTypeInfo().GetSLCustomAttribute().LoadMethod)
                 .CreateDelegate<Action<FileNode>>();
         }
 
-        static public Action<FileNode> GetSLCustomComplexSaveMethod(this object obj)
+        public static Action<FileNode> GetSLCustomComplexSaveMethod(this object obj)
         {
             return obj.GetObjTypeInfo()
                 .GetMethod(obj.GetObjTypeInfo().GetSLCustomAttribute().SaveMethod)
                 .CreateDelegate<Action<FileNode>>();
         }
 
-        static public Action GetSLCustomLoadDefaultMethod(this object obj)
+        public static Action GetSLCustomLoadDefaultMethod(this object obj)
         {
             return obj.GetObjTypeInfo()
                 .GetMethod(obj.GetObjTypeInfo().GetSLCustomAttribute().LoadDefaultMethod)
