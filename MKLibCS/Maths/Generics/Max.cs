@@ -1,5 +1,4 @@
 ﻿using System;
-
 using MKLibCS.Generic;
 
 namespace MKLibCS.Maths
@@ -17,7 +16,7 @@ namespace MKLibCS.Maths
 
             Max.Add<byte, byte>((a, b) => Math.Max(a, b));
             Max.Add<sbyte, sbyte>((a, b) => Math.Max(a, b));
-            Max.Add<char, char>((a, b) => (char)Math.Max(a, b));
+            Max.Add<char, char>((a, b) => (char) Math.Max(a, b));
             Max.Add<short, short>((a, b) => Math.Max(a, b));
             Max.Add<ushort, ushort>((a, b) => Math.Max(a, b));
             Max.Add<int, int>((a, b) => Math.Max(a, b));

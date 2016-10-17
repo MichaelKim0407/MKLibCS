@@ -1,5 +1,4 @@
 ﻿using System;
-
 using MKLibCS.Generic;
 
 namespace MKLibCS.Maths
@@ -15,46 +14,56 @@ namespace MKLibCS.Maths
         /// Square root of 2
         /// </summary>
         public const double Sqrt2 = 1.414213562;
+
         /// <summary>
         /// Sqrt2 divided by 2
         /// </summary>
-        public const double Sqrt2_2 = Sqrt2 / 2;
+        public const double Sqrt2_2 = Sqrt2/2;
+
         /// <summary>
         /// Square root of 3
         /// </summary>
         public const double Sqrt3 = 1.732050808;
+
         /// <summary>
         /// Sqrt3 divided by 2
         /// </summary>
-        public const double Sqrt3_2 = Sqrt3 / 2;
+        public const double Sqrt3_2 = Sqrt3/2;
+
         /// <summary>
         /// 
         /// </summary>
         public const double PI = 3.141592654;
+
         /// <summary>
         /// PI divided by 2
         /// </summary>
-        public const double PI_2 = PI / 2;
+        public const double PI_2 = PI/2;
+
         /// <summary>
         /// PI divided by 3
         /// </summary>
-        public const double PI_3 = PI / 3;
+        public const double PI_3 = PI/3;
+
         /// <summary>
         /// PI divided by 4
         /// </summary>
-        public const double PI_4 = PI / 4;
+        public const double PI_4 = PI/4;
+
         /// <summary>
         /// PI divided by 6
         /// </summary>
-        public const double PI_6 = PI / 6;
+        public const double PI_6 = PI/6;
+
         /// <summary>
         /// How many Deg is 1 Rad
         /// </summary>
-        public const double RadToDeg = 180.0 / PI;
+        public const double RadToDeg = 180.0/PI;
+
         /// <summary>
         /// How many Rad is 1 Deg
         /// </summary>
-        public const double DegToRad = 1 / RadToDeg;
+        public const double DegToRad = 1/RadToDeg;
 
         #endregion
 
@@ -68,7 +77,7 @@ namespace MKLibCS.Maths
         /// <returns></returns>
         public static T Abs<T>(this T value)
         {
-            return (T)MathGenerics.Abs.Do(value);
+            return (T) MathGenerics.Abs.Do(value);
         }
 
         /// <summary>
@@ -79,7 +88,7 @@ namespace MKLibCS.Maths
         /// <returns></returns>
         public static T Sqrt<T>(this T x)
         {
-            return (T)MathGenerics.Sqrt.Do(x);
+            return (T) MathGenerics.Sqrt.Do(x);
         }
 
         /// <summary>
@@ -93,9 +102,9 @@ namespace MKLibCS.Maths
         {
             try
             {
-                return (T)MathGenerics.Max.Do(val1, val2);
+                return (T) MathGenerics.Max.Do(val1, val2);
             }
-            catch(MissingGenericMethodException e)
+            catch (MissingGenericMethodException e)
             {
                 if (val1 is IComparable<T>)
                 {
@@ -134,7 +143,7 @@ namespace MKLibCS.Maths
         {
             try
             {
-                return (T)MathGenerics.Min.Do(val1, val2);
+                return (T) MathGenerics.Min.Do(val1, val2);
             }
             catch (MissingGenericMethodException e)
             {
@@ -174,9 +183,9 @@ namespace MKLibCS.Maths
         {
             try
             {
-                return (int)MathGenerics.Sign.Do(value);
+                return (int) MathGenerics.Sign.Do(value);
             }
-            catch(MissingGenericMethodException e)
+            catch (MissingGenericMethodException e)
             {
                 if (value is IComparable<T> && MathGenerics.Zero.Contains<T>())
                 {
@@ -206,7 +215,7 @@ namespace MKLibCS.Maths
         {
             T abs = a.Abs();
             if (b.Sign() < 0)
-                return (T)MathGenerics.Negative.Do(abs);
+                return (T) MathGenerics.Negative.Do(abs);
             else
                 return abs;
         }
@@ -250,7 +259,7 @@ namespace MKLibCS.Maths
         /// <returns></returns>
         public static float Sin(this float x)
         {
-            return (float)Math.Sin(x);
+            return (float) Math.Sin(x);
         }
 
         /// <summary>
@@ -270,7 +279,7 @@ namespace MKLibCS.Maths
         /// <returns></returns>
         public static float Cos(this float x)
         {
-            return (float)Math.Cos(x);
+            return (float) Math.Cos(x);
         }
 
         /// <summary>
@@ -290,7 +299,7 @@ namespace MKLibCS.Maths
         /// <returns></returns>
         public static float ACos(this float x)
         {
-            return (float)Math.Acos(x);
+            return (float) Math.Acos(x);
         }
 
         /// <summary>
@@ -305,7 +314,7 @@ namespace MKLibCS.Maths
             else if (n <= 1)
                 return 1;
             else
-                return n * (n - 1).Factorial();
+                return n*(n - 1).Factorial();
         }
 
         #endregion

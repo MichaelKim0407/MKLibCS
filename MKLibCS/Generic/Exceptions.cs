@@ -1,5 +1,4 @@
 ﻿using System;
-
 using MKLibCS.Collections;
 
 namespace MKLibCS.Generic
@@ -24,6 +23,7 @@ namespace MKLibCS.Generic
         /// 
         /// </summary>
         public readonly string name;
+
         /// <summary>
         /// 
         /// </summary>
@@ -34,10 +34,7 @@ namespace MKLibCS.Generic
         /// </summary>
         public override string Message
         {
-            get
-            {
-                return "Method " + name + " does not support types [" + types.ToString(", ") + "]";
-            }
+            get { return "Method " + name + " does not support types [" + types.ToString(", ") + "]"; }
         }
     }
 
@@ -58,7 +55,10 @@ namespace MKLibCS.Generic
         /// <summary>
         /// 
         /// </summary>
-        public Type type { get { return types[0]; } }
+        public Type type
+        {
+            get { return types[0]; }
+        }
 
         /// <summary>
         /// 
@@ -68,7 +68,7 @@ namespace MKLibCS.Generic
             get
             {
                 return "Type \"" + type.Name + "\" does not have a default constructor. "
-                    + "Neither is it supported for a default creation.";
+                       + "Neither is it supported for a default creation.";
             }
         }
     }
@@ -99,7 +99,8 @@ namespace MKLibCS.Generic
         {
             get
             {
-                return "Method " + methodName + " does not have a default binding. Please specify its generic method name.";
+                return "Method " + methodName +
+                       " does not have a default binding. Please specify its generic method name.";
             }
         }
     }

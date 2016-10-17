@@ -11,14 +11,17 @@ namespace MKLibCS.Logging
         /// 
         /// </summary>
         string FileName { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
         Log.Level Level { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
         string Format { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -37,6 +40,7 @@ namespace MKLibCS.Logging
         /// <param name="msg"></param>
         /// <param name="args"></param>
         void Message(Log.Level lvl, string name, string msg, object[] args);
+
         /// <summary>
         /// 
         /// </summary>

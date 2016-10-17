@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
 using MKLibCS.Collections;
 using MKLibCS.TargetSpecific;
 using MKLibCS.Generic;
@@ -23,7 +22,7 @@ namespace MKLibCS.Reflection
         /// <param name="method">The System.Reflection.MethodInfo object representing the method.</param>
         public static T CreateDelegate<T>(this MethodInfo method)
         {
-            return (T)(object)method.CreateDelegate(typeof(T));
+            return (T) (object) method.CreateDelegate(typeof(T));
         }
 
         #endregion
@@ -153,6 +152,7 @@ namespace MKLibCS.Reflection
         #region Get
 
         #region GetCustomAttribute
+
         /* NOTE: New in .NET Framework 4.5: System.Reflection.CustomAttributeExtensions
         /// <summary>
         /// 
@@ -204,6 +204,7 @@ namespace MKLibCS.Reflection
             return (T)m.GetCustomAttribute(typeof(T));
         }
         */
+
         #endregion
 
         #region SelfAndInherited
@@ -367,7 +368,7 @@ namespace MKLibCS.Reflection
                 throw new ArgumentNullException("member");
             try
             {
-                return (MemberTypes)TargetSpecificUtil.GetMemberType.Do(member);
+                return (MemberTypes) TargetSpecificUtil.GetMemberType.Do(member);
             }
             catch (NullReferenceException)
             {

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-
 using MKLibCS.Collections;
 using MKLibCS.Reflection;
 
@@ -58,16 +57,16 @@ namespace MKLibCS.Generic
                     continue;
                 var name = gmattr.name;
                 var gm = name == null ? GenericMethod.GetBound(member.Name) : GenericMethod.Get(name);
-                var method = member.GetMemberType() == MemberTypes.Property ?
-                    (member as PropertyInfo).GetMethod :
-                    (member as MethodInfo);
+                var method = member.GetMemberType() == MemberTypes.Property
+                    ? (member as PropertyInfo).GetMethod
+                    : (member as MethodInfo);
                 var paramTypes = method.GetParameters().ConvertAll(p => p.ParameterType).ToList();
                 if (!method.IsStatic)
                     paramTypes.Insert(0, type);
                 var types = gmattr.types;
                 if (types.IsEmpty())
                 {
-                    switch(gmattr.methodType)
+                    switch (gmattr.methodType)
                     {
                         case GenericMethodType.Method:
                             types = paramTypes.ToArray();

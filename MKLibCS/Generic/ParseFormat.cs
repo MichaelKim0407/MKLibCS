@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Regex = System.Text.RegularExpressions.Regex;
 
 namespace MKLibCS.Generic
@@ -10,6 +9,7 @@ namespace MKLibCS.Generic
         /// 
         /// </summary>
         public static GenericMethod Parse { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using MKLibCS.Maths;
 
 namespace MKLibCS.Collections
@@ -105,7 +104,7 @@ namespace MKLibCS.Collections
         {
             return item.CreateCollection(size).ToList();
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -118,7 +117,7 @@ namespace MKLibCS.Collections
         {
             return CreateNumericCollection(start, end, step).ToArray();
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -134,16 +133,16 @@ namespace MKLibCS.Collections
                 throw new ArgumentException("cannot be zero", "step");
             else if (compare > 0)
             {
-                for (T i = start; i.CompareTo(end) <= 0; i = (T)MathGenerics.Add.Do(i, step))
+                for (T i = start; i.CompareTo(end) <= 0; i = (T) MathGenerics.Add.Do(i, step))
                     yield return i;
             }
             else
             {
-                for (T i = start; i.CompareTo(end) >= 0; i = (T)MathGenerics.Add.Do(i, step))
+                for (T i = start; i.CompareTo(end) >= 0; i = (T) MathGenerics.Add.Do(i, step))
                     yield return i;
             }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -156,7 +155,7 @@ namespace MKLibCS.Collections
         {
             return CreateNumericCollection(start, end, step).ToList();
         }
-        
+
         #endregion
 
         #region E

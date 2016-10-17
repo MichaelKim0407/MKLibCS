@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-
 using MKLibCS.Logging;
 using MKLibCS.Collections;
 using MKLibCS.TargetSpecific;
@@ -22,7 +21,10 @@ namespace MKLibCS.File
         /// <summary>
         /// 
         /// </summary>
-        public FileNode() { parent = null; }
+        public FileNode()
+        {
+            parent = null;
+        }
 
         /// <summary>
         /// Reads the file.
@@ -34,7 +36,10 @@ namespace MKLibCS.File
             ReadFile(path);
         }
 
-        private FileNode(FileNode parent) { this.parent = parent; }
+        private FileNode(FileNode parent)
+        {
+            this.parent = parent;
+        }
 
         private readonly FileNode parent;
 
@@ -51,6 +56,7 @@ namespace MKLibCS.File
             /// 
             /// </summary>
             string Key { get; }
+
             /// <summary>
             /// 
             /// </summary>
@@ -100,6 +106,7 @@ namespace MKLibCS.File
             /// 
             /// </summary>
             public readonly string key;
+
             /// <summary>
             /// 
             /// </summary>
@@ -108,11 +115,18 @@ namespace MKLibCS.File
             /// <summary>
             /// 
             /// </summary>
-            public string Key { get { return key; } }
+            public string Key
+            {
+                get { return key; }
+            }
+
             /// <summary>
             /// 
             /// </summary>
-            public object Value { get { return value; } }
+            public object Value
+            {
+                get { return value; }
+            }
 
             /// <summary>
             /// 
@@ -128,13 +142,25 @@ namespace MKLibCS.File
         {
             private List<Item> list = new List<Item>();
 
-            public void Add(string key, string value) { list.Add(new Item(key, value)); }
+            public void Add(string key, string value)
+            {
+                list.Add(new Item(key, value));
+            }
 
-            public bool ContainsKey(string key) { return list.Any(i => i.key == key); }
+            public bool ContainsKey(string key)
+            {
+                return list.Any(i => i.key == key);
+            }
 
-            public int Count { get { return list.Count; } }
+            public int Count
+            {
+                get { return list.Count; }
+            }
 
-            public IEnumerator<Item> GetEnumerator() { return list.GetEnumerator(); }
+            public IEnumerator<Item> GetEnumerator()
+            {
+                return list.GetEnumerator();
+            }
 
             /// <exception cref="System.Collections.Generic.KeyNotFoundException"></exception>
             public Item GetItem(string key)
@@ -154,8 +180,12 @@ namespace MKLibCS.File
                     return new List<Item>();
             }
 
-            public IEnumerable<Item> AsEnumerable() { return list; }
+            public IEnumerable<Item> AsEnumerable()
+            {
+                return list;
+            }
         }
+
         private ItemList items = new ItemList();
 
         /// <summary>
@@ -163,33 +193,48 @@ namespace MKLibCS.File
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        public void AddItem(string key, object value) { items.Add(key, value.ToString()); }
+        public void AddItem(string key, object value)
+        {
+            items.Add(key, value.ToString());
+        }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public bool ContainsItem(string key) { return items.ContainsKey(key); }
+        public bool ContainsItem(string key)
+        {
+            return items.ContainsKey(key);
+        }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public string GetItem(string key) { return items.GetItem(key).value; }
+        public string GetItem(string key)
+        {
+            return items.GetItem(key).value;
+        }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public IEnumerable<string> GetItems(string key) { return items.GetItems(key).ConvertAll(i => i.value); }
+        public IEnumerable<string> GetItems(string key)
+        {
+            return items.GetItems(key).ConvertAll(i => i.value);
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        public IEnumerable<Item> Items { get { return items.AsEnumerable(); } }
+        public IEnumerable<Item> Items
+        {
+            get { return items.AsEnumerable(); }
+        }
 
         #endregion
 
@@ -218,6 +263,7 @@ namespace MKLibCS.File
             /// 
             /// </summary>
             public readonly string key;
+
             /// <summary>
             /// 
             /// </summary>
@@ -226,11 +272,18 @@ namespace MKLibCS.File
             /// <summary>
             /// 
             /// </summary>
-            public string Key { get { return key; } }
+            public string Key
+            {
+                get { return key; }
+            }
+
             /// <summary>
             /// 
             /// </summary>
-            public object Value { get { return node; } }
+            public object Value
+            {
+                get { return node; }
+            }
 
             /// <summary>
             /// 
@@ -253,11 +306,20 @@ namespace MKLibCS.File
                 return node.node;
             }
 
-            public bool ContainsKey(string key) { return list.Any(n => n.key == key); }
+            public bool ContainsKey(string key)
+            {
+                return list.Any(n => n.key == key);
+            }
 
-            public int Count { get { return list.Count; } }
+            public int Count
+            {
+                get { return list.Count; }
+            }
 
-            public IEnumerator<Node> GetEnumerator() { return list.GetEnumerator(); }
+            public IEnumerator<Node> GetEnumerator()
+            {
+                return list.GetEnumerator();
+            }
 
             /// <exception cref="System.Collections.Generic.KeyNotFoundException"></exception>
             public Node GetNode(string key)
@@ -277,10 +339,19 @@ namespace MKLibCS.File
                     return new List<Node>();
             }
 
-            public Node Last() { { return list.Last(); } }
+            public Node Last()
+            {
+                {
+                    return list.Last();
+                }
+            }
 
-            public IEnumerable<Node> AsEnumerable() { return list; }
+            public IEnumerable<Node> AsEnumerable()
+            {
+                return list;
+            }
         }
+
         private NodeList nodes = new NodeList();
 
         /// <summary>
@@ -288,33 +359,48 @@ namespace MKLibCS.File
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public FileNode AddNode(string key) { return nodes.Add(key, this); }
+        public FileNode AddNode(string key)
+        {
+            return nodes.Add(key, this);
+        }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public bool ContainsNode(string key) { return nodes.ContainsKey(key); }
+        public bool ContainsNode(string key)
+        {
+            return nodes.ContainsKey(key);
+        }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public FileNode GetNode(string key) { return nodes.GetNode(key).node; }
+        public FileNode GetNode(string key)
+        {
+            return nodes.GetNode(key).node;
+        }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public IEnumerable<FileNode> GetNodes(string key) { return nodes.GetNodes(key).ConvertAll(n => n.node); }
+        public IEnumerable<FileNode> GetNodes(string key)
+        {
+            return nodes.GetNodes(key).ConvertAll(n => n.node);
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        public IEnumerable<Node> Nodes { get { return nodes.AsEnumerable(); } }
+        public IEnumerable<Node> Nodes
+        {
+            get { return nodes.AsEnumerable(); }
+        }
 
         #endregion
 
@@ -332,7 +418,15 @@ namespace MKLibCS.File
 
         #region Read
 
-        private enum LastReadAction { NONE, NEWNODE, STARTNODE, ENDNODE, ITEM }
+        private enum LastReadAction
+        {
+            NONE,
+            NEWNODE,
+            STARTNODE,
+            ENDNODE,
+            ITEM
+        }
+
         private LastReadAction lastReadAction;
 
         /// <exception cref="MKLibCS.File.CorruptFileException"></exception>

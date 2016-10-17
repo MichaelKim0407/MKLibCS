@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-
 using MKLibCS.Reflection;
 
 namespace MKLibCS.File
@@ -29,6 +28,7 @@ namespace MKLibCS.File
         /// 
         /// </summary>
         public FileSLItemAttribute Attr { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>

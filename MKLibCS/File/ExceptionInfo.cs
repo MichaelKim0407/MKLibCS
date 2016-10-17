@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-
 using MKLibCS.Reflection;
 
 namespace MKLibCS.File
@@ -14,7 +13,7 @@ namespace MKLibCS.File
         /// 
         /// </summary>
         public static ExceptionInfo Empty;
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -31,19 +30,22 @@ namespace MKLibCS.File
         /// 
         /// </summary>
         public Type DeclaringType { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
         public MemberTypes MemberType { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
         public string Name { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
         public Type ValueType { get; private set; }
-        
+
         /// <summary>
         /// 
         /// </summary>

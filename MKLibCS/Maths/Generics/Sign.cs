@@ -1,5 +1,4 @@
 ﻿using System;
-
 using MKLibCS.Generic;
 
 namespace MKLibCS.Maths

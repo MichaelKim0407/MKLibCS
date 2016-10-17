@@ -11,10 +11,12 @@ namespace MKLibCS.Generic
         /// 
         /// </summary>
         Method,
+
         /// <summary>
         /// 
         /// </summary>
         Creator,
+
         /// <summary>
         /// 
         /// </summary>
@@ -77,10 +79,12 @@ namespace MKLibCS.Generic
         /// 
         /// </summary>
         public readonly string name;
+
         /// <summary>
         /// 
         /// </summary>
         public readonly GenericMethodType methodType;
+
         /// <summary>
         /// 
         /// </summary>

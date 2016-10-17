@@ -1,5 +1,4 @@
 ﻿using System;
-
 using MKLibCS.Generic;
 
 namespace MKLibCS.Maths
@@ -17,7 +16,7 @@ namespace MKLibCS.Maths
 
             Min.Add<byte, byte>((a, b) => Math.Min(a, b));
             Min.Add<sbyte, sbyte>((a, b) => Math.Min(a, b));
-            Min.Add<char, char>((a, b) => (char)Math.Min(a, b));
+            Min.Add<char, char>((a, b) => (char) Math.Min(a, b));
             Min.Add<short, short>((a, b) => Math.Min(a, b));
             Min.Add<ushort, ushort>((a, b) => Math.Min(a, b));
             Min.Add<int, int>((a, b) => Math.Min(a, b));

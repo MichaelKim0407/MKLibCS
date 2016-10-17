@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-
 using MKLibCS.Reflection;
 using MKLibCS.Generic;
 
@@ -169,7 +168,7 @@ namespace MKLibCS.File
                 result = GenericUtil.Parse.Parse(type, value);
             else if (typeInfo.IsEnum)
             {
-                object i = (int)result;
+                object i = (int) result;
                 ReadItem(value, ref i, exceptionInfo);
                 result = i;
             }
@@ -238,7 +237,7 @@ namespace MKLibCS.File
                         {
                             object item = CreateObject(paramTypes[0]);
                             ReadItem(value, ref item, exceptionInfo);
-                            object[] par = { item };
+                            object[] par = {item};
                             typeInfo.GetDeclaredMethod("Add").Invoke(result, par);
                         }
                     }
@@ -248,7 +247,7 @@ namespace MKLibCS.File
                         {
                             object item = CreateObject(paramTypes[0]);
                             ReadNode(itemNode, ref item, exceptionInfo);
-                            object[] par = { item };
+                            object[] par = {item};
                             typeInfo.GetDeclaredMethod("Add").Invoke(result, par);
                         }
                     }
@@ -260,10 +259,11 @@ namespace MKLibCS.File
                     {
                         object key = CreateObject(paramTypes[0]);
                         object val = CreateObject(paramTypes[1]);
-                        var kvpType = typeof(KeyValuePair<,>).MakeGenericType(paramTypes[0], paramTypes[1]).GetTypeInfo();
+                        var kvpType =
+                            typeof(KeyValuePair<,>).MakeGenericType(paramTypes[0], paramTypes[1]).GetTypeInfo();
                         Read(itemNode, "key", ref key, kvpType.GetDeclaredProperty("Key"));
                         Read(itemNode, "value", ref val, kvpType.GetDeclaredProperty("Value"));
-                        object[] par = { key, val };
+                        object[] par = {key, val};
                         typeInfo.GetDeclaredMethod("Add").Invoke(result, par);
                     }
                 }
@@ -294,7 +294,7 @@ namespace MKLibCS.File
                 if (GenericUtil.Format.Contains(type))
                     node.AddItem(name, GenericUtil.Format.Do(value));
                 else if (typeInfo.IsEnum)
-                    Write(node, name, (int)value, exceptionInfo);
+                    Write(node, name, (int) value, exceptionInfo);
                 else
                     node.AddItem(name, value);
             }
@@ -347,7 +347,8 @@ namespace MKLibCS.File
                 var genericType = type.GetGenericTypeDefinition();
                 if (genericType == typeof(List<>) || genericType == typeof(Dictionary<,>))
                 {
-                    IEnumerator enumerator = (IEnumerator)typeInfo.GetDeclaredMethod("GetEnumerator").Invoke(value, null);
+                    IEnumerator enumerator =
+                        (IEnumerator) typeInfo.GetDeclaredMethod("GetEnumerator").Invoke(value, null);
                     while (enumerator.MoveNext())
                     {
                         object item = enumerator.Current;

@@ -8,6 +8,7 @@ namespace MKLibCS.TargetSpecific
     public static class TargetSpecificUtil
     {
         private static string _Target = null;
+
         /// <summary>
         /// 
         /// </summary>
@@ -27,19 +28,22 @@ namespace MKLibCS.TargetSpecific
         /// 
         /// </summary>
         public const string Framework45 = "4.5";
+
         /// <summary>
         /// 
         /// </summary>
         public const string Universal = "UWP";
-        
+
         /// <summary>
         /// 
         /// </summary>
         public static GenericMethod GetMemberType { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
         public static GenericMethod StreamReader { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>

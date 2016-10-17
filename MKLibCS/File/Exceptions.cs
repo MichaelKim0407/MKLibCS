@@ -22,6 +22,7 @@ namespace MKLibCS.File
         /// 
         /// </summary>
         public readonly bool reading;
+
         /// <summary>
         /// 
         /// </summary>
@@ -56,6 +57,7 @@ namespace MKLibCS.File
             this.name = name;
             this.parent = parent;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -95,19 +97,23 @@ namespace MKLibCS.File
             /// 
             /// </summary>
             NONE,
+
             /// <summary>
             /// 
             /// </summary>
             SLCustomSingle,
+
             /// <summary>
             /// 
             /// </summary>
             SLCustomStruct,
+
             /// <summary>
             /// 
             /// </summary>
             SLCustomClassComplex
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -121,7 +127,7 @@ namespace MKLibCS.File
             get
             {
                 return "Failed when " + (writing ? "writing" : "reading")
-                    + " field \"" + name + "\": reference object is null.";
+                       + " field \"" + name + "\": reference object is null.";
             }
         }
     }
@@ -135,7 +141,10 @@ namespace MKLibCS.File
         /// 
         /// </summary>
         /// <param name="nLine"></param>
-        public CorruptFileException(int nLine) { this.nLine = nLine; }
+        public CorruptFileException(int nLine)
+        {
+            this.nLine = nLine;
+        }
 
         /// <summary>
         /// 
@@ -145,7 +154,10 @@ namespace MKLibCS.File
         /// <summary>
         /// 
         /// </summary>
-        public override string Message { get { return "File is corrupt at line " + nLine + "."; } }
+        public override string Message
+        {
+            get { return "File is corrupt at line " + nLine + "."; }
+        }
     }
 
     /// <summary>
@@ -168,6 +180,7 @@ namespace MKLibCS.File
         /// 
         /// </summary>
         public readonly ExceptionInfo memberInfo;
+
         /// <summary>
         /// 
         /// </summary>
@@ -177,6 +190,7 @@ namespace MKLibCS.File
         /// 
         /// </summary>
         public const string Reason_0 = "No member with attribute FileSLItem found in an SLCustomSingle object.";
+
         /// <summary>
         /// 
         /// </summary>
@@ -190,8 +204,8 @@ namespace MKLibCS.File
             get
             {
                 return "Failed to read the member \"" + memberInfo.Name
-                    + "\" (MemberType: " + memberInfo.MemberType + ", Type: " + memberInfo.ValueType + ")"
-                    + " in class \"" + memberInfo.DeclaringType + "\" due to reason: " + reason;
+                       + "\" (MemberType: " + memberInfo.MemberType + ", Type: " + memberInfo.ValueType + ")"
+                       + " in class \"" + memberInfo.DeclaringType + "\" due to reason: " + reason;
             }
         }
     }
@@ -216,6 +230,7 @@ namespace MKLibCS.File
         /// 
         /// </summary>
         public readonly ExceptionInfo memberInfo;
+
         /// <summary>
         /// 
         /// </summary>
@@ -239,8 +254,8 @@ namespace MKLibCS.File
             get
             {
                 return "Failed to write the member \"" + memberInfo.Name
-                    + "\" (MemberType: " + memberInfo.MemberType + ", Type: " + memberInfo.ValueType + ")"
-                    + " in class \"" + memberInfo.DeclaringType + "\" due to reason: " + reason;
+                       + "\" (MemberType: " + memberInfo.MemberType + ", Type: " + memberInfo.ValueType + ")"
+                       + " in class \"" + memberInfo.DeclaringType + "\" due to reason: " + reason;
             }
         }
     }

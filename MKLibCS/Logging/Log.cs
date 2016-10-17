@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-
 using MKLibCS.TargetSpecific;
 
 namespace MKLibCS.Logging
@@ -20,34 +19,42 @@ namespace MKLibCS.Logging
             /// 
             /// </summary>
             ALL = 0,
+
             /// <summary>
             /// 
             /// </summary>
             INTERNAL_DEBUG = 5,
+
             /// <summary>
             /// 
             /// </summary>
             DEBUG = 10,
+
             /// <summary>
             /// 
             /// </summary>
             INTERNAL_INFO = 15,
+
             /// <summary>
             /// 
             /// </summary>
             INFO = 20,
+
             /// <summary>
             /// 
             /// </summary>
             INTERNAL_WARNING = 25,
+
             /// <summary>
             /// 
             /// </summary>
             WARNING = 30,
+
             /// <summary>
             /// 
             /// </summary>
             INTERNAL_ERROR = 35,
+
             /// <summary>
             /// 
             /// </summary>
@@ -58,10 +65,12 @@ namespace MKLibCS.Logging
         /// 
         /// </summary>
         public const Level DefaultLevel = Level.INFO;
+
         /// <summary>
         /// 
         /// </summary>
         public const string DefaultFormat = "[%LV %T %NAME] %MSG";
+
         /// <summary>
         /// 
         /// </summary>
@@ -81,17 +90,20 @@ namespace MKLibCS.Logging
                 this.Format = DefaultFormat;
                 this.TimeFormat = DefaultTimeFormat;
             }
+
             public LogFile(string fileName, Level level)
                 : this(fileName)
             {
                 Level = level;
             }
+
             public LogFile(string fileName, string format, string timeFormat = DefaultTimeFormat)
                 : this(fileName)
             {
                 Format = format;
                 TimeFormat = timeFormat;
             }
+
             public LogFile(string fileName, Level level, string format, string timeFormat = DefaultTimeFormat)
                 : this(fileName, format, timeFormat)
             {
@@ -161,6 +173,7 @@ namespace MKLibCS.Logging
             files.Add(file);
             return file;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -216,7 +229,7 @@ namespace MKLibCS.Logging
         /// <param name="args"></param>
         public void Message(uint lvl, string msg, params object[] args)
         {
-            Message((Level)lvl, msg, args);
+            Message((Level) lvl, msg, args);
         }
 
         /// <summary>

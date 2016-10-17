@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
 using MKLibCS.Collections;
 using MKLibCS.Generic;
 using MKLibCS.File;
@@ -25,8 +24,7 @@ namespace MKLibCS.Maths.Advanced
         /// <summary>
         /// 
         /// </summary>
-        [FileSLItem]
-        public List<Vector1<T>> list;
+        [FileSLItem] public List<Vector1<T>> list;
 
         /// <summary>
         /// 
@@ -45,6 +43,7 @@ namespace MKLibCS.Maths.Advanced
                     list.RemoveRange(value, diff);
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -55,6 +54,7 @@ namespace MKLibCS.Maths.Advanced
             get { return list[index].x; }
             set { list[index] = value; }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -340,7 +340,7 @@ namespace MKLibCS.Maths.Advanced
         [GenericMethod]
         public static Vector<T> operator *(Vector<T> vec, T num)
         {
-            return DoOperation(vec, a => a * num);
+            return DoOperation(vec, a => a*num);
         }
 
         /// <summary>
@@ -352,7 +352,7 @@ namespace MKLibCS.Maths.Advanced
         [GenericMethod]
         public static Vector<T> operator *(T num, Vector<T> vec)
         {
-            return vec * num;
+            return vec*num;
         }
 
         /// <summary>
@@ -362,7 +362,7 @@ namespace MKLibCS.Maths.Advanced
         /// <returns></returns>
         public Vector<T> Multiply(T num)
         {
-            return this * num;
+            return this*num;
         }
 
         /// <summary>
@@ -374,7 +374,7 @@ namespace MKLibCS.Maths.Advanced
         [GenericMethod]
         public static Vector<T> operator /(Vector<T> vec, T num)
         {
-            return DoOperation(vec, a => a / num);
+            return DoOperation(vec, a => a/num);
         }
 
         /// <summary>
@@ -384,7 +384,7 @@ namespace MKLibCS.Maths.Advanced
         /// <returns></returns>
         public Vector<T> Divide(T num)
         {
-            return this / num;
+            return this/num;
         }
 
         /// <summary>
@@ -406,7 +406,7 @@ namespace MKLibCS.Maths.Advanced
         /// <returns></returns>
         public T Dot(Vector<T> other)
         {
-            return this * other;
+            return this*other;
         }
 
         /// <summary>
@@ -417,7 +417,7 @@ namespace MKLibCS.Maths.Advanced
         /// <returns></returns>
         public static Vector<T> RespectivelyMultiply(Vector<T> vec1, Vector<T> vec2)
         {
-            return DoOperation(vec1, vec2, (a, b) => a * b);
+            return DoOperation(vec1, vec2, (a, b) => a*b);
         }
 
         /// <summary>
@@ -438,7 +438,7 @@ namespace MKLibCS.Maths.Advanced
         /// <returns></returns>
         public static Vector<T> RespectivelyDivide(Vector<T> vec1, Vector<T> vec2)
         {
-            return DoOperation(vec1, vec2, (a, b) => a / b);
+            return DoOperation(vec1, vec2, (a, b) => a/b);
         }
 
         /// <summary>
@@ -455,25 +455,42 @@ namespace MKLibCS.Maths.Advanced
         /// 
         /// </summary>
         [GenericMethod]
-        public Vector<T> Abs { get { return DoOperation(this, a => a.Abs); } }
+        public Vector<T> Abs
+        {
+            get { return DoOperation(this, a => a.Abs); }
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        public T r { get { return r2.Sqrt(); } }
-        /// <summary>
-        /// 
-        /// </summary>
-        public T r2 { get { return this * this; } }
-        /// <summary>
-        /// 
-        /// </summary>
-        public T r3 { get { return (T)MathGenerics.Multiply.Do(r2, r); } }
+        public T r
+        {
+            get { return r2.Sqrt(); }
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        public Vector<T> Dir { get { return this == Zero() ? this : this / r; } }
+        public T r2
+        {
+            get { return this*this; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public T r3
+        {
+            get { return (T) MathGenerics.Multiply.Do(r2, r); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Vector<T> Dir
+        {
+            get { return this == Zero() ? this : this/r; }
+        }
 
         /// <summary>
         /// 

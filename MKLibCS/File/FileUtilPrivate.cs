@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-
 using MKLibCS.Reflection;
 using MKLibCS.Generic;
 
@@ -17,8 +16,8 @@ namespace MKLibCS.File
         public static bool IsSLPredefSingle(this TypeInfo type)
         {
             return (GenericUtil.Parse.Contains(type)
-                && GenericUtil.Format.Contains(type))
-                || type.IsEnum;
+                    && GenericUtil.Format.Contains(type))
+                   || type.IsEnum;
         }
 
         public static bool IsSLPredefComplex(this TypeInfo type)
@@ -32,8 +31,8 @@ namespace MKLibCS.File
         public static bool IsSLComplex(this TypeInfo type)
         {
             return type.IsSLCustomStructType()
-                || type.IsSLCustomComplexType()
-                || type.IsSLPredefComplex();
+                   || type.IsSLCustomComplexType()
+                   || type.IsSLPredefComplex();
         }
 
         #region FileSLCustomAttribute
@@ -56,7 +55,7 @@ namespace MKLibCS.File
         public static bool IsSLCustomSingleType(this TypeInfo type)
         {
             return type.IsSLCustomType()
-                && type.GetSLCustomAttribute().method == FileSLCustomMethod.Single;
+                   && type.GetSLCustomAttribute().method == FileSLCustomMethod.Single;
         }
 
         public static bool IsSLCustomSingleObj(this object obj)
@@ -67,7 +66,7 @@ namespace MKLibCS.File
         public static bool IsSLCustomStructType(this TypeInfo type)
         {
             return type.IsSLCustomType()
-                && type.GetSLCustomAttribute().method == FileSLCustomMethod.Struct;
+                   && type.GetSLCustomAttribute().method == FileSLCustomMethod.Struct;
         }
 
         public static bool IsSLCustomStructObj(this object obj)
@@ -78,7 +77,7 @@ namespace MKLibCS.File
         public static bool IsSLCustomComplexType(this TypeInfo type)
         {
             return type.IsSLCustomType()
-                && type.GetSLCustomAttribute().method == FileSLCustomMethod.Complex;
+                   && type.GetSLCustomAttribute().method == FileSLCustomMethod.Complex;
         }
 
         public static bool IsSLCustomComplexObj(this object obj)

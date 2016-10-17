@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
 using MKLibCS.Collections;
 
 namespace MKLibCS.Generic
@@ -283,7 +282,7 @@ namespace MKLibCS.Generic
         {
             try
             {
-                return (Func<T, object>)Get(typeof(T));
+                return (Func<T, object>) Get(typeof(T));
             }
             catch (InvalidCastException)
             {
@@ -302,7 +301,7 @@ namespace MKLibCS.Generic
         {
             try
             {
-                return (Func<T1, T2, object>)Get(typeof(T1), typeof(T2));
+                return (Func<T1, T2, object>) Get(typeof(T1), typeof(T2));
             }
             catch (InvalidCastException)
             {
@@ -331,11 +330,11 @@ namespace MKLibCS.Generic
         {
             try
             {
-                return (Func<object, T>)GetParser(typeof(T));
+                return (Func<object, T>) GetParser(typeof(T));
             }
             catch (InvalidCastException)
             {
-                return t => (T)Parse(typeof(T), t);
+                return t => (T) Parse(typeof(T), t);
             }
         }
 
@@ -375,7 +374,7 @@ namespace MKLibCS.Generic
         /// <exception cref="MKLibCS.Generic.MissingGenericMethodException">Value for T is not defined.</exception>
         public T GetValue<T>()
         {
-            return (T)GetValue(typeof(T));
+            return (T) GetValue(typeof(T));
         }
 
         /// <summary>
@@ -400,7 +399,7 @@ namespace MKLibCS.Generic
         /// <exception cref="MKLibCS.Generic.MissingGenericMethodException">Parser for T is not defined.</exception>
         public T Parse<T>(object item)
         {
-            return (T)Parse(typeof(T), item);
+            return (T) Parse(typeof(T), item);
         }
 
         #endregion
