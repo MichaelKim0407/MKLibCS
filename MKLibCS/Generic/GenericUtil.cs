@@ -10,7 +10,6 @@ using MKLibCS.Reflection;
 namespace MKLibCS.Generic
 {
     /// <summary>
-    /// 
     /// </summary>
     public static partial class GenericUtil
     {
@@ -24,7 +23,6 @@ namespace MKLibCS.Generic
         private static List<Type> initOngoing = new List<Type>();
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="type"></param>
         public static void InitType(Type type)
@@ -47,6 +45,29 @@ namespace MKLibCS.Generic
             RuntimeHelpers.RunClassConstructor(type.TypeHandle);
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="typeArgs"></param>
+        /// <returns></returns>
+        public static Type GetDelegateType(Type[] typeArgs)
+        {
+#if V3
+            // TODO: typeArgs.Length > 7
+            if (typeArgs.Last() == typeof(void))
+            {
+                var actionTypeArgs = typeArgs.ToList();
+                actionTypeArgs.RemoveAt(actionTypeArgs.Count - 1);
+                return Expression.GetActionType(actionTypeArgs.ToArray());
+            }
+            else
+            {
+                return Expression.GetFuncType(typeArgs);
+            }
+#else
+            return Expression.GetDelegateType(typeArgs);
+#endif
+        }
+
         private static void LoadGenericMethods(Type type)
         {
             var typeInfo = type.GetTypeInfo();
@@ -58,9 +79,9 @@ namespace MKLibCS.Generic
                 var name = gmattr.name;
                 var gm = name == null ? GenericMethod.GetBound(member.Name) : GenericMethod.Get(name);
                 var method = member.GetMemberType() == MemberTypes.Property
-                    ? (member as PropertyInfo).GetMethod
+                    ? (member as PropertyInfo).GetGetMethod()
                     : (member as MethodInfo);
-                var paramTypes = method.GetParameters().ConvertAll(p => p.ParameterType).ToList();
+                List<Type> paramTypes = method.GetParameters().ConvertAll(p => p.ParameterType).ToList();
                 if (!method.IsStatic)
                     paramTypes.Insert(0, type);
                 var types = gmattr.types;
@@ -84,8 +105,8 @@ namespace MKLibCS.Generic
                 if (!method.IsStatic && typeInfo.IsValueType)
                     paramTypes[0] = paramTypes[0].MakeByRefType();
                 paramTypes.Add(method.ReturnType);
-                var delegType = Expression.GetDelegateType(paramTypes.ToArray());
-                var deleg = method.CreateDelegate(delegType);
+                var delegType = GetDelegateType(paramTypes.ToArray());
+                Delegate deleg = method.CreateDelegate(delegType);
                 gm.Add(deleg, types);
             }
         }

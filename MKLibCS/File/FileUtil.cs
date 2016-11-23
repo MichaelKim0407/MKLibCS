@@ -227,10 +227,10 @@ namespace MKLibCS.File
             else if (typeInfo.IsGenericType) // TODO: Change loading logic
             {
                 var genericType = typeInfo.GetGenericTypeDefinition();
-                var paramTypes = typeInfo.GenericTypeArguments;
+                var paramTypes = typeInfo.GetGenericArguments();
                 if (genericType == typeof(List<>))
                 {
-                    typeInfo.GetDeclaredMethod("Clear").Invoke(result, null);
+                    typeInfo.GetMethod("Clear").Invoke(result, null);
                     if (node.ContainsItem("item"))
                     {
                         foreach (string value in node.GetItems("item"))
@@ -238,7 +238,7 @@ namespace MKLibCS.File
                             object item = CreateObject(paramTypes[0]);
                             ReadItem(value, ref item, exceptionInfo);
                             object[] par = {item};
-                            typeInfo.GetDeclaredMethod("Add").Invoke(result, par);
+                            typeInfo.GetMethod("Add").Invoke(result, par);
                         }
                     }
                     else if (node.ContainsNode("item"))
@@ -248,23 +248,23 @@ namespace MKLibCS.File
                             object item = CreateObject(paramTypes[0]);
                             ReadNode(itemNode, ref item, exceptionInfo);
                             object[] par = {item};
-                            typeInfo.GetDeclaredMethod("Add").Invoke(result, par);
+                            typeInfo.GetMethod("Add").Invoke(result, par);
                         }
                     }
                 }
                 else if (genericType == typeof(Dictionary<,>))
                 {
-                    typeInfo.GetDeclaredMethod("Clear").Invoke(result, null);
+                    typeInfo.GetMethod("Clear").Invoke(result, null);
                     foreach (FileNode itemNode in node.GetNodes("item"))
                     {
                         object key = CreateObject(paramTypes[0]);
                         object val = CreateObject(paramTypes[1]);
                         var kvpType =
                             typeof(KeyValuePair<,>).MakeGenericType(paramTypes[0], paramTypes[1]).GetTypeInfo();
-                        Read(itemNode, "key", ref key, kvpType.GetDeclaredProperty("Key"));
-                        Read(itemNode, "value", ref val, kvpType.GetDeclaredProperty("Value"));
+                        Read(itemNode, "key", ref key, kvpType.GetProperty("Key"));
+                        Read(itemNode, "value", ref val, kvpType.GetProperty("Value"));
                         object[] par = {key, val};
-                        typeInfo.GetDeclaredMethod("Add").Invoke(result, par);
+                        typeInfo.GetMethod("Add").Invoke(result, par);
                     }
                 }
                 else
@@ -348,7 +348,7 @@ namespace MKLibCS.File
                 if (genericType == typeof(List<>) || genericType == typeof(Dictionary<,>))
                 {
                     IEnumerator enumerator =
-                        (IEnumerator) typeInfo.GetDeclaredMethod("GetEnumerator").Invoke(value, null);
+                        (IEnumerator) typeInfo.GetMethod("GetEnumerator").Invoke(value, null);
                     while (enumerator.MoveNext())
                     {
                         object item = enumerator.Current;
@@ -357,9 +357,9 @@ namespace MKLibCS.File
                 }
                 else if (genericType == typeof(KeyValuePair<,>))
                 {
-                    object key = value.GetObjTypeInfo().GetDeclaredMethod("get_Key").Invoke(value, null);
+                    object key = value.GetObjTypeInfo().GetMethod("get_Key").Invoke(value, null);
                     Write(node, "key", key, exceptionInfo);
-                    object val = value.GetObjTypeInfo().GetDeclaredMethod("get_Value").Invoke(value, null);
+                    object val = value.GetObjTypeInfo().GetMethod("get_Value").Invoke(value, null);
                     Write(node, "value", val, exceptionInfo);
                 }
             }

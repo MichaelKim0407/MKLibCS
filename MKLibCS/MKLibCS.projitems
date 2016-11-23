@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Advanced\IVector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Advanced\Vector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Advanced\Vector1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionUtil.cs" />
     <None Include="$(MSBuildThisFileDirectory)Maths\Advanced\Vector3.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Abs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Add.cs" />
@@ -45,11 +46,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Zero.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\MathGenerics.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\MathUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Reflection\MemberTypes.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TargetSpecific\TargetSpecificUtil.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Data\" />
   </ItemGroup>
 </Project>

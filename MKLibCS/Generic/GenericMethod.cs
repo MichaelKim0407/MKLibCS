@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using MKLibCS.Collections;
+using MKLibCS.Reflection;
+#if LEGACY
+using TypeInfo = System.Type;
+
+#else
+using System.Reflection;
+
+#endif
 
 namespace MKLibCS.Generic
 {
     /// <summary>
-    /// 
     /// </summary>
     public class GenericMethod
     {
@@ -16,7 +22,6 @@ namespace MKLibCS.Generic
         private static Dictionary<string, string> methodBinding = new Dictionary<string, string>();
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="name"></param>
         /// <param name="boundMethods"></param>
@@ -31,7 +36,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="methodName"></param>
         /// <returns></returns>
@@ -62,7 +66,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         public string Name { get; private set; }
 
@@ -127,7 +130,6 @@ namespace MKLibCS.Generic
         #region Add
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="method"></param>
         /// <param name="types"></param>
@@ -140,7 +142,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="method"></param>
@@ -150,7 +151,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T1"></typeparam>
         /// <typeparam name="T2"></typeparam>
@@ -161,7 +161,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T1"></typeparam>
         /// <typeparam name="T2"></typeparam>
@@ -173,7 +172,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="creator"></param>
@@ -183,7 +181,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="val"></param>
@@ -193,7 +190,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="U"></typeparam>
@@ -208,7 +204,6 @@ namespace MKLibCS.Generic
         #region Contains
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="types"></param>
         /// <returns></returns>
@@ -217,18 +212,18 @@ namespace MKLibCS.Generic
             return IndexOf(types) != -1;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="types"></param>
-        /// <returns></returns>
+#if !LEGACY
+    /// <summary>
+    /// </summary>
+    /// <param name="types"></param>
+    /// <returns></returns>
         public bool Contains(params TypeInfo[] types)
         {
-            return Contains(types.ConvertAll(t => t.AsType()).ToArray());
+            return Contains(Enumerable.ToArray(types.ConvertAll(t => t.AsType())));
         }
+#endif
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
@@ -238,7 +233,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T1"></typeparam>
         /// <typeparam name="T2"></typeparam>
@@ -253,7 +247,7 @@ namespace MKLibCS.Generic
         #region Get
 
         /// <summary>
-        /// Gets the method defined for types.
+        ///     Gets the method defined for types.
         /// </summary>
         /// <param name="types">Parameter types for the method</param>
         /// <returns>The method</returns>
@@ -273,7 +267,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
@@ -291,7 +284,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T1"></typeparam>
         /// <typeparam name="T2"></typeparam>
@@ -310,7 +302,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -321,7 +312,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
@@ -343,19 +333,17 @@ namespace MKLibCS.Generic
         #region Do
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
         /// <exception cref="MKLibCS.Generic.MissingGenericMethodException">Method for types of parameters is not defined.</exception>
         public object Do(params object[] parameters)
         {
-            var method = Get(parameters.ConvertAll(p => p.GetType()).ToArray());
+            var method = Get(CollectionsUtil.ConvertAll(parameters, p => p.GetType()).ToArray());
             return method.DynamicInvoke(parameters);
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -367,7 +355,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
@@ -378,7 +365,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="type"></param>
         /// <param name="item"></param>
@@ -387,11 +373,10 @@ namespace MKLibCS.Generic
         public object Parse(Type type, object item)
         {
             var parser = GetParser(type);
-            return parser.DynamicInvoke(item.CreateArray(1));
+            return parser.DynamicInvoke(CollectionsUtil.CreateArray(item, 1));
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="item"></param>

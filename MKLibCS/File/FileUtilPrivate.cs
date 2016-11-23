@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using MKLibCS.Reflection;
 using MKLibCS.Generic;
+using MKLibCS.Reflection;
 
 namespace MKLibCS.File
 {
+#if LEGACY
+    using TypeInfo = Type;
+
+#endif
+
     static class FileUtilPrivate
     {
         public static bool IsStruct(this TypeInfo type)

@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using MKLibCS.Collections;
-using MKLibCS.Generic;
 using MKLibCS.File;
+using MKLibCS.Generic;
+#if LEGACY
+using MKLibCS.Reflection;
+
+#else
+
+using System.Reflection;
+#endif
 
 namespace MKLibCS.Maths.Advanced
 {
     /// <summary>
-    /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [GenericUsage(typeof(MathGenerics))]
@@ -22,12 +27,10 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         [FileSLItem] public List<Vector1<T>> list;
 
         /// <summary>
-        /// 
         /// </summary>
         virtual public int Dimensions
         {
@@ -45,7 +48,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -56,7 +58,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         public IEnumerable<T> Values
         {
@@ -74,7 +75,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="values"></param>
         public Vector(IEnumerable<T> values)
@@ -83,7 +83,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="values"></param>
         public Vector(params T[] values)
@@ -92,7 +91,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="copyFrom"></param>
         public Vector(Vector<T> copyFrom)
@@ -101,7 +99,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="copyFrom"></param>
         /// <param name="dimensions"></param>
@@ -112,7 +109,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="values"></param>
         public static explicit operator Vector<T>(T[] values)
@@ -126,7 +122,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
@@ -136,7 +131,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="vec1"></param>
         /// <param name="vec2"></param>
@@ -147,7 +141,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="vec1"></param>
         /// <param name="vec2"></param>
@@ -158,7 +151,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -171,7 +163,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()
@@ -180,7 +171,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <returns></returns>
         public override string ToString()
@@ -189,7 +179,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="format"></param>
         /// <param name="provider"></param>
@@ -206,7 +195,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="dimensions"></param>
         /// <returns></returns>
@@ -216,7 +204,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <returns></returns>
         public Vector<T> Zero()
@@ -225,7 +212,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="dimensions"></param>
         /// <param name="dimension"></param>
@@ -238,7 +224,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="dimension"></param>
         /// <returns></returns>
@@ -269,7 +254,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="vec"></param>
         /// <returns></returns>
@@ -280,7 +264,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         public Vector<T> Negative
         {
@@ -288,7 +271,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="vec1"></param>
         /// <param name="vec2"></param>
@@ -300,7 +282,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
@@ -310,7 +291,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="vec1"></param>
         /// <param name="vec2"></param>
@@ -322,7 +302,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
@@ -332,7 +311,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="vec"></param>
         /// <param name="num"></param>
@@ -344,7 +322,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="num"></param>
         /// <param name="vec"></param>
@@ -356,7 +333,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="num"></param>
         /// <returns></returns>
@@ -366,7 +342,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="vec"></param>
         /// <param name="num"></param>
@@ -378,7 +353,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="num"></param>
         /// <returns></returns>
@@ -388,7 +362,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="vec1"></param>
         /// <param name="vec2"></param>
@@ -400,7 +373,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
@@ -410,7 +382,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="vec1"></param>
         /// <param name="vec2"></param>
@@ -421,7 +392,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
@@ -431,7 +401,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="vec1"></param>
         /// <param name="vec2"></param>
@@ -442,7 +411,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
@@ -452,7 +420,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         [GenericMethod]
         public Vector<T> Abs
@@ -461,7 +428,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         public T r
         {
@@ -469,7 +435,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         public T r2
         {
@@ -477,7 +442,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         public T r3
         {
@@ -485,7 +449,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         public Vector<T> Dir
         {
@@ -493,7 +456,6 @@ namespace MKLibCS.Maths.Advanced
         }
 
         /// <summary>
-        /// 
         /// </summary>
         public T Sum
         {

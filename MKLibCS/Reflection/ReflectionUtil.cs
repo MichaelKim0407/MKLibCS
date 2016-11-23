@@ -3,20 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using MKLibCS.Collections;
-using MKLibCS.TargetSpecific;
 using MKLibCS.Generic;
+using MKLibCS.TargetSpecific;
 
 namespace MKLibCS.Reflection
 {
+#if LEGACY
+    using TypeInfo = Type;
+
+#endif
+
     /// <summary>
-    /// Utilities and extensions for System.Reflection types.
+    ///     Utilities and extensions for System.Reflection types.
     /// </summary>
-    public static class ReflectionUtil
+    public static partial class ReflectionUtil
     {
         #region Create
 
         /// <summary>
-        /// Gets the delegate from a method.
+        ///     Gets the delegate from a method.
         /// </summary>
         /// <typeparam name="T">The delegate type.</typeparam>
         /// <param name="method">The System.Reflection.MethodInfo object representing the method.</param>
@@ -30,7 +35,7 @@ namespace MKLibCS.Reflection
         #region Find
 
         /// <summary>
-        /// Gets all public methods with a specific type of attribute declared in a class/struct.
+        ///     Gets all public methods with a specific type of attribute declared in a class/struct.
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
@@ -45,7 +50,7 @@ namespace MKLibCS.Reflection
         }
 
         /// <summary>
-        /// Gets all public methods with a specific type of attribute declared in a class/struct.
+        ///     Gets all public methods with a specific type of attribute declared in a class/struct.
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
@@ -59,7 +64,7 @@ namespace MKLibCS.Reflection
         }
 
         /// <summary>
-        /// Gets all public types with a specific type of attribute declared in a class/struct.
+        ///     Gets all public types with a specific type of attribute declared in a class/struct.
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
@@ -74,7 +79,7 @@ namespace MKLibCS.Reflection
         }
 
         /// <summary>
-        /// Gets all public types with a specific type of attribute declared in a class/struct.
+        ///     Gets all public types with a specific type of attribute declared in a class/struct.
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
@@ -88,7 +93,7 @@ namespace MKLibCS.Reflection
         }
 
         /// <summary>
-        /// Gets all public properties with a specific type of attribute declared in a class/struct.
+        ///     Gets all public properties with a specific type of attribute declared in a class/struct.
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
@@ -103,7 +108,7 @@ namespace MKLibCS.Reflection
         }
 
         /// <summary>
-        /// Gets all public properties with a specific type of attribute declared in a class/struct.
+        ///     Gets all public properties with a specific type of attribute declared in a class/struct.
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
@@ -117,7 +122,6 @@ namespace MKLibCS.Reflection
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="assembly"></param>
         /// <param name="attributeType"></param>
@@ -127,13 +131,12 @@ namespace MKLibCS.Reflection
         {
             if (assembly == null)
                 throw new ArgumentNullException("assembly");
-            foreach (var t in assembly.DefinedTypes)
+            foreach (var t in assembly.GetTypes())
                 if (t.GetCustomAttribute(attributeType) != null)
                     yield return t;
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="assembly"></param>
@@ -207,128 +210,8 @@ namespace MKLibCS.Reflection
 
         #endregion
 
-        #region SelfAndInherited
-
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static IEnumerable<TypeInfo> GetSelfAndInheritedTypes(this TypeInfo type)
-        {
-            var t = type;
-            while (t != null)
-            {
-                yield return t;
-                t = t.BaseType == null ? t.BaseType.GetTypeInfo() : null;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="type"></param>
-        /// <param name="func"></param>
-        /// <returns></returns>
-        public static IEnumerable<T> GetSelfAndInherited<T>(this TypeInfo type, Func<TypeInfo, T> func)
-        {
-            foreach (var t in type.GetSelfAndInheritedTypes())
-                yield return func(t);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="type"></param>
-        /// <param name="func"></param>
-        /// <returns></returns>
-        public static IEnumerable<T> GetSelfAndInherited<T>(this TypeInfo type, Func<TypeInfo, IEnumerable<T>> func)
-        {
-            foreach (var t in type.GetSelfAndInheritedTypes())
-                foreach (var item in func(t))
-                    yield return item;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static IEnumerable<FieldInfo> GetFields(this TypeInfo type)
-        {
-            return type.GetSelfAndInherited(t => t.DeclaredFields);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static IEnumerable<MemberInfo> GetMembers(this TypeInfo type)
-        {
-            return type.GetSelfAndInherited(t => t.DeclaredMembers);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static IEnumerable<MethodInfo> GetMethods(this TypeInfo type)
-        {
-            return type.GetSelfAndInherited(t => t.DeclaredMethods);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public static IEnumerable<MethodInfo> GetMethods(this TypeInfo type, string name)
-        {
-            foreach (var method in type.GetMethods())
-                if (method.Name == name)
-                    yield return method;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public static MethodInfo GetMethod(this TypeInfo type, string name)
-        {
-            return type.GetMethods(name).First();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static IEnumerable<TypeInfo> GetNestedTypes(this TypeInfo type)
-        {
-            return type.GetSelfAndInherited(t => t.DeclaredNestedTypes);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static IEnumerable<PropertyInfo> GetProperties(this TypeInfo type)
-        {
-            return type.GetSelfAndInherited(t => t.DeclaredProperties);
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Gets all public fields and properties declared in a class/struct.
+        ///     Gets all public fields and properties declared in a class/struct.
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <exception cref="System.ArgumentNullException">type is null.</exception>
@@ -358,7 +241,6 @@ namespace MKLibCS.Reflection
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="member"></param>
         /// <returns></returns>
@@ -381,7 +263,6 @@ namespace MKLibCS.Reflection
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -391,7 +272,7 @@ namespace MKLibCS.Reflection
         }
 
         /// <summary>
-        /// Gets the value of the field/property member of an object.
+        ///     Gets the value of the field/property member of an object.
         /// </summary>
         /// <param name="member">The System.Reflection.MemberInfo object that provides information for the member.</param>
         /// <param name="obj">The object that contains the member.</param>
@@ -411,7 +292,7 @@ namespace MKLibCS.Reflection
         }
 
         /// <summary>
-        /// Gets the type of the member.
+        ///     Gets the type of the member.
         /// </summary>
         /// <param name="member">The System.Reflection.MemberInfo object that provides information for the member.</param>
         /// <exception cref="System.ArgumentNullException">member is null.</exception>
@@ -433,7 +314,7 @@ namespace MKLibCS.Reflection
         #region Set
 
         /// <summary>
-        /// Sets the value of the field/property member of an object.
+        ///     Sets the value of the field/property member of an object.
         /// </summary>
         /// <param name="member">The System.Reflection.MemberInfo object that provides information for the member.</param>
         /// <param name="obj">The object that contains the member.</param>
