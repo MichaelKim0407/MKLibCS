@@ -3,14 +3,12 @@
 namespace MKLibCS.TargetSpecific
 {
     /// <summary>
-    /// 
     /// </summary>
     public static class TargetSpecificUtil
     {
         private static string _Target = null;
 
         /// <summary>
-        /// 
         /// </summary>
         public static string Target
         {
@@ -25,27 +23,14 @@ namespace MKLibCS.TargetSpecific
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        public const string Framework45 = "4.5";
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string Universal = "UWP";
-
-        /// <summary>
-        /// 
         /// </summary>
         public static GenericMethod GetMemberType { get; private set; }
 
         /// <summary>
-        /// 
         /// </summary>
         public static GenericMethod StreamReader { get; private set; }
 
         /// <summary>
-        /// 
         /// </summary>
         public static GenericMethod StreamWriter { get; private set; }
     }

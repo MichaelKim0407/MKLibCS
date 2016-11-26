@@ -5,16 +5,19 @@ using System.Text;
 namespace MKLibCS.TargetSpecific
 {
     /// <summary>
-    /// Provides implementation of target-specific methods for Universal Windows Platform
+    ///     Provides implementation of target-specific methods for Universal Windows Platform
     /// </summary>
     public class TargetSpecificUtilForUniversalWindows
     {
         /// <summary>
-        /// 
+        /// </summary>
+        public const string Universal = "UWP";
+
+        /// <summary>
         /// </summary>
         public static void Init()
         {
-            TargetSpecificUtil.Target = TargetSpecificUtil.Universal;
+            TargetSpecificUtil.Target = Universal;
 
             // TargetSpecificUtil.GetMemberType.Add<MemberInfo>(m => (MKLibCS.Reflection.MemberTypes)m.MemberType);
 

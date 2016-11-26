@@ -1,24 +1,22 @@
 ﻿using System.IO;
 using System.Reflection;
 using System.Text;
-using MemberTypes = MKLibCS.Reflection.MemberTypes;
 
 namespace MKLibCS.TargetSpecific
 {
     /// <summary>
-    ///     Provides implementation of target-specific methods for .NET Framework 4.5
     /// </summary>
-    public class TargetSpecificUtilForFramework45
+    public static class TargetSpecificUtilForLegacy
     {
         /// <summary>
         /// </summary>
-        public const string Framework45 = "4.5";
+        public const string FrameworkLegacy = "LEGACY";
 
         /// <summary>
         /// </summary>
         public static void Init()
         {
-            TargetSpecificUtil.Target = Framework45;
+            TargetSpecificUtil.Target = FrameworkLegacy;
 
             TargetSpecificUtil.GetMemberType.Add<MemberInfo>(m => (MemberTypes) m.MemberType);
 
