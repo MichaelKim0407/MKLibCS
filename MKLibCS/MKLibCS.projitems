@@ -11,6 +11,8 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionsUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Hash.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\Handlers\FileLogHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\ILogHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\ExceptionInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\Exceptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\SerializeNode.cs" />
@@ -25,7 +27,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Generic\GenericUsageAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Generic\GenericUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Generic\ParseFormat.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Logging\ILogFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\Log.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Advanced\IVector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Advanced\Vector.cs" />

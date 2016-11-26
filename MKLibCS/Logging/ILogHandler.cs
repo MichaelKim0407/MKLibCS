@@ -3,37 +3,10 @@
 namespace MKLibCS.Logging
 {
     /// <summary>
-    /// 
     /// </summary>
-    public interface ILogFile
+    public interface ILogHandler
     {
         /// <summary>
-        /// 
-        /// </summary>
-        string FileName { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        Log.Level Level { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        string Format { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        string TimeFormat { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        bool Enabled { get; set; }
-
-        /// <summary>
-        /// 
         /// </summary>
         /// <param name="lvl"></param>
         /// <param name="name"></param>
@@ -42,7 +15,6 @@ namespace MKLibCS.Logging
         void Message(Log.Level lvl, string name, string msg, object[] args);
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="name"></param>
         /// <param name="e"></param>
