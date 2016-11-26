@@ -41,7 +41,7 @@ namespace MKLibCS.Generic
         /// Adds parser and formatter for type T.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public static void AddStringMethods<T>(Func<string, T> parser, Func<T, string> formatter)
+        public static void AddStringMethods<T>(Func<string, T> parser, Func<T, object> formatter)
         {
             Parse.AddParser(parser);
             Format.Add(formatter);

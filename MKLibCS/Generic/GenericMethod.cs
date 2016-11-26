@@ -67,7 +67,7 @@ namespace MKLibCS.Generic
 
         /// <summary>
         /// </summary>
-        public string Name { get; private set; }
+        public readonly string Name;
 
         private struct TypeMethod
         {
@@ -82,6 +82,10 @@ namespace MKLibCS.Generic
         }
 
         private List<TypeMethod> methods = new List<TypeMethod>();
+
+        /// <summary>
+        /// </summary>
+        public IEnumerable<Type[]> SupportedTypes => methods.ConvertAll(m => m.types);
 
         private static Type[] NextMatchingTypes(Type[] types, Type[] subs)
         {

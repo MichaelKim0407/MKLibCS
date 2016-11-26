@@ -36,7 +36,7 @@ namespace MKLibCS.Maths
             Add.Add<sbyte, int>((a, b) => a + b);
             Add.Add<sbyte, uint>((a, b) => a + b);
             Add.Add<sbyte, long>((a, b) => a + b);
-            //Add.AddMethod<sbyte, ulong>((a, b) => a + b);
+            //Add.Add<sbyte, ulong>((a, b) => a + b);
             Add.Add<sbyte, decimal>((a, b) => a + b);
             Add.Add<sbyte, float>((a, b) => a + b);
             Add.Add<sbyte, double>((a, b) => a + b);
@@ -62,7 +62,7 @@ namespace MKLibCS.Maths
             Add.Add<short, int>((a, b) => a + b);
             Add.Add<short, uint>((a, b) => a + b);
             Add.Add<short, long>((a, b) => a + b);
-            //Add.AddMethod<short, ulong>((a, b) => a + b);
+            //Add.Add<short, ulong>((a, b) => a + b);
             Add.Add<short, decimal>((a, b) => a + b);
             Add.Add<short, float>((a, b) => a + b);
             Add.Add<short, double>((a, b) => a + b);
@@ -88,7 +88,7 @@ namespace MKLibCS.Maths
             Add.Add<int, int>((a, b) => a + b);
             Add.Add<int, uint>((a, b) => a + b);
             Add.Add<int, long>((a, b) => a + b);
-            // Add.AddMethod<int, ulong>((a, b) => a + b);
+            // Add.Add<int, ulong>((a, b) => a + b);
             Add.Add<int, decimal>((a, b) => a + b);
             Add.Add<int, float>((a, b) => a + b);
             Add.Add<int, double>((a, b) => a + b);
@@ -114,19 +114,19 @@ namespace MKLibCS.Maths
             Add.Add<long, int>((a, b) => a + b);
             Add.Add<long, uint>((a, b) => a + b);
             Add.Add<long, long>((a, b) => a + b);
-            //Add.AddMethod<long, ulong>((a, b) => a + b);
+            //Add.Add<long, ulong>((a, b) => a + b);
             Add.Add<long, decimal>((a, b) => a + b);
             Add.Add<long, float>((a, b) => a + b);
             Add.Add<long, double>((a, b) => a + b);
 
             Add.Add<ulong, byte>((a, b) => a + b);
-            //Add.AddMethod<ulong, sbyte>((a, b) => a + b);
+            //Add.Add<ulong, sbyte>((a, b) => a + b);
             Add.Add<ulong, char>((a, b) => a + b);
-            //Add.AddMethod<ulong, short>((a, b) => a + b);
+            //Add.Add<ulong, short>((a, b) => a + b);
             Add.Add<ulong, ushort>((a, b) => a + b);
-            //Add.AddMethod<ulong, int>((a, b) => a + b);
+            //Add.Add<ulong, int>((a, b) => a + b);
             Add.Add<ulong, uint>((a, b) => a + b);
-            //Add.AddMethod<ulong, long>((a, b) => a + b);
+            //Add.Add<ulong, long>((a, b) => a + b);
             Add.Add<ulong, ulong>((a, b) => a + b);
             Add.Add<ulong, decimal>((a, b) => a + b);
             Add.Add<ulong, float>((a, b) => a + b);
@@ -142,8 +142,8 @@ namespace MKLibCS.Maths
             Add.Add<decimal, long>((a, b) => a + b);
             Add.Add<decimal, ulong>((a, b) => a + b);
             Add.Add<decimal, decimal>((a, b) => a + b);
-            //Add.AddMethod<decimal, float>((a, b) => a + b);
-            //Add.AddMethod<decimal, double>((a, b) => a + b);
+            //Add.Add<decimal, float>((a, b) => a + b);
+            //Add.Add<decimal, double>((a, b) => a + b);
 
             Add.Add<float, byte>((a, b) => a + b);
             Add.Add<float, sbyte>((a, b) => a + b);
@@ -154,7 +154,7 @@ namespace MKLibCS.Maths
             Add.Add<float, uint>((a, b) => a + b);
             Add.Add<float, long>((a, b) => a + b);
             Add.Add<float, ulong>((a, b) => a + b);
-            //Add.AddMethod<float, decimal>((a, b) => a + b);
+            //Add.Add<float, decimal>((a, b) => a + b);
             Add.Add<float, float>((a, b) => a + b);
             Add.Add<float, double>((a, b) => a + b);
 
@@ -167,7 +167,7 @@ namespace MKLibCS.Maths
             Add.Add<double, uint>((a, b) => a + b);
             Add.Add<double, long>((a, b) => a + b);
             Add.Add<double, ulong>((a, b) => a + b);
-            //Add.AddMethod<double, decimal>((a, b) => a + b);
+            //Add.Add<double, decimal>((a, b) => a + b);
             Add.Add<double, float>((a, b) => a + b);
             Add.Add<double, double>((a, b) => a + b);
         }

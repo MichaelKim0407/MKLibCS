@@ -22,7 +22,7 @@ namespace MKLibCS.Maths
             Negative.Add<int>(a => -a);
             Negative.Add<uint>(a => (uint) -a);
             Negative.Add<long>(a => -a);
-            //Negative.AddMethod<ulong>(a => (ulong)-a);
+            //Negative.Add<ulong>(a => (ulong)-a);
             Negative.Add<decimal>(a => -a);
             Negative.Add<float>(a => -a);
             Negative.Add<double>(a => -a);

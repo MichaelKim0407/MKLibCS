@@ -2,26 +2,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using MKLibCS.Reflection;
 using MKLibCS.Generic;
+using MKLibCS.Logging;
+using MKLibCS.Reflection;
 
 namespace MKLibCS.Serialization
 {
     /// <summary>
-    /// 
     /// </summary>
     public static class SerializeUtil
     {
+        private static readonly Log logger = new Log(typeof(SerializeUtil));
+
         private static void LoadDefault(this object obj)
         {
             if (obj.GetObjTypeInfo().IsSerializeObjectLoadDefaultType())
+            {
+                logger.InternalDebug("Loading default value for object of type {0}", obj.GetType().FullName);
                 obj.GetSerializeObjectLoadDefaultMethod()();
+            }
         }
 
         #region Load & Save
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="node"></param>
@@ -33,7 +37,6 @@ namespace MKLibCS.Serialization
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="node"></param>
@@ -43,7 +46,6 @@ namespace MKLibCS.Serialization
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="fileName"></param>
@@ -53,7 +55,6 @@ namespace MKLibCS.Serialization
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="fileName"></param>
@@ -65,7 +66,6 @@ namespace MKLibCS.Serialization
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="node"></param>
         /// <param name="name"></param>
@@ -82,7 +82,6 @@ namespace MKLibCS.Serialization
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="node"></param>
         /// <param name="name"></param>
@@ -130,29 +129,41 @@ namespace MKLibCS.Serialization
         {
             SerializeItemInfo itemInfo = member;
             ExceptionInfo exceptionInfo = member;
-            if (result != null)
-                result.LoadDefault();
             var type = itemInfo.Type;
             var typeInfo = type.GetTypeInfo();
-            if (node.ContainsItem(name) && (typeInfo.IsSerializePredefSingle() || typeInfo.IsSerializeObjectSingleType()))
+            logger.InternalDebug("Item \"{0}\" has type \"{1}\"", name, typeInfo.FullName);
+            if (result != null)
+                result.LoadDefault();
+            if (node.ContainsItem(name) &&
+                (typeInfo.IsSerializePredefSingle() || typeInfo.IsSerializeObjectSingleType()))
             {
                 result = CreateObject(type);
+                logger.InternalDebug("Parsing item \"{0}\"", name);
                 ReadItem(node.GetItem(name), ref result, exceptionInfo);
             }
             else if (node.ContainsNode(name) && (typeInfo.IsSerializeCustom() || typeInfo.IsSerializeObjectSingleType()))
             {
                 result = CreateObject(type);
+                logger.InternalDebug("Creating node \"{0}\"", name);
                 ReadNode(node.GetNode(name), ref result, exceptionInfo);
             }
             else // no matching item or node found
             {
                 var att = itemInfo.Attr;
                 if (att.SkipNull)
+                {
                     result = null;
+                    logger.InternalDebug("Item \"{0}\" not found in node. Assign null.", name);
+                }
                 else if (att.SkipEmptyString && typeInfo.IsSubclassOf(typeof(string)))
+                {
                     result = "";
+                    logger.InternalDebug("Item \"{0}\" not found in node. Assign empty string.", name);
+                }
                 else if (!att.UseDefault)
                     throw new ParsingFailureException(exceptionInfo, ParsingFailureException.Reason_1);
+                else
+                    logger.InternalDebug("Item \"{0}\" not found in node. Do nothing.", name);
             }
         }
 
@@ -165,7 +176,10 @@ namespace MKLibCS.Serialization
             var type = result.GetType();
             var typeInfo = type.GetTypeInfo();
             if (GenericUtil.Parse.Contains(type))
+            {
                 result = GenericUtil.Parse.Parse(type, value);
+                logger.InternalDebug("Value parsed as {0}", result);
+            }
             else if (typeInfo.IsEnum)
             {
                 object i = (int) result;

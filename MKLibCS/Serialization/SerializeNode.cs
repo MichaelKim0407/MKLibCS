@@ -13,7 +13,7 @@ namespace MKLibCS.Serialization
     /// </summary>
     public sealed class SerializeNode
     {
-        private static Log log = new Log(typeof(SerializeNode));
+        private static readonly Log logger = new Log(typeof(SerializeNode));
 
         private static readonly Encoding Encoding = Encoding.UTF8;
 
@@ -34,12 +34,19 @@ namespace MKLibCS.Serialization
             ReadFile(path);
         }
 
-        private SerializeNode(SerializeNode parent)
+        private SerializeNode(SerializeNode parent, string name)
         {
             this.parent = parent;
+            this.name = name;
         }
 
         private readonly SerializeNode parent;
+
+        private readonly string name = "@root";
+
+        /// <summary>
+        /// </summary>
+        public string Name => parent == null ? name : parent.Name + "." + name;
 
         #region Content
 
@@ -47,7 +54,7 @@ namespace MKLibCS.Serialization
 
         /// <summary>
         /// </summary>
-        public interface ItemOrNode
+        public interface IItemOrNode
         {
             /// <summary>
             /// </summary>
@@ -60,7 +67,7 @@ namespace MKLibCS.Serialization
 
         /// <summary>
         /// </summary>
-        public IEnumerable<ItemOrNode> ItemsAndNodes
+        public IEnumerable<IItemOrNode> ItemsAndNodes
         {
             get
             {
@@ -77,20 +84,20 @@ namespace MKLibCS.Serialization
 
         /// <summary>
         /// </summary>
-        public sealed class Item : ItemOrNode
+        public sealed class Item : IItemOrNode
         {
             /// <exception cref="System.ArgumentNullException"></exception>
             /// <exception cref="System.ArgumentException"></exception>
             public Item(string key, string value)
             {
                 if (key == null)
-                    throw new ArgumentNullException("name");
+                    throw new ArgumentNullException(nameof(key));
                 if (value == null)
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
                 if (key == "")
-                    throw new ArgumentException("key cannot be an empty string");
+                    throw new ArgumentException(nameof(key) + " cannot be an empty string");
                 if (value == "")
-                    throw new ArgumentException("value cannot be an empty string");
+                    throw new ArgumentException(nameof(value) + " cannot be an empty string");
                 this.key = key;
                 this.value = value;
             }
@@ -105,17 +112,11 @@ namespace MKLibCS.Serialization
 
             /// <summary>
             /// </summary>
-            public string Key
-            {
-                get { return key; }
-            }
+            public string Key => key;
 
             /// <summary>
             /// </summary>
-            public object Value
-            {
-                get { return value; }
-            }
+            public object Value => value;
 
             /// <summary>
             /// </summary>
@@ -214,10 +215,7 @@ namespace MKLibCS.Serialization
 
         /// <summary>
         /// </summary>
-        public IEnumerable<Item> Items
-        {
-            get { return items.AsEnumerable(); }
-        }
+        public IEnumerable<Item> Items => items.AsEnumerable();
 
         #endregion
 
@@ -225,20 +223,20 @@ namespace MKLibCS.Serialization
 
         /// <summary>
         /// </summary>
-        public sealed class Node : ItemOrNode
+        public sealed class Node : IItemOrNode
         {
             /// <exception cref="System.ArgumentNullException"></exception>
             /// <exception cref="System.ArgumentException"></exception>
             public Node(string key, SerializeNode parent)
             {
                 if (key == null)
-                    throw new ArgumentNullException("name");
+                    throw new ArgumentNullException(nameof(key));
                 if (parent == null)
-                    throw new ArgumentNullException("parent");
+                    throw new ArgumentNullException(nameof(parent));
                 if (key == "")
-                    throw new ArgumentException("key cannot be an empty string");
+                    throw new ArgumentException(nameof(key) + " cannot be an empty string");
                 this.key = key;
-                node = new SerializeNode(parent);
+                node = new SerializeNode(parent, key);
             }
 
             /// <summary>
@@ -251,17 +249,11 @@ namespace MKLibCS.Serialization
 
             /// <summary>
             /// </summary>
-            public string Key
-            {
-                get { return key; }
-            }
+            public string Key => key;
 
             /// <summary>
             /// </summary>
-            public object Value
-            {
-                get { return node; }
-            }
+            public object Value => node;
 
             /// <summary>
             /// </summary>
@@ -369,10 +361,7 @@ namespace MKLibCS.Serialization
 
         /// <summary>
         /// </summary>
-        public IEnumerable<Node> Nodes
-        {
-            get { return nodes.AsEnumerable(); }
-        }
+        public IEnumerable<Node> Nodes => nodes.AsEnumerable();
 
         #endregion
 
@@ -446,12 +435,14 @@ namespace MKLibCS.Serialization
                         value = value.Remove(0, 1);
                     if (key == "" || value == "")
                         throw new CorruptFileException(nLine);
+                    logger.InternalDebug("In node \"{0}\": new item \"{1}\" = {2}", Name, key, value);
                     items.Add(key, value);
                     lastReadAction = LastReadAction.ITEM;
                 }
                 else
                 {
-                    nodes.Add(line, new SerializeNode(this));
+                    logger.InternalDebug("In node \"{0}\": new child node \"{1}\"", Name, line);
+                    nodes.Add(line, new SerializeNode(this, line));
                     lastReadAction = LastReadAction.NEWNODE;
                 }
             }
@@ -464,14 +455,14 @@ namespace MKLibCS.Serialization
         /// <param name="path"></param>
         public void ReadFile(string path)
         {
-            log.InternalInfo("Opening file: \"{0}\"", path);
+            logger.InternalInfo("Opening file: \"{0}\"", path);
             StreamReader reader = TargetSpecificUtil.StreamReader.Do(path, Encoding) as StreamReader;
             // StreamReader reader = new StreamReader(path, Encoding.UTF8);
             lastReadAction = LastReadAction.NONE;
             int nLine = 0;
-            log.InternalInfo("Reading file: \"{0}\"", path);
+            logger.InternalInfo("Reading file: \"{0}\"", path);
             Read(reader, 0, ref nLine);
-            log.InternalInfo("File read: \"{0}\", {1} line(s)", path, nLine);
+            logger.InternalInfo("File read: \"{0}\", {1} line(s)", path, nLine);
             reader.Dispose();
         }
 
@@ -500,12 +491,12 @@ namespace MKLibCS.Serialization
         /// <param name="path"></param>
         public void WriteFile(string path)
         {
-            log.InternalInfo("Creating file: \"{0}\"", path);
+            logger.InternalInfo("Creating file: \"{0}\"", path);
             StreamWriter writer = TargetSpecificUtil.StreamWriter.Do(path, false, Encoding) as StreamWriter;
             // StreamWriter writer = new StreamWriter(path, false, Encoding.UTF8);
-            log.InternalInfo("Writing file: \"{0}\"", path);
+            logger.InternalInfo("Writing file: \"{0}\"", path);
             Write(writer, 0);
-            log.InternalInfo("File written: \"{0}\"", path);
+            logger.InternalInfo("File written: \"{0}\"", path);
             writer.Dispose();
         }
 
