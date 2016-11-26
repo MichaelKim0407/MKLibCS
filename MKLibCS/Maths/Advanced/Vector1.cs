@@ -1,5 +1,5 @@
 ﻿using System;
-using MKLibCS.File;
+using MKLibCS.Serialization;
 using MKLibCS.Generic;
 #if LEGACY
 using MKLibCS.Reflection;
@@ -15,12 +15,12 @@ namespace MKLibCS.Maths.Advanced
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [GenericUsage(typeof(MathGenerics))]
-    [FileSLCustom(FileSLCustomMethod.Single)]
+    [SerializeObject(SerializeObjectMethod.Single)]
     public struct Vector1<T> : IVector<T, Vector1<T>>
     {
         /// <summary>
         /// </summary>
-        [FileSLItem] public T x;
+        [SerializeItem] public T x;
 
         /// <summary>
         /// </summary>

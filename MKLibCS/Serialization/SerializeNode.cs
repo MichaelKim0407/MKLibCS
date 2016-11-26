@@ -1,70 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
 using MKLibCS.Logging;
 using MKLibCS.Collections;
 using MKLibCS.TargetSpecific;
 
-namespace MKLibCS.File
+namespace MKLibCS.Serialization
 {
     /// <summary>
-    /// 
     /// </summary>
-    public sealed class FileNode
+    public sealed class SerializeNode
     {
-        private static Log log = new Log(typeof(FileNode));
+        private static Log log = new Log(typeof(SerializeNode));
 
         private static readonly Encoding Encoding = Encoding.UTF8;
 
         /// <summary>
-        /// 
         /// </summary>
-        public FileNode()
+        public SerializeNode()
         {
             parent = null;
         }
 
         /// <summary>
-        /// Reads the file.
+        ///     Reads the file.
         /// </summary>
         /// <param name="path"></param>
-        public FileNode(string path)
+        public SerializeNode(string path)
         {
             parent = null;
             ReadFile(path);
         }
 
-        private FileNode(FileNode parent)
+        private SerializeNode(SerializeNode parent)
         {
             this.parent = parent;
         }
 
-        private readonly FileNode parent;
+        private readonly SerializeNode parent;
 
         #region Content
 
         #region ItemOrNode
 
         /// <summary>
-        /// 
         /// </summary>
         public interface ItemOrNode
         {
             /// <summary>
-            /// 
             /// </summary>
             string Key { get; }
 
             /// <summary>
-            /// 
             /// </summary>
             object Value { get; }
         }
 
         /// <summary>
-        /// 
         /// </summary>
         public IEnumerable<ItemOrNode> ItemsAndNodes
         {
@@ -82,7 +76,6 @@ namespace MKLibCS.File
         #region Item
 
         /// <summary>
-        /// 
         /// </summary>
         public sealed class Item : ItemOrNode
         {
@@ -103,17 +96,14 @@ namespace MKLibCS.File
             }
 
             /// <summary>
-            /// 
             /// </summary>
             public readonly string key;
 
             /// <summary>
-            /// 
             /// </summary>
             public readonly string value;
 
             /// <summary>
-            /// 
             /// </summary>
             public string Key
             {
@@ -121,7 +111,6 @@ namespace MKLibCS.File
             }
 
             /// <summary>
-            /// 
             /// </summary>
             public object Value
             {
@@ -129,7 +118,6 @@ namespace MKLibCS.File
             }
 
             /// <summary>
-            /// 
             /// </summary>
             /// <returns></returns>
             public override string ToString()
@@ -189,7 +177,6 @@ namespace MKLibCS.File
         private ItemList items = new ItemList();
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
@@ -199,7 +186,6 @@ namespace MKLibCS.File
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -209,7 +195,6 @@ namespace MKLibCS.File
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -219,7 +204,6 @@ namespace MKLibCS.File
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -229,7 +213,6 @@ namespace MKLibCS.File
         }
 
         /// <summary>
-        /// 
         /// </summary>
         public IEnumerable<Item> Items
         {
@@ -241,13 +224,12 @@ namespace MKLibCS.File
         #region Node
 
         /// <summary>
-        /// 
         /// </summary>
         public sealed class Node : ItemOrNode
         {
             /// <exception cref="System.ArgumentNullException"></exception>
             /// <exception cref="System.ArgumentException"></exception>
-            public Node(string key, FileNode parent)
+            public Node(string key, SerializeNode parent)
             {
                 if (key == null)
                     throw new ArgumentNullException("name");
@@ -256,21 +238,18 @@ namespace MKLibCS.File
                 if (key == "")
                     throw new ArgumentException("key cannot be an empty string");
                 this.key = key;
-                node = new FileNode(parent);
+                node = new SerializeNode(parent);
             }
 
             /// <summary>
-            /// 
             /// </summary>
             public readonly string key;
 
             /// <summary>
-            /// 
             /// </summary>
-            public readonly FileNode node;
+            public readonly SerializeNode node;
 
             /// <summary>
-            /// 
             /// </summary>
             public string Key
             {
@@ -278,7 +257,6 @@ namespace MKLibCS.File
             }
 
             /// <summary>
-            /// 
             /// </summary>
             public object Value
             {
@@ -286,7 +264,6 @@ namespace MKLibCS.File
             }
 
             /// <summary>
-            /// 
             /// </summary>
             /// <returns></returns>
             public override string ToString()
@@ -299,7 +276,7 @@ namespace MKLibCS.File
         {
             private List<Node> list = new List<Node>();
 
-            public FileNode Add(string key, FileNode parent)
+            public SerializeNode Add(string key, SerializeNode parent)
             {
                 Node node = new Node(key, parent);
                 list.Add(node);
@@ -355,17 +332,15 @@ namespace MKLibCS.File
         private NodeList nodes = new NodeList();
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public FileNode AddNode(string key)
+        public SerializeNode AddNode(string key)
         {
             return nodes.Add(key, this);
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -375,27 +350,24 @@ namespace MKLibCS.File
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public FileNode GetNode(string key)
+        public SerializeNode GetNode(string key)
         {
             return nodes.GetNode(key).node;
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public IEnumerable<FileNode> GetNodes(string key)
+        public IEnumerable<SerializeNode> GetNodes(string key)
         {
             return nodes.GetNodes(key).ConvertAll(n => n.node);
         }
 
         /// <summary>
-        /// 
         /// </summary>
         public IEnumerable<Node> Nodes
         {
@@ -429,7 +401,7 @@ namespace MKLibCS.File
 
         private LastReadAction lastReadAction;
 
-        /// <exception cref="MKLibCS.File.CorruptFileException"></exception>
+        /// <exception cref="CorruptFileException"></exception>
         private void Read(StreamReader reader, int level, ref int nLine)
         {
             while (!reader.EndOfStream)
@@ -479,7 +451,7 @@ namespace MKLibCS.File
                 }
                 else
                 {
-                    nodes.Add(line, new FileNode(this));
+                    nodes.Add(line, new SerializeNode(this));
                     lastReadAction = LastReadAction.NEWNODE;
                 }
             }
@@ -488,7 +460,6 @@ namespace MKLibCS.File
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="path"></param>
         public void ReadFile(string path)
@@ -525,7 +496,6 @@ namespace MKLibCS.File
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="path"></param>
         public void WriteFile(string path)
@@ -544,7 +514,6 @@ namespace MKLibCS.File
         #endregion
 
         /// <summary>
-        /// 
         /// </summary>
         /// <returns></returns>
         public override string ToString()

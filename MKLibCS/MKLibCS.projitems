@@ -11,13 +11,13 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Collections\CollectionsUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Hash.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)File\ExceptionInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)File\Exceptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)File\FileNode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)File\FileSLAttributes.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)File\FileSLItemInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)File\FileUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)File\FileUtilPrivate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\ExceptionInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\Exceptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\SerializeNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\SerializeAttributes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\SerializeItemInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\SerializeUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\SerializeUtilPrivate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Generic\Create.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Generic\Exceptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Generic\GenericMethod.cs" />

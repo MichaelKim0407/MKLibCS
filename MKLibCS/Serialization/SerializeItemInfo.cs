@@ -2,32 +2,32 @@
 using System.Reflection;
 using MKLibCS.Reflection;
 
-namespace MKLibCS.File
+namespace MKLibCS.Serialization
 {
     /// <summary>
     /// 
     /// </summary>
-    public struct FileSLItemInfo
+    public struct SerializeItemInfo
     {
         /// <summary>
         /// 
         /// </summary>
-        public static FileSLItemInfo Empty;
+        public static SerializeItemInfo Empty;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="memberInfo"></param>
-        public FileSLItemInfo(MemberInfo memberInfo)
+        public SerializeItemInfo(MemberInfo memberInfo)
         {
             this.Type = memberInfo.GetValueType();
-            this.Attr = memberInfo.GetFileSLItemAttribute();
+            this.Attr = memberInfo.GetSerializeItemAttribute();
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public FileSLItemAttribute Attr { get; private set; }
+        public SerializeItemAttribute Attr { get; private set; }
 
         /// <summary>
         /// 
@@ -39,12 +39,12 @@ namespace MKLibCS.File
         /// </summary>
         /// <param name="memberInfo"></param>
         /// <returns></returns>
-        public static implicit operator FileSLItemInfo(MemberInfo memberInfo)
+        public static implicit operator SerializeItemInfo(MemberInfo memberInfo)
         {
             if (memberInfo == null)
                 return Empty;
             else
-                return new FileSLItemInfo(memberInfo);
+                return new SerializeItemInfo(memberInfo);
         }
     }
 }

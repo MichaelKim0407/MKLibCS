@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MKLibCS.File
+namespace MKLibCS.Serialization
 {
     /// <summary>
     /// 
@@ -51,7 +51,7 @@ namespace MKLibCS.File
         /// <param name="writing"></param>
         /// <param name="name"></param>
         /// <param name="parent"></param>
-        public NullObjectException(bool writing, string name, ParentSLMethod parent = ParentSLMethod.NONE)
+        public NullObjectException(bool writing, string name, ParentSerializeMethod parent = ParentSerializeMethod.None)
         {
             this.writing = writing;
             this.name = name;
@@ -68,14 +68,14 @@ namespace MKLibCS.File
         {
             this.writing = writing;
             this.name = name;
-            if (parent.IsSLCustomSingleObj())
-                this.parent = ParentSLMethod.SLCustomSingle;
-            else if (parent.IsSLCustomStructObj())
-                this.parent = ParentSLMethod.SLCustomStruct;
-            else if (parent.IsSLCustomComplexObj())
-                this.parent = ParentSLMethod.SLCustomClassComplex;
+            if (parent.IsSerializeObjectSingle())
+                this.parent = ParentSerializeMethod.Single;
+            else if (parent.IsSerializeObjectStruct())
+                this.parent = ParentSerializeMethod.Struct;
+            else if (parent.IsSerializeObjectCustom())
+                this.parent = ParentSerializeMethod.Custom;
             else
-                this.parent = ParentSLMethod.NONE;
+                this.parent = ParentSerializeMethod.None;
         }
 
         /// <summary>
@@ -91,33 +91,33 @@ namespace MKLibCS.File
         /// <summary>
         /// 
         /// </summary>
-        public enum ParentSLMethod
+        public enum ParentSerializeMethod
         {
             /// <summary>
             /// 
             /// </summary>
-            NONE,
+            None,
 
             /// <summary>
             /// 
             /// </summary>
-            SLCustomSingle,
+            Single,
 
             /// <summary>
             /// 
             /// </summary>
-            SLCustomStruct,
+            Struct,
 
             /// <summary>
             /// 
             /// </summary>
-            SLCustomClassComplex
+            Custom
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public readonly ParentSLMethod parent;
+        public readonly ParentSerializeMethod parent;
 
         /// <summary>
         /// 
@@ -189,7 +189,7 @@ namespace MKLibCS.File
         /// <summary>
         /// 
         /// </summary>
-        public const string Reason_0 = "No member with attribute FileSLItem found in an SLCustomSingle object.";
+        public const string Reason_0 = "No member with attribute SerializeItemAttribute found in an Single object.";
 
         /// <summary>
         /// 
@@ -239,7 +239,7 @@ namespace MKLibCS.File
         /// <summary>
         /// 
         /// </summary>
-        public const string Reason_0 = "No member with attribute FileSLItem found in an SLCustomSingle object.";
+        public const string Reason_0 = "No member with attribute SerializeItemAttribute found in an Single object.";
 
         /// <summary>
         /// 

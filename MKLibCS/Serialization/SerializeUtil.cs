@@ -5,17 +5,17 @@ using System.Reflection;
 using MKLibCS.Reflection;
 using MKLibCS.Generic;
 
-namespace MKLibCS.File
+namespace MKLibCS.Serialization
 {
     /// <summary>
     /// 
     /// </summary>
-    public static class FileUtil
+    public static class SerializeUtil
     {
         private static void LoadDefault(this object obj)
         {
-            if (obj.GetObjTypeInfo().IsSLCustomLoadDefaultType())
-                obj.GetSLCustomLoadDefaultMethod()();
+            if (obj.GetObjTypeInfo().IsSerializeObjectLoadDefaultType())
+                obj.GetSerializeObjectLoadDefaultMethod()();
         }
 
         #region Load & Save
@@ -25,7 +25,7 @@ namespace MKLibCS.File
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="node"></param>
-        public static void Load(this object obj, FileNode node)
+        public static void Load(this object obj, SerializeNode node)
         {
             obj.LoadDefault();
             if (node != null)
@@ -37,7 +37,7 @@ namespace MKLibCS.File
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="node"></param>
-        public static void Save(this object obj, FileNode node)
+        public static void Save(this object obj, SerializeNode node)
         {
             WriteNode(node, obj, null);
         }
@@ -49,7 +49,7 @@ namespace MKLibCS.File
         /// <param name="fileName"></param>
         public static void LoadFile(this object obj, string fileName)
         {
-            obj.Load(new FileNode(fileName));
+            obj.Load(new SerializeNode(fileName));
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace MKLibCS.File
         /// <param name="fileName"></param>
         public static void SaveFile(this object obj, string fileName)
         {
-            FileNode node = new FileNode();
+            SerializeNode node = new SerializeNode();
             obj.Save(node);
             node.WriteFile(fileName);
         }
@@ -72,7 +72,7 @@ namespace MKLibCS.File
         /// <param name="val"></param>
         /// <param name="member"></param>
         public static void LoadItem(
-            this FileNode node,
+            this SerializeNode node,
             string name,
             ref object val,
             MemberInfo member
@@ -89,7 +89,7 @@ namespace MKLibCS.File
         /// <param name="val"></param>
         /// <param name="member"></param>
         public static void SaveItem(
-            this FileNode node,
+            this SerializeNode node,
             string name,
             object val,
             MemberInfo member
@@ -107,7 +107,7 @@ namespace MKLibCS.File
         private static void ReadFieldOrProperty(
             this object obj,
             MemberInfo member,
-            FileNode node,
+            SerializeNode node,
             string name
             )
         {
@@ -122,24 +122,24 @@ namespace MKLibCS.File
         }
 
         private static void Read(
-            FileNode node,
+            SerializeNode node,
             string name,
             ref object result,
             MemberInfo member
             )
         {
-            FileSLItemInfo itemInfo = member;
+            SerializeItemInfo itemInfo = member;
             ExceptionInfo exceptionInfo = member;
             if (result != null)
                 result.LoadDefault();
             var type = itemInfo.Type;
             var typeInfo = type.GetTypeInfo();
-            if (node.ContainsItem(name) && (typeInfo.IsSLPredefSingle() || typeInfo.IsSLCustomSingleType()))
+            if (node.ContainsItem(name) && (typeInfo.IsSerializePredefSingle() || typeInfo.IsSerializeObjectSingleType()))
             {
                 result = CreateObject(type);
                 ReadItem(node.GetItem(name), ref result, exceptionInfo);
             }
-            else if (node.ContainsNode(name) && (typeInfo.IsSLComplex() || typeInfo.IsSLCustomSingleType()))
+            else if (node.ContainsNode(name) && (typeInfo.IsSerializeCustom() || typeInfo.IsSerializeObjectSingleType()))
             {
                 result = CreateObject(type);
                 ReadNode(node.GetNode(name), ref result, exceptionInfo);
@@ -147,11 +147,11 @@ namespace MKLibCS.File
             else // no matching item or node found
             {
                 var att = itemInfo.Attr;
-                if (att.skipNull)
+                if (att.SkipNull)
                     result = null;
-                else if (att.skipEmptyString && typeInfo.IsSubclassOf(typeof(string)))
+                else if (att.SkipEmptyString && typeInfo.IsSubclassOf(typeof(string)))
                     result = "";
-                else if (!att.useDefault)
+                else if (!att.UseDefault)
                     throw new ParsingFailureException(exceptionInfo, ParsingFailureException.Reason_1);
             }
         }
@@ -172,9 +172,9 @@ namespace MKLibCS.File
                 ReadItem(value, ref i, exceptionInfo);
                 result = i;
             }
-            else if (result.IsSLCustomSingleObj())
+            else if (result.IsSerializeObjectSingle())
             {
-                var member = result.GetSLCustomSingleMember();
+                var member = result.GetSerializeObjectSingleMember();
                 if (member == null)
                     throw new ParsingFailureException(exceptionInfo, ParsingFailureException.Reason_0);
                 else
@@ -191,28 +191,28 @@ namespace MKLibCS.File
         }
 
         private static void ReadNode(
-            FileNode node,
+            SerializeNode node,
             ref object result,
             ExceptionInfo exceptionInfo
             )
         {
             var type = result.GetType();
             var typeInfo = type.GetTypeInfo();
-            if (result.IsSLCustomStructObj())
+            if (result.IsSerializeObjectStruct())
             {
                 foreach (var member in typeInfo.GetFieldsAndProperties())
                 {
-                    FileSLItemAttribute att = member.GetFileSLItemAttribute();
-                    if (att == null || att.isTesting)
+                    SerializeItemAttribute att = member.GetSerializeItemAttribute();
+                    if (att == null || att.Ignore)
                         continue;
-                    ReadFieldOrProperty(result, member, node, att.saveName ?? member.Name);
+                    ReadFieldOrProperty(result, member, node, att.SerializeName ?? member.Name);
                 }
             }
-            else if (result.IsSLCustomComplexObj())
-                result.GetSLCustomComplexLoadMethod()(node);
-            else if (result.IsSLCustomSingleObj())
+            else if (result.IsSerializeObjectCustom())
+                result.GetSerializeObjectCustomLoadMethod()(node);
+            else if (result.IsSerializeObjectSingle())
             {
-                var member = result.GetSLCustomSingleMember();
+                var member = result.GetSerializeObjectSingleMember();
                 if (member == null)
                     throw new ParsingFailureException(exceptionInfo, ParsingFailureException.Reason_0);
                 else
@@ -243,7 +243,7 @@ namespace MKLibCS.File
                     }
                     else if (node.ContainsNode("item"))
                     {
-                        foreach (FileNode itemNode in node.GetNodes("item"))
+                        foreach (SerializeNode itemNode in node.GetNodes("item"))
                         {
                             object item = CreateObject(paramTypes[0]);
                             ReadNode(itemNode, ref item, exceptionInfo);
@@ -255,7 +255,7 @@ namespace MKLibCS.File
                 else if (genericType == typeof(Dictionary<,>))
                 {
                     typeInfo.GetMethod("Clear").Invoke(result, null);
-                    foreach (FileNode itemNode in node.GetNodes("item"))
+                    foreach (SerializeNode itemNode in node.GetNodes("item"))
                     {
                         object key = CreateObject(paramTypes[0]);
                         object val = CreateObject(paramTypes[1]);
@@ -279,7 +279,7 @@ namespace MKLibCS.File
         #region Write
 
         private static void Write(
-            FileNode node,
+            SerializeNode node,
             string name,
             object value,
             ExceptionInfo exceptionInfo
@@ -289,7 +289,7 @@ namespace MKLibCS.File
                 throw new NullObjectException(false, name);
             var type = value.GetType();
             var typeInfo = type.GetTypeInfo();
-            if (typeInfo.IsSLPredefSingle())
+            if (typeInfo.IsSerializePredefSingle())
             {
                 if (GenericUtil.Format.Contains(type))
                     node.AddItem(name, GenericUtil.Format.Do(value));
@@ -298,11 +298,11 @@ namespace MKLibCS.File
                 else
                     node.AddItem(name, value);
             }
-            else if (typeInfo.IsSLComplex())
+            else if (typeInfo.IsSerializeCustom())
                 WriteNode(node.AddNode(name), value, exceptionInfo);
-            else if (value.IsSLCustomSingleObj())
+            else if (value.IsSerializeObjectSingle())
             {
-                var member = value.GetSLCustomSingleMember();
+                var member = value.GetSerializeObjectSingleMember();
                 if (member == null)
                     throw new WritingFailureException(exceptionInfo, WritingFailureException.Reason_0);
                 else
@@ -313,30 +313,30 @@ namespace MKLibCS.File
         }
 
         private static void WriteNode(
-            FileNode node,
+            SerializeNode node,
             object value,
             ExceptionInfo exceptionInfo
             )
         {
             var type = value.GetType();
             var typeInfo = type.GetTypeInfo();
-            if (typeInfo.IsSLPredefSingle())
+            if (typeInfo.IsSerializePredefSingle())
                 throw new WritingFailureException(exceptionInfo, WritingFailureException.Reason_1);
-            else if (value.IsSLCustomStructObj())
+            else if (value.IsSerializeObjectStruct())
             {
                 foreach (var member in typeInfo.GetFieldsAndProperties())
                 {
-                    FileSLItemAttribute att = member.GetFileSLItemAttribute();
+                    SerializeItemAttribute att = member.GetSerializeItemAttribute();
                     if (att == null || att.SkipItem(member.GetValue(value)))
                         continue;
-                    Write(node, att.saveName ?? member.Name, member.GetValue(value), member);
+                    Write(node, att.SerializeName ?? member.Name, member.GetValue(value), member);
                 }
             }
-            else if (value.IsSLCustomComplexObj())
-                value.GetSLCustomComplexSaveMethod()(node);
-            else if (value.IsSLCustomSingleObj())
+            else if (value.IsSerializeObjectCustom())
+                value.GetSerializeObjectCustomSaveMethod()(node);
+            else if (value.IsSerializeObjectSingle())
             {
-                var member = value.GetSLCustomSingleMember();
+                var member = value.GetSerializeObjectSingleMember();
                 if (member == null)
                     throw new WritingFailureException(exceptionInfo, WritingFailureException.Reason_0);
                 else

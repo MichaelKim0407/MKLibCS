@@ -2,7 +2,7 @@
 using System.Reflection;
 using MKLibCS.Reflection;
 
-namespace MKLibCS.File
+namespace MKLibCS.Serialization
 {
     /// <summary>
     /// 

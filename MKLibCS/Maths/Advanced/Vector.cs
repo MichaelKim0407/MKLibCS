@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MKLibCS.Collections;
-using MKLibCS.File;
+using MKLibCS.Serialization;
 using MKLibCS.Generic;
 #if LEGACY
 using MKLibCS.Reflection;
@@ -18,7 +18,7 @@ namespace MKLibCS.Maths.Advanced
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [GenericUsage(typeof(MathGenerics))]
-    [FileSLCustom(FileSLCustomMethod.Single)]
+    [SerializeObject(SerializeObjectMethod.Single)]
     public class Vector<T> : IVector<T, Vector<T>>
     {
         static Vector()
@@ -28,7 +28,7 @@ namespace MKLibCS.Maths.Advanced
 
         /// <summary>
         /// </summary>
-        [FileSLItem] public List<Vector1<T>> list;
+        [SerializeItem] public List<Vector1<T>> list;
 
         /// <summary>
         /// </summary>
