@@ -10,6 +10,18 @@ namespace MKLibCS.Logging.Handlers
     {
         /// <summary>
         /// </summary>
+        public const Log.Level DefaultLevel = Log.Level.Info;
+
+        /// <summary>
+        /// </summary>
+        public const string DefaultFormat = "[%LV %T %NAME] %MSG";
+
+        /// <summary>
+        /// </summary>
+        public const string DefaultTimeFormat = "yyyyMMddHHmmssffff";
+
+        /// <summary>
+        /// </summary>
         public string FileName { get; set; }
 
         /// <summary>
@@ -30,9 +42,9 @@ namespace MKLibCS.Logging.Handlers
         public FileLogHandler(string fileName)
         {
             this.FileName = fileName;
-            this.Level = Log.DefaultLevel;
-            this.Format = Log.DefaultFormat;
-            this.TimeFormat = Log.DefaultTimeFormat;
+            this.Level = DefaultLevel;
+            this.Format = DefaultFormat;
+            this.TimeFormat = DefaultTimeFormat;
         }
 
         /// <summary>
@@ -53,7 +65,7 @@ namespace MKLibCS.Logging.Handlers
         public FileLogHandler(
             string fileName,
             string format,
-            string timeFormat = Log.DefaultTimeFormat
+            string timeFormat = DefaultTimeFormat
             )
             : this(fileName)
         {
@@ -71,7 +83,7 @@ namespace MKLibCS.Logging.Handlers
             string fileName,
             Log.Level level,
             string format,
-            string timeFormat = Log.DefaultTimeFormat
+            string timeFormat = DefaultTimeFormat
             )
             : this(fileName, format, timeFormat)
         {

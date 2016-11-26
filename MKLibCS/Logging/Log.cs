@@ -48,18 +48,6 @@ namespace MKLibCS.Logging
             Error = 40
         }
 
-        /// <summary>
-        /// </summary>
-        public const Level DefaultLevel = Level.Info;
-
-        /// <summary>
-        /// </summary>
-        public const string DefaultFormat = "[%LV %T %NAME] %MSG";
-
-        /// <summary>
-        /// </summary>
-        public const string DefaultTimeFormat = "yyyyMMddHHmmssffff";
-
         private static List<ILogHandler> handlers = new List<ILogHandler>();
 
         /// <summary>
