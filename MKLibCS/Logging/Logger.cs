@@ -5,7 +5,7 @@ namespace MKLibCS.Logging
 {
     /// <summary>
     /// </summary>
-    public class Log
+    public class Logger
     {
         /// <summary>
         /// </summary>
@@ -65,7 +65,7 @@ namespace MKLibCS.Logging
         /// <summary>
         /// </summary>
         /// <param name="name"></param>
-        public Log(string name)
+        public Logger(string name)
         {
             this.name = name;
         }
@@ -73,7 +73,7 @@ namespace MKLibCS.Logging
         /// <summary>
         /// </summary>
         /// <param name="type"></param>
-        public Log(Type type)
+        public Logger(Type type)
         {
             this.name = type.FullName;
         }

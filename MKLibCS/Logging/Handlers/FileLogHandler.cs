@@ -10,7 +10,7 @@ namespace MKLibCS.Logging.Handlers
     {
         /// <summary>
         /// </summary>
-        public const Log.Level DefaultLevel = Log.Level.Info;
+        public const Logger.Level DefaultLevel = Logger.Level.Info;
 
         /// <summary>
         /// </summary>
@@ -26,7 +26,7 @@ namespace MKLibCS.Logging.Handlers
 
         /// <summary>
         /// </summary>
-        public Log.Level Level { get; set; }
+        public Logger.Level Level { get; set; }
 
         /// <summary>
         /// </summary>
@@ -51,7 +51,7 @@ namespace MKLibCS.Logging.Handlers
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="level"></param>
-        public FileLogHandler(string fileName, Log.Level level)
+        public FileLogHandler(string fileName, Logger.Level level)
             : this(fileName)
         {
             Level = level;
@@ -81,7 +81,7 @@ namespace MKLibCS.Logging.Handlers
         /// <param name="timeFormat"></param>
         public FileLogHandler(
             string fileName,
-            Log.Level level,
+            Logger.Level level,
             string format,
             string timeFormat = DefaultTimeFormat
             )
@@ -113,7 +113,7 @@ namespace MKLibCS.Logging.Handlers
         /// <param name="msg"></param>
         /// <param name="args"></param>
         public void Message(
-            Log.Level level,
+            Logger.Level level,
             string name,
             string msg,
             params object[] args

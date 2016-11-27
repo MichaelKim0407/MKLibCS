@@ -12,7 +12,7 @@ namespace MKLibCS.Serialization
     /// </summary>
     public static class SerializeUtil
     {
-        private static readonly Log logger = new Log(typeof(SerializeUtil));
+        private static readonly Logger logger = new Logger(typeof(SerializeUtil));
 
         private static void LoadDefault(this object obj)
         {

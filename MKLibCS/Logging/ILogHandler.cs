@@ -12,7 +12,7 @@ namespace MKLibCS.Logging
         /// <param name="name"></param>
         /// <param name="msg"></param>
         /// <param name="args"></param>
-        void Message(Log.Level lvl, string name, string msg, object[] args);
+        void Message(Logger.Level lvl, string name, string msg, object[] args);
 
         /// <summary>
         /// </summary>

@@ -1,7 +1,7 @@
 ﻿using System;
-using MKLibCS.Logging;
 using UnityEngine;
 using ILogHandler = MKLibCS.Logging.ILogHandler;
+using Logger = MKLibCS.Logging.Logger;
 
 namespace MKLibCS.Unity.Logging.Handlers
 {
@@ -11,7 +11,7 @@ namespace MKLibCS.Unity.Logging.Handlers
     {
         /// <summary>
         /// </summary>
-        public const Log.Level DefaultLevel = Log.Level.Info;
+        public const Logger.Level DefaultLevel = Logger.Level.Info;
 
         /// <summary>
         /// </summary>
@@ -23,7 +23,7 @@ namespace MKLibCS.Unity.Logging.Handlers
 
         /// <summary>
         /// </summary>
-        public Log.Level Level { get; set; }
+        public Logger.Level Level { get; set; }
 
         /// <summary>
         /// </summary>
@@ -36,7 +36,7 @@ namespace MKLibCS.Unity.Logging.Handlers
         /// <summary>
         /// </summary>
         /// <param name="level"></param>
-        public UnityDebug(Log.Level level = DefaultLevel)
+        public UnityDebug(Logger.Level level = DefaultLevel)
         {
             Level = level;
             Format = DefaultFormat;
@@ -49,7 +49,7 @@ namespace MKLibCS.Unity.Logging.Handlers
         /// <param name="name"></param>
         /// <param name="msg"></param>
         /// <param name="args"></param>
-        public void Message(Log.Level lvl, string name, string msg, object[] args)
+        public void Message(Logger.Level lvl, string name, string msg, object[] args)
         {
             if (lvl < Level)
                 return;
@@ -58,9 +58,9 @@ namespace MKLibCS.Unity.Logging.Handlers
                 .Replace("%T", curTime.ToString(TimeFormat))
                 .Replace("%NAME", name)
                 .Replace("%MSG", string.Format(msg, args));
-            if (lvl < Log.Level.InternalWarning)
+            if (lvl < Logger.Level.InternalWarning)
                 Debug.Log(line);
-            else if (lvl < Log.Level.InternalError)
+            else if (lvl < Logger.Level.InternalError)
                 Debug.LogWarning(line);
             else
                 Debug.LogError(line);

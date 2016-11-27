@@ -13,7 +13,7 @@ namespace MKLibCS.Serialization
     /// </summary>
     public sealed class SerializeNode
     {
-        private static readonly Log logger = new Log(typeof(SerializeNode));
+        private static readonly Logger logger = new Logger(typeof(SerializeNode));
 
         private static readonly Encoding Encoding = Encoding.UTF8;
 

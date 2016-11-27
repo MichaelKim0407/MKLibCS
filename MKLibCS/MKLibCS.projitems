@@ -27,7 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Generic\GenericUsageAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Generic\GenericUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Generic\ParseFormat.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Logging\Log.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging\Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Advanced\IVector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Advanced\Vector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Advanced\Vector1.cs" />
