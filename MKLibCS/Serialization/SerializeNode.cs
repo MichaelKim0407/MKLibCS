@@ -455,14 +455,14 @@ namespace MKLibCS.Serialization
         /// <param name="path"></param>
         public void ReadFile(string path)
         {
-            logger.InternalInfo("Opening file: \"{0}\"", path);
+            logger.InternalDebug("Opening file: \"{0}\"", path);
             StreamReader reader = TargetSpecificUtil.StreamReader.Do(path, Encoding) as StreamReader;
             // StreamReader reader = new StreamReader(path, Encoding.UTF8);
             lastReadAction = LastReadAction.NONE;
             int nLine = 0;
-            logger.InternalInfo("Reading file: \"{0}\"", path);
+            logger.InternalDebug("Reading file: \"{0}\"", path);
             Read(reader, 0, ref nLine);
-            logger.InternalInfo("File read: \"{0}\", {1} line(s)", path, nLine);
+            logger.InternalDebug("File read: \"{0}\", {1} line(s)", path, nLine);
             reader.Dispose();
         }
 
@@ -491,12 +491,12 @@ namespace MKLibCS.Serialization
         /// <param name="path"></param>
         public void WriteFile(string path)
         {
-            logger.InternalInfo("Creating file: \"{0}\"", path);
+            logger.InternalDebug("Creating file: \"{0}\"", path);
             StreamWriter writer = TargetSpecificUtil.StreamWriter.Do(path, false, Encoding) as StreamWriter;
             // StreamWriter writer = new StreamWriter(path, false, Encoding.UTF8);
-            logger.InternalInfo("Writing file: \"{0}\"", path);
+            logger.InternalDebug("Writing file: \"{0}\"", path);
             Write(writer, 0);
-            logger.InternalInfo("File written: \"{0}\"", path);
+            logger.InternalDebug("File written: \"{0}\"", path);
             writer.Dispose();
         }
 
