@@ -5,7 +5,6 @@ namespace MKLibCS.Generic
     partial class GenericUtil
     {
         /// <summary>
-        /// 
         /// </summary>
         public static GenericMethod Create { get; set; }
 
@@ -17,7 +16,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -38,6 +36,15 @@ namespace MKLibCS.Generic
                     throw new CreateInstanceFailureException(type);
                 }
             }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T CreateInstance<T>()
+        {
+            return (T) CreateInstance(typeof(T));
         }
     }
 }
