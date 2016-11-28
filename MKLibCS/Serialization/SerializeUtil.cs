@@ -233,13 +233,13 @@ namespace MKLibCS.Serialization
                 ReadNode(node, ref val, member);
                 member.SetValue(result, val);
             }
-            else if (typeInfo.IsGenericType) // TODO: Change loading logic <- I forgot what I wanted to change
+            else if (typeInfo.IsGenericType)
             {
                 Type[] paramTypes;
                 if (typeInfo.IsList(out paramTypes))
                 {
+                    result = CreateObject(type);
                     var itemType = paramTypes[0];
-                    typeInfo.GetMethod("Clear").Invoke(result, null);
                     if (node.ContainsItem("item"))
                     {
                         foreach (var value in node.GetItems("item"))
@@ -263,9 +263,9 @@ namespace MKLibCS.Serialization
                 }
                 else if (typeInfo.IsDict(out paramTypes))
                 {
+                    result = CreateObject(type);
                     var keyType = paramTypes[0];
                     var valueType = paramTypes[1];
-                    typeInfo.GetMethod("Clear").Invoke(result, null);
                     foreach (var itemNode in node.GetNodes("item"))
                     {
                         var key = CreateObject(keyType);
@@ -375,5 +375,16 @@ namespace MKLibCS.Serialization
         #endregion
 
         #endregion
+
+        /// <summary>
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static string ToStringSerialized(this object obj)
+        {
+            var node = new SerializeNode();
+            obj.Save(node);
+            return node.ToString();
+        }
     }
 }
