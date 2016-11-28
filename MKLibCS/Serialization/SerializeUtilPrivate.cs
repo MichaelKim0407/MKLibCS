@@ -101,9 +101,11 @@ namespace MKLibCS.Serialization
 
         public static MemberInfo GetSerializeObjectSingleMember(this object obj)
         {
-            foreach (var member in obj.GetObjTypeInfo().GetFieldsAndProperties())
+            foreach (var kvp in obj.GetObjTypeInfo()
+                .GetFieldsAndPropertiesWithAttributeDict<SerializeItemAttribute>())
             {
-                SerializeItemAttribute att = member.GetSerializeItemAttribute();
+                var member = kvp.Key;
+                var att = kvp.Value[0];
                 if (att == null || att.SkipItem(member.GetValue(obj)))
                     continue;
                 return member;

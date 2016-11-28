@@ -214,9 +214,10 @@ namespace MKLibCS.Serialization
             var typeInfo = type.GetTypeInfo();
             if (result.IsSerializeObjectStruct())
             {
-                foreach (var member in typeInfo.GetFieldsAndProperties())
+                foreach (var kvp in typeInfo.GetFieldsAndPropertiesWithAttributeDict<SerializeItemAttribute>())
                 {
-                    SerializeItemAttribute att = member.GetSerializeItemAttribute();
+                    var member = kvp.Key;
+                    var att = kvp.Value[0];
                     if (att == null || att.Ignore)
                         continue;
                     ReadFieldOrProperty(result, member, node, att.SerializeName ?? member.Name);
@@ -338,9 +339,10 @@ namespace MKLibCS.Serialization
                 throw new WritingFailureException(exceptionInfo, WritingFailureException.Reason_1);
             else if (value.IsSerializeObjectStruct())
             {
-                foreach (var member in typeInfo.GetFieldsAndProperties())
+                foreach (var kvp in typeInfo.GetFieldsAndPropertiesWithAttributeDict<SerializeItemAttribute>())
                 {
-                    SerializeItemAttribute att = member.GetSerializeItemAttribute();
+                    var member = kvp.Key;
+                    var att = kvp.Value[0];
                     if (att == null || att.SkipItem(member.GetValue(value)))
                         continue;
                     Write(node, att.SerializeName ?? member.Name, member.GetValue(value), member);

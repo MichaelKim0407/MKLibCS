@@ -21,7 +21,7 @@ namespace MKLibCS.Reflection
         #region Create
 
         /// <summary>
-        ///     Gets the delegate from a method.
+        ///     Get the delegate from a method.
         /// </summary>
         /// <typeparam name="T">The delegate type.</typeparam>
         /// <param name="method">The System.Reflection.MethodInfo object representing the method.</param>
@@ -32,94 +32,485 @@ namespace MKLibCS.Reflection
 
         #endregion
 
-        #region Find
+        #region Get
 
         /// <summary>
-        ///     Gets all public methods with a specific type of attribute declared in a class/struct.
+        ///     Get all public fields and properties declared in a class/struct.
+        /// </summary>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        public static IEnumerable<MemberInfo> GetFieldsAndProperties(this TypeInfo type)
+        {
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
+            return CollectionsUtil.Combine<MemberInfo>(type.GetFields(), type.GetProperties());
+        }
+
+        #region Attribute
+
+        #region Private
+
+        private static IEnumerable<KeyValuePair<M, Attribute[]>> GetMembersWithAttributeIter<M>(
+            this TypeInfo type,
+            Type attributeType,
+            Func<TypeInfo, IEnumerable<M>> getMembers
+            )
+            where M : MemberInfo
+        {
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
+            if (!attributeType.GetTypeInfo().IsSubclassOf(typeof(Attribute)))
+                throw new ArgumentException(nameof(attributeType));
+            foreach (var member in getMembers(type))
+            {
+                var attrs = member.GetCustomAttributes(attributeType, true);
+                if (attrs.IsEmpty())
+                    continue;
+                yield return new KeyValuePair<M, Attribute[]>(
+                    member,
+                    attrs.Cast<Attribute>().ToArray()
+                    );
+            }
+        }
+
+        private static IEnumerable<KeyValuePair<M, T[]>> GetMembersWithAttributeIter<M, T>(
+            this TypeInfo type,
+            Func<TypeInfo, IEnumerable<M>> getMembers
+            )
+            where M : MemberInfo
+            where T : Attribute
+        {
+            return type.GetMembersWithAttributeIter(typeof(T), getMembers)
+                .Select(kvp => new KeyValuePair<M, T[]>(kvp.Key, kvp.Value.Cast<T>().ToArray()));
+        }
+
+        private static Dictionary<M, Attribute[]> GetMembersWithAttributeDict<M>(
+            this TypeInfo type,
+            Type attributeType,
+            Func<TypeInfo, IEnumerable<M>> getMembers
+            )
+            where M : MemberInfo
+        {
+            return type.GetMembersWithAttributeIter(attributeType, getMembers).ToDictionary();
+        }
+
+        private static Dictionary<M, T[]> GetMembersWithAttributeDict<M, T>(
+            this TypeInfo type,
+            Func<TypeInfo, IEnumerable<M>> getMembers
+            )
+            where M : MemberInfo
+            where T : Attribute
+        {
+            return type.GetMembersWithAttributeIter<M, T>(getMembers).ToDictionary();
+        }
+
+        private static IEnumerable<M> GetMembersWithAttribute<M>(
+            this TypeInfo type,
+            Type attributeType,
+            Func<TypeInfo, IEnumerable<M>> getMembers
+            )
+            where M : MemberInfo
+        {
+            return type.GetMembersWithAttributeIter(attributeType, getMembers).Select(kvp => kvp.Key);
+        }
+
+        private static IEnumerable<M> GetMembersWithAttribute<M, T>(
+            this TypeInfo type,
+            Func<TypeInfo, IEnumerable<M>> getMembers
+            )
+            where M : MemberInfo
+            where T : Attribute
+        {
+            return type.GetMembersWithAttributeIter<M, T>(getMembers).Select(kvp => kvp.Key);
+        }
+
+        #endregion
+
+        #region Member
+
+        /// <summary>
+        ///     Get all public members with a specific type of attribute declared in a class/struct,
+        ///     together with attributes, in a dictionary.
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
         /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        public static IEnumerable<MethodInfo> FindAllMethodsWithAttribute(this TypeInfo type, Type attributeType)
+        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        public static Dictionary<MemberInfo, Attribute[]> GetMembersWithAttributeDict(
+            this TypeInfo type,
+            Type attributeType
+            )
         {
-            if (type == null)
-                throw new ArgumentNullException("type");
-            foreach (MethodInfo method in type.GetMethods())
-                if (method.GetCustomAttribute(attributeType) != null)
-                    yield return method;
+            return type.GetMembersWithAttributeDict(attributeType, t => t.GetMembers());
         }
 
         /// <summary>
-        ///     Gets all public methods with a specific type of attribute declared in a class/struct.
+        ///     Get all public members with a specific type of attribute declared in a class/struct,
+        ///     together with attributes, in a dictionary.
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
         /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        public static IEnumerable<MethodInfo> FindAllMethodsWithAttribute<T>(this TypeInfo type)
+        public static Dictionary<MemberInfo, T[]> GetMembersWithAttributeDict<T>(
+            this TypeInfo type
+            )
             where T : Attribute
         {
-            if (type == null)
-                throw new ArgumentNullException("type");
-            return type.FindAllMethodsWithAttribute(typeof(T));
+            return type.GetMembersWithAttributeDict<MemberInfo, T>(t => t.GetMembers());
         }
 
         /// <summary>
-        ///     Gets all public types with a specific type of attribute declared in a class/struct.
+        ///     Get all public members with a specific type of attribute declared in a class/struct.
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
         /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        public static IEnumerable<TypeInfo> FindAllNestedTypesWithAttribute(this TypeInfo type, Type attributeType)
+        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        public static IEnumerable<MemberInfo> GetMembersWithAttribute(
+            this TypeInfo type,
+            Type attributeType
+            )
         {
-            if (type == null)
-                throw new ArgumentNullException("type");
-            foreach (var t in type.GetNestedTypes())
-                if (t.GetCustomAttribute(attributeType) != null)
-                    yield return t;
+            return type.GetMembersWithAttribute(attributeType, t => t.GetMembers());
         }
 
         /// <summary>
-        ///     Gets all public types with a specific type of attribute declared in a class/struct.
+        ///     Get all public members with a specific type of attribute declared in a class/struct.
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
         /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        public static IEnumerable<TypeInfo> FindAllNestedTypesWithAttribute<T>(this TypeInfo type)
+        public static IEnumerable<MemberInfo> GetMembersWithAttribute<T>(
+            this TypeInfo type
+            )
             where T : Attribute
         {
-            if (type == null)
-                throw new ArgumentNullException("type");
-            return type.FindAllNestedTypesWithAttribute(typeof(T));
+            return type.GetMembersWithAttribute<MemberInfo, T>(t => t.GetMembers());
         }
 
+        #endregion
+
+        #region Field
+
         /// <summary>
-        ///     Gets all public properties with a specific type of attribute declared in a class/struct.
+        ///     Get all public fields with a specific type of attribute declared in a class/struct,
+        ///     together with attributes, in a dictionary.
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
         /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        public static IEnumerable<PropertyInfo> FindAllPropertiesWithAttribute(this TypeInfo type, Type attributeType)
+        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        public static Dictionary<FieldInfo, Attribute[]> GetFieldsWithAttributeDict(
+            this TypeInfo type,
+            Type attributeType
+            )
         {
-            if (type == null)
-                throw new ArgumentNullException("type");
-            foreach (var property in type.GetProperties())
-                if (property.GetCustomAttribute(attributeType) != null)
-                    yield return property;
+            return type.GetMembersWithAttributeDict(attributeType, t => t.GetFields());
         }
 
         /// <summary>
-        ///     Gets all public properties with a specific type of attribute declared in a class/struct.
+        ///     Get all public fields with a specific type of attribute declared in a class/struct,
+        ///     together with attributes, in a dictionary.
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
         /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        public static IEnumerable<PropertyInfo> FindAllPropertiesWithAttribute<T>(this TypeInfo type)
+        public static Dictionary<FieldInfo, T[]> GetFieldsWithAttributeDict<T>(
+            this TypeInfo type
+            )
             where T : Attribute
         {
-            if (type == null)
-                throw new ArgumentNullException("type");
-            return type.FindAllPropertiesWithAttribute(typeof(T));
+            return type.GetMembersWithAttributeDict<FieldInfo, T>(t => t.GetFields());
         }
+
+        /// <summary>
+        ///     Get all public fields with a specific type of attribute declared in a class/struct.
+        /// </summary>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <param name="attributeType">The type of the attribute.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        public static IEnumerable<FieldInfo> GetFieldsWithAttribute(
+            this TypeInfo type,
+            Type attributeType
+            )
+        {
+            return type.GetMembersWithAttribute(attributeType, t => t.GetFields());
+        }
+
+        /// <summary>
+        ///     Get all public fields with a specific type of attribute declared in a class/struct.
+        /// </summary>
+        /// <typeparam name="T">The type of the attribute.</typeparam>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        public static IEnumerable<FieldInfo> GetFieldsWithAttribute<T>(
+            this TypeInfo type
+            )
+            where T : Attribute
+        {
+            return type.GetMembersWithAttribute<FieldInfo, T>(t => t.GetFields());
+        }
+
+        #endregion
+
+        #region Property
+
+        /// <summary>
+        ///     Get all public properties with a specific type of attribute declared in a class/struct,
+        ///     together with attributes, in a dictionary.
+        /// </summary>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <param name="attributeType">The type of the attribute.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        public static Dictionary<PropertyInfo, Attribute[]> GetPropertiesWithAttributeDict(
+            this TypeInfo type,
+            Type attributeType
+            )
+        {
+            return type.GetMembersWithAttributeDict(attributeType, t => t.GetProperties());
+        }
+
+        /// <summary>
+        ///     Get all public properties with a specific type of attribute declared in a class/struct,
+        ///     together with attributes, in a dictionary.
+        /// </summary>
+        /// <typeparam name="T">The type of the attribute.</typeparam>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        public static Dictionary<PropertyInfo, T[]> GetPropertiesWithAttributeDict<T>(
+            this TypeInfo type
+            )
+            where T : Attribute
+        {
+            return type.GetMembersWithAttributeDict<PropertyInfo, T>(t => t.GetProperties());
+        }
+
+        /// <summary>
+        ///     Get all public properties with a specific type of attribute declared in a class/struct.
+        /// </summary>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <param name="attributeType">The type of the attribute.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        public static IEnumerable<PropertyInfo> GetPropertiesWithAttribute(
+            this TypeInfo type,
+            Type attributeType
+            )
+        {
+            return type.GetMembersWithAttribute(attributeType, t => t.GetProperties());
+        }
+
+        /// <summary>
+        ///     Get all public properties with a specific type of attribute declared in a class/struct.
+        /// </summary>
+        /// <typeparam name="T">The type of the attribute.</typeparam>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        public static IEnumerable<PropertyInfo> GetPropertiesWithAttribute<T>(
+            this TypeInfo type
+            )
+            where T : Attribute
+        {
+            return type.GetMembersWithAttribute<PropertyInfo, T>(t => t.GetProperties());
+        }
+
+        #endregion
+
+        #region Field & Property
+
+        /// <summary>
+        ///     Get all public fields and properties with a specific type of attribute declared in a class/struct,
+        ///     together with attributes, in a dictionary.
+        /// </summary>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <param name="attributeType">The type of the attribute.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        public static Dictionary<MemberInfo, Attribute[]> GetFieldsAndPropertiesWithAttributeDict(
+            this TypeInfo type,
+            Type attributeType
+            )
+        {
+            return type.GetMembersWithAttributeDict(attributeType, t => t.GetFieldsAndProperties());
+        }
+
+        /// <summary>
+        ///     Get all public fields and properties with a specific type of attribute declared in a class/struct,
+        ///     together with attributes, in a dictionary.
+        /// </summary>
+        /// <typeparam name="T">The type of the attribute.</typeparam>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        public static Dictionary<MemberInfo, T[]> GetFieldsAndPropertiesWithAttributeDict<T>(
+            this TypeInfo type
+            )
+            where T : Attribute
+        {
+            return type.GetMembersWithAttributeDict<MemberInfo, T>(t => t.GetFieldsAndProperties());
+        }
+
+        /// <summary>
+        ///     Get all public fields and properties with a specific type of attribute declared in a class/struct.
+        /// </summary>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <param name="attributeType">The type of the attribute.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        public static IEnumerable<MemberInfo> GetFieldsAndPropertiesWithAttribute(
+            this TypeInfo type,
+            Type attributeType
+            )
+        {
+            return type.GetMembersWithAttribute(attributeType, t => t.GetFieldsAndProperties());
+        }
+
+        /// <summary>
+        ///     Get all public fields and properties with a specific type of attribute declared in a class/struct.
+        /// </summary>
+        /// <typeparam name="T">The type of the attribute.</typeparam>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        public static IEnumerable<MemberInfo> GetFieldsAndPropertiesWithAttribute<T>(
+            this TypeInfo type
+            )
+            where T : Attribute
+        {
+            return type.GetMembersWithAttribute<MemberInfo, T>(t => t.GetFieldsAndProperties());
+        }
+
+        #endregion
+
+        #region Method
+
+        /// <summary>
+        ///     Get all public methods with a specific type of attribute declared in a class/struct,
+        ///     together with attributes, in a dictionary.
+        /// </summary>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <param name="attributeType">The type of the attribute.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        public static Dictionary<MethodInfo, Attribute[]> GetMethodsWithAttributeDict(
+            this TypeInfo type,
+            Type attributeType
+            )
+        {
+            return type.GetMembersWithAttributeDict(attributeType, t => t.GetMethods());
+        }
+
+        /// <summary>
+        ///     Get all public methods with a specific type of attribute declared in a class/struct,
+        ///     together with attributes, in a dictionary.
+        /// </summary>
+        /// <typeparam name="T">The type of the attribute.</typeparam>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        public static Dictionary<MethodInfo, T[]> GetMethodsWithAttributeDict<T>(
+            this TypeInfo type
+            )
+            where T : Attribute
+        {
+            return type.GetMembersWithAttributeDict<MethodInfo, T>(t => t.GetMethods());
+        }
+
+        /// <summary>
+        ///     Get all public methods with a specific type of attribute declared in a class/struct.
+        /// </summary>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <param name="attributeType">The type of the attribute.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        public static IEnumerable<MethodInfo> GetMethodsWithAttribute(
+            this TypeInfo type,
+            Type attributeType
+            )
+        {
+            return type.GetMembersWithAttribute(attributeType, t => t.GetMethods());
+        }
+
+        /// <summary>
+        ///     Get all public methods with a specific type of attribute declared in a class/struct.
+        /// </summary>
+        /// <typeparam name="T">The type of the attribute.</typeparam>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        public static IEnumerable<MethodInfo> GetMethodsWithAttribute<T>(
+            this TypeInfo type
+            )
+            where T : Attribute
+        {
+            return type.GetMembersWithAttribute<MethodInfo, T>(t => t.GetMethods());
+        }
+
+        #endregion
+
+        #region NestedType
+
+        /// <summary>
+        ///     Get all public nested types with a specific type of attribute declared in a class/struct,
+        ///     together with attributes, in a dictionary.
+        /// </summary>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <param name="attributeType">The type of the attribute.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        public static Dictionary<TypeInfo, Attribute[]> GetNestedTypesWithAttributeDict(
+            this TypeInfo type,
+            Type attributeType
+            )
+        {
+            return type.GetMembersWithAttributeDict(attributeType, t => t.GetNestedTypes());
+        }
+
+        /// <summary>
+        ///     Get all public nested types with a specific type of attribute declared in a class/struct,
+        ///     together with attributes, in a dictionary.
+        /// </summary>
+        /// <typeparam name="T">The type of the attribute.</typeparam>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        public static Dictionary<TypeInfo, T[]> GetNestedTypesWithAttributeDict<T>(
+            this TypeInfo type
+            )
+            where T : Attribute
+        {
+            return type.GetMembersWithAttributeDict<TypeInfo, T>(t => t.GetNestedTypes());
+        }
+
+        /// <summary>
+        ///     Get all public nested types with a specific type of attribute declared in a class/struct.
+        /// </summary>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <param name="attributeType">The type of the attribute.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        public static IEnumerable<TypeInfo> GetNestedTypesWithAttribute(
+            this TypeInfo type,
+            Type attributeType
+            )
+        {
+            return type.GetMembersWithAttribute(attributeType, t => t.GetNestedTypes());
+        }
+
+        /// <summary>
+        ///     Get all public nested types with a specific type of attribute declared in a class/struct.
+        /// </summary>
+        /// <typeparam name="T">The type of the attribute.</typeparam>
+        /// <param name="type">The type of the class/struct.</param>
+        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        public static IEnumerable<TypeInfo> GetNestedTypesWithAttribute<T>(
+            this TypeInfo type
+            )
+            where T : Attribute
+        {
+            return type.GetMembersWithAttribute<TypeInfo, T>(t => t.GetNestedTypes());
+        }
+
+        #endregion
+
+        #region Assembly -> Type
 
         /// <summary>
         /// </summary>
@@ -127,10 +518,10 @@ namespace MKLibCS.Reflection
         /// <param name="attributeType"></param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException">assembly is null.</exception>
-        public static IEnumerable<TypeInfo> FindAllTypesWithAttribute(this Assembly assembly, Type attributeType)
+        public static IEnumerable<TypeInfo> GetTypesWithAttribute(this Assembly assembly, Type attributeType)
         {
             if (assembly == null)
-                throw new ArgumentNullException("assembly");
+                throw new ArgumentNullException(nameof(assembly));
             foreach (var t in assembly.GetTypes())
                 if (t.GetCustomAttribute(attributeType) != null)
                     yield return t;
@@ -142,85 +533,15 @@ namespace MKLibCS.Reflection
         /// <param name="assembly"></param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException">assembly is null.</exception>
-        public static IEnumerable<TypeInfo> FindAllTypesWithAttribute<T>(this Assembly assembly)
+        public static IEnumerable<TypeInfo> GetTypesWithAttribute<T>(this Assembly assembly)
             where T : Attribute
         {
-            if (assembly == null)
-                throw new ArgumentNullException("assembly");
-            return assembly.FindAllTypesWithAttribute(typeof(T));
+            return assembly.GetTypesWithAttribute(typeof(T));
         }
 
         #endregion
 
-        #region Get
-
-        #region GetCustomAttribute
-
-        /* NOTE: New in .NET Framework 4.5: System.Reflection.CustomAttributeExtensions
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="assembly"></param>
-        /// <param name="attributeType"></param>
-        /// <returns></returns>
-        public static Attribute GetCustomAttribute(this Assembly assembly, Type attributeType)
-        {
-            return Attribute.GetCustomAttribute(assembly, attributeType);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="assembly"></param>
-        /// <returns></returns>
-        /// <exception cref="System.ArgumentNullException">assembly is null.</exception>
-        public static T GetCustomAttribute<T>(this Assembly assembly)
-            where T : Attribute
-        {
-            if (assembly == null)
-                throw new ArgumentNullException("assembly");
-            return (T)assembly.GetCustomAttribute(typeof(T));
-        }
-
-        /// <summary>
-        /// Gets the attribute of type T applied the a member.
-        /// </summary>
-        /// <param name="m">The member.</param>
-        /// <param name="attributeType">The type of the attribute.</param>
-        public static Attribute GetCustomAttribute(this MemberInfo m, Type attributeType)
-        {
-            return Attribute.GetCustomAttribute(m, attributeType);
-        }
-
-        /// <summary>
-        /// Gets the attribute of type T applied the a member.
-        /// </summary>
-        /// <typeparam name="T">The type of the attribute.</typeparam>
-        /// <param name="m">The member.</param>
-        /// <exception cref="System.ArgumentNullException">m is null.</exception>
-        public static T GetCustomAttribute<T>(this MemberInfo m)
-            where T : Attribute
-        {
-            if (m == null)
-                throw new ArgumentNullException("m");
-            return (T)m.GetCustomAttribute(typeof(T));
-        }
-        */
-
         #endregion
-
-        /// <summary>
-        ///     Gets all public fields and properties declared in a class/struct.
-        /// </summary>
-        /// <param name="type">The type of the class/struct.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        public static IEnumerable<MemberInfo> GetFieldsAndProperties(this TypeInfo type)
-        {
-            if (type == null)
-                throw new ArgumentNullException("type");
-            return CollectionsUtil.Combine<MemberInfo>(type.GetFields(), type.GetProperties());
-        }
 
         private static MemberTypes GetMemberTypeDefault(this MemberInfo member)
         {
@@ -247,7 +568,7 @@ namespace MKLibCS.Reflection
         public static MemberTypes GetMemberType(this MemberInfo member)
         {
             if (member == null)
-                throw new ArgumentNullException("member");
+                throw new ArgumentNullException(nameof(member));
             try
             {
                 return (MemberTypes) TargetSpecificUtil.GetMemberType.Do(member);
@@ -272,7 +593,7 @@ namespace MKLibCS.Reflection
         }
 
         /// <summary>
-        ///     Gets the value of the field/property member of an object.
+        ///     Get the value of the field/property member of an object.
         /// </summary>
         /// <param name="member">The System.Reflection.MemberInfo object that provides information for the member.</param>
         /// <param name="obj">The object that contains the member.</param>
@@ -282,7 +603,7 @@ namespace MKLibCS.Reflection
         public static object GetValue(this MemberInfo member, object obj)
         {
             if (member == null)
-                throw new ArgumentNullException("member");
+                throw new ArgumentNullException(nameof(member));
             if (member is FieldInfo)
                 return (member as FieldInfo).GetValue(obj);
             else if (member is PropertyInfo)
@@ -292,7 +613,7 @@ namespace MKLibCS.Reflection
         }
 
         /// <summary>
-        ///     Gets the type of the member.
+        ///     Get the type of the member.
         /// </summary>
         /// <param name="member">The System.Reflection.MemberInfo object that provides information for the member.</param>
         /// <exception cref="System.ArgumentNullException">member is null.</exception>
@@ -300,7 +621,7 @@ namespace MKLibCS.Reflection
         public static Type GetValueType(this MemberInfo member)
         {
             if (member == null)
-                throw new ArgumentNullException("member");
+                throw new ArgumentNullException(nameof(member));
             if (member is FieldInfo)
                 return (member as FieldInfo).FieldType;
             else if (member is PropertyInfo)
@@ -324,7 +645,7 @@ namespace MKLibCS.Reflection
         public static void SetValue(this MemberInfo member, object obj, object value)
         {
             if (member == null)
-                throw new ArgumentNullException("member");
+                throw new ArgumentNullException(nameof(member));
             if (member is FieldInfo)
                 (member as FieldInfo).SetValue(obj, value);
             else if (member is PropertyInfo)
