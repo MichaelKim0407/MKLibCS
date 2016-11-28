@@ -20,10 +20,10 @@ namespace MKLibCS.Serialization
         /// <param name="memberInfo"></param>
         public ExceptionInfo(MemberInfo memberInfo)
         {
-            this.DeclaringType = memberInfo.DeclaringType;
-            this.MemberType = memberInfo.GetMemberType();
-            this.Name = memberInfo.Name;
-            this.ValueType = memberInfo.GetValueType();
+            DeclaringType = memberInfo.DeclaringType;
+            MemberType = memberInfo.GetMemberType();
+            Name = memberInfo.Name;
+            ValueType = memberInfo.GetValueType();
         }
 
         /// <summary>
@@ -55,8 +55,7 @@ namespace MKLibCS.Serialization
         {
             if (memberInfo == null)
                 return Empty;
-            else
-                return new ExceptionInfo(memberInfo);
+            return new ExceptionInfo(memberInfo);
         }
     }
 }

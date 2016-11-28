@@ -20,8 +20,8 @@ namespace MKLibCS.Serialization
         /// <param name="memberInfo"></param>
         public SerializeItemInfo(MemberInfo memberInfo)
         {
-            this.Type = memberInfo.GetValueType();
-            this.Attr = memberInfo.GetSerializeItemAttribute();
+            Type = memberInfo.GetValueType();
+            Attr = memberInfo.GetSerializeItemAttribute();
         }
 
         /// <summary>
@@ -43,8 +43,7 @@ namespace MKLibCS.Serialization
         {
             if (memberInfo == null)
                 return Empty;
-            else
-                return new SerializeItemInfo(memberInfo);
+            return new SerializeItemInfo(memberInfo);
         }
     }
 }

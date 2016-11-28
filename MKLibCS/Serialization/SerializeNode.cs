@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using MKLibCS.Logging;
-using MKLibCS.Collections;
 using MKLibCS.TargetSpecific;
 
 namespace MKLibCS.Serialization
@@ -123,7 +122,7 @@ namespace MKLibCS.Serialization
             /// <returns></returns>
             public override string ToString()
             {
-                return key.ToString() + ValueIs_Str + value.ToString();
+                return key + ValueIs_Str + value;
             }
         }
 
@@ -156,8 +155,7 @@ namespace MKLibCS.Serialization
             {
                 if (ContainsKey(key))
                     return list.Find(i => i.key == key);
-                else
-                    throw new KeyNotFoundException();
+                throw new KeyNotFoundException();
             }
 
             /// <returns>Returns a list of items that has the given key. If no item is found, returns an empty list.</returns>
@@ -165,8 +163,7 @@ namespace MKLibCS.Serialization
             {
                 if (ContainsKey(key))
                     return list.FindAll(i => i.key == key);
-                else
-                    return new List<Item>();
+                return new List<Item>();
             }
 
             public IEnumerable<Item> AsEnumerable()
@@ -210,7 +207,7 @@ namespace MKLibCS.Serialization
         /// <returns></returns>
         public IEnumerable<string> GetItems(string key)
         {
-            return items.GetItems(key).ConvertAll(i => i.value);
+            return items.GetItems(key).Select(i => i.value);
         }
 
         /// <summary>
@@ -270,7 +267,7 @@ namespace MKLibCS.Serialization
 
             public SerializeNode Add(string key, SerializeNode parent)
             {
-                Node node = new Node(key, parent);
+                var node = new Node(key, parent);
                 list.Add(node);
                 return node.node;
             }
@@ -295,8 +292,7 @@ namespace MKLibCS.Serialization
             {
                 if (ContainsKey(key))
                     return list.Find(n => n.key == key);
-                else
-                    throw new KeyNotFoundException();
+                throw new KeyNotFoundException();
             }
 
             /// <returns>Returns a list of items that has the given key. If no item is found, returns an empty list.</returns>
@@ -304,8 +300,7 @@ namespace MKLibCS.Serialization
             {
                 if (ContainsKey(key))
                     return list.FindAll(n => n.key == key);
-                else
-                    return new List<Node>();
+                return new List<Node>();
             }
 
             public Node Last()
@@ -356,7 +351,7 @@ namespace MKLibCS.Serialization
         /// <returns></returns>
         public IEnumerable<SerializeNode> GetNodes(string key)
         {
-            return nodes.GetNodes(key).ConvertAll(n => n.node);
+            return nodes.GetNodes(key).Select(n => n.node);
         }
 
         /// <summary>
@@ -395,13 +390,13 @@ namespace MKLibCS.Serialization
         {
             while (!reader.EndOfStream)
             {
-                string line = reader.ReadLine();
+                var line = reader.ReadLine();
                 nLine++;
 
                 if (line.Contains(Comment))
                     line = line.Remove(line.IndexOf(Comment));
                 line = line.Replace(Tab, string.Empty);
-                string oldline = line;
+                var oldline = line;
                 line = line.Replace(Space, string.Empty);
 
                 if (line == string.Empty)
@@ -456,10 +451,10 @@ namespace MKLibCS.Serialization
         public void ReadFile(string path)
         {
             logger.InternalDebug("Opening file: \"{0}\"", path);
-            StreamReader reader = TargetSpecificUtil.StreamReader.Do(path, Encoding) as StreamReader;
+            var reader = TargetSpecificUtil.StreamReader.Do(path, Encoding) as StreamReader;
             // StreamReader reader = new StreamReader(path, Encoding.UTF8);
             lastReadAction = LastReadAction.NONE;
-            int nLine = 0;
+            var nLine = 0;
             logger.InternalDebug("Reading file: \"{0}\"", path);
             Read(reader, 0, ref nLine);
             logger.InternalDebug("File read: \"{0}\", {1} line(s)", path, nLine);
@@ -472,12 +467,12 @@ namespace MKLibCS.Serialization
 
         private void Write(TextWriter writer, int level)
         {
-            string tabs = string.Empty;
-            for (int l = 0; l < level; l++)
+            var tabs = string.Empty;
+            for (var l = 0; l < level; l++)
                 tabs += Tab;
-            foreach (Item item in items)
+            foreach (var item in items)
                 writer.WriteLine(tabs + item);
-            foreach (Node node in nodes)
+            foreach (var node in nodes)
             {
                 writer.WriteLine(tabs + node.key);
                 writer.WriteLine(tabs + NodeBegin);
@@ -492,7 +487,7 @@ namespace MKLibCS.Serialization
         public void WriteFile(string path)
         {
             logger.InternalDebug("Creating file: \"{0}\"", path);
-            StreamWriter writer = TargetSpecificUtil.StreamWriter.Do(path, false, Encoding) as StreamWriter;
+            var writer = TargetSpecificUtil.StreamWriter.Do(path, false, Encoding) as StreamWriter;
             // StreamWriter writer = new StreamWriter(path, false, Encoding.UTF8);
             logger.InternalDebug("Writing file: \"{0}\"", path);
             Write(writer, 0);
@@ -509,7 +504,7 @@ namespace MKLibCS.Serialization
         /// <returns></returns>
         public override string ToString()
         {
-            StringWriter writer = new StringWriter();
+            var writer = new StringWriter();
             Write(writer, 0);
             return writer.GetStringBuilder().ToString();
         }

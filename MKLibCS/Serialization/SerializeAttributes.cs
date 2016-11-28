@@ -26,7 +26,6 @@ namespace MKLibCS.Serialization
     /// </summary>
     [AttributeUsage(
         AttributeTargets.Class | AttributeTargets.Struct,
-        AllowMultiple = false,
         Inherited = false
         )]
     public class SerializeObjectAttribute : Attribute
@@ -36,7 +35,7 @@ namespace MKLibCS.Serialization
         /// <param name="method"></param>
         public SerializeObjectAttribute(SerializeObjectMethod method)
         {
-            this.Method = method;
+            Method = method;
         }
 
         /// <summary>
@@ -63,17 +62,14 @@ namespace MKLibCS.Serialization
     /// <summary>
     /// </summary>
     [AttributeUsage(
-        AttributeTargets.Field | AttributeTargets.Property,
-        AllowMultiple = false,
-        Inherited = true
-        )]
+        AttributeTargets.Field | AttributeTargets.Property)]
     public class SerializeItemAttribute : Attribute
     {
         /// <summary>
         /// </summary>
         public SerializeItemAttribute()
         {
-            this.SerializeName = null;
+            SerializeName = null;
         }
 
         /// <summary>
@@ -82,7 +78,7 @@ namespace MKLibCS.Serialization
         /// <param name="serializeName"></param>
         public SerializeItemAttribute(string serializeName)
         {
-            this.SerializeName = serializeName;
+            SerializeName = serializeName;
         }
 
         /// <summary>
@@ -142,12 +138,11 @@ namespace MKLibCS.Serialization
         {
             if (Ignore)
                 return true;
-            else if (value == null)
+            if (value == null)
                 return SkipNull;
-            else if (value is string && (string) value == "")
+            if (value is string && (string) value == "")
                 return SkipEmptyString;
-            else
-                return false;
+            return false;
         }
     }
 }

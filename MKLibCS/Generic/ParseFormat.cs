@@ -1,5 +1,5 @@
 ﻿using System;
-using Regex = System.Text.RegularExpressions.Regex;
+using System.Text.RegularExpressions;
 
 namespace MKLibCS.Generic
 {

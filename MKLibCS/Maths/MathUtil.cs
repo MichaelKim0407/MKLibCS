@@ -104,17 +104,11 @@ namespace MKLibCS.Maths
             {
                 return (T) MathGenerics.Max.Do(val1, val2);
             }
-            catch (MissingGenericMethodException e)
+            catch (MissingGenericMethodException)
             {
-                if (val1 is IComparable<T>)
-                {
-                    if ((val1 as IComparable<T>).CompareTo(val2) >= 0)
-                        return val1;
-                    else
-                        return val2;
-                }
-                else
-                    throw e;
+                if (!(val1 is IComparable<T>))
+                    throw;
+                return (val1 as IComparable<T>).CompareTo(val2) >= 0 ? val1 : val2;
             }
         }
 
@@ -126,7 +120,7 @@ namespace MKLibCS.Maths
         /// <returns></returns>
         public static T Max<T>(params T[] values)
         {
-            T max = values[0];
+            var max = values[0];
             foreach (var val in values)
                 max = Max(max, val);
             return max;
@@ -145,17 +139,11 @@ namespace MKLibCS.Maths
             {
                 return (T) MathGenerics.Min.Do(val1, val2);
             }
-            catch (MissingGenericMethodException e)
+            catch (MissingGenericMethodException)
             {
-                if (val1 is IComparable<T>)
-                {
-                    if ((val1 as IComparable<T>).CompareTo(val2) <= 0)
-                        return val1;
-                    else
-                        return val2;
-                }
-                else
-                    throw e;
+                if (!(val1 is IComparable<T>))
+                    throw;
+                return (val1 as IComparable<T>).CompareTo(val2) <= 0 ? val1 : val2;
             }
         }
 
@@ -167,7 +155,7 @@ namespace MKLibCS.Maths
         /// <returns></returns>
         public static T Min<T>(params T[] values)
         {
-            T min = values[0];
+            var min = values[0];
             foreach (var val in values)
                 min = Min(min, val);
             return min;
@@ -185,21 +173,17 @@ namespace MKLibCS.Maths
             {
                 return (int) MathGenerics.Sign.Do(value);
             }
-            catch (MissingGenericMethodException e)
+            catch (MissingGenericMethodException)
             {
-                if (value is IComparable<T> && MathGenerics.Zero.Contains<T>())
-                {
-                    var zero = MathGenerics.Zero.GetValue<T>();
-                    var compare = (value as IComparable<T>).CompareTo(zero);
-                    if (compare > 0)
-                        return 1;
-                    else if (compare == 0)
-                        return 0;
-                    else
-                        return -1;
-                }
-                else
-                    throw e;
+                if (!(value is IComparable<T>) || !MathGenerics.Zero.Contains<T>())
+                    throw;
+                var zero = MathGenerics.Zero.GetValue<T>();
+                var compare = (value as IComparable<T>).CompareTo(zero);
+                if (compare > 0)
+                    return 1;
+                if (compare == 0)
+                    return 0;
+                return -1;
             }
         }
 
@@ -213,11 +197,10 @@ namespace MKLibCS.Maths
         /// <returns></returns>
         public static T FortranSign<T, U>(T a, U b)
         {
-            T abs = a.Abs();
+            var abs = a.Abs();
             if (b.Sign() < 0)
                 return (T) MathGenerics.Negative.Do(abs);
-            else
-                return abs;
+            return abs;
         }
 
         /// <summary>
@@ -232,10 +215,9 @@ namespace MKLibCS.Maths
         {
             if (x.CompareTo(min) < 0)
                 return min;
-            else if (x.CompareTo(max) > 0)
+            if (x.CompareTo(max) > 0)
                 return max;
-            else
-                return x;
+            return x;
         }
 
         #endregion
@@ -310,11 +292,10 @@ namespace MKLibCS.Maths
         public static int Factorial(this int n)
         {
             if (n < 0)
-                throw new ArgumentException("must be non-negative", "n");
-            else if (n <= 1)
+                throw new ArgumentException("must be non-negative", nameof(n));
+            if (n <= 1)
                 return 1;
-            else
-                return n*(n - 1).Factorial();
+            return n*(n - 1).Factorial();
         }
 
         #endregion

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using MKLibCS.Collections;
-using MKLibCS.Serialization;
 using MKLibCS.Generic;
+using MKLibCS.Serialization;
 #if LEGACY
 using MKLibCS.Reflection;
 
@@ -40,7 +40,7 @@ namespace MKLibCS.Maths.Advanced
                 var diff = value - Dimensions;
                 if (diff == 0)
                     return;
-                else if (diff > 0)
+                if (diff > 0)
                     list.AddRange(Vector1<T>.Zero, diff);
                 else
                     list.RemoveRange(value, diff);
@@ -79,7 +79,7 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="values"></param>
         public Vector(IEnumerable<T> values)
         {
-            this.Values = values;
+            Values = values;
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace MKLibCS.Maths.Advanced
         public Vector(Vector<T> copyFrom, int dimensions)
             : this(copyFrom)
         {
-            this.Dimensions = dimensions;
+            Dimensions = dimensions;
         }
 
         /// <summary>
@@ -158,8 +158,7 @@ namespace MKLibCS.Maths.Advanced
         {
             if (obj is Vector<T>)
                 return Equals(obj as Vector<T>);
-            else
-                return false;
+            return false;
         }
 
         /// <summary>
@@ -190,8 +189,7 @@ namespace MKLibCS.Maths.Advanced
                     x => (x as IFormattable).ToString(format, provider),
                     ", "
                     ) + ")";
-            else
-                return ToString();
+            return ToString();
         }
 
         /// <summary>
@@ -238,7 +236,7 @@ namespace MKLibCS.Maths.Advanced
             )
         {
             return new Vector<T>(
-                vec.list.ConvertAll(oper));
+                vec.list.Select(oper));
         }
 
         private static Vector<T> DoOperation(

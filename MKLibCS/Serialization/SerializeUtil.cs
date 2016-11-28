@@ -191,14 +191,11 @@ namespace MKLibCS.Serialization
                 var member = result.GetSerializeObjectSingleMember();
                 if (member == null)
                     throw new ParsingFailureException(exceptionInfo, ParsingFailureException.Reason_0);
-                else
-                {
-                    var val = member.GetValue(result);
-                    if (val == null)
-                        val = CreateObject(member.GetValueType());
-                    ReadItem(value, ref val, member);
-                    member.SetValue(result, val);
-                }
+                var val = member.GetValue(result);
+                if (val == null)
+                    val = CreateObject(member.GetValueType());
+                ReadItem(value, ref val, member);
+                member.SetValue(result, val);
             }
             else
                 throw new TypeNotSupportedException(true, type);
@@ -230,14 +227,11 @@ namespace MKLibCS.Serialization
                 var member = result.GetSerializeObjectSingleMember();
                 if (member == null)
                     throw new ParsingFailureException(exceptionInfo, ParsingFailureException.Reason_0);
-                else
-                {
-                    var val = member.GetValue(result);
-                    if (val == null)
-                        val = CreateObject(member.GetValueType());
-                    ReadNode(node, ref val, member);
-                    member.SetValue(result, val);
-                }
+                var val = member.GetValue(result);
+                if (val == null)
+                    val = CreateObject(member.GetValueType());
+                ReadNode(node, ref val, member);
+                member.SetValue(result, val);
             }
             else if (typeInfo.IsGenericType) // TODO: Change loading logic <- I forgot what I wanted to change
             {
@@ -321,8 +315,7 @@ namespace MKLibCS.Serialization
                 var member = value.GetSerializeObjectSingleMember();
                 if (member == null)
                     throw new WritingFailureException(exceptionInfo, WritingFailureException.Reason_0);
-                else
-                    Write(node, name, member.GetValue(value), member);
+                Write(node, name, member.GetValue(value), member);
             }
             else
                 throw new TypeNotSupportedException(false, type);
@@ -337,7 +330,7 @@ namespace MKLibCS.Serialization
             var typeInfo = value.GetObjTypeInfo();
             if (typeInfo.IsSerializePredefSingle())
                 throw new WritingFailureException(exceptionInfo, WritingFailureException.Reason_1);
-            else if (value.IsSerializeObjectStruct())
+            if (value.IsSerializeObjectStruct())
             {
                 foreach (var kvp in typeInfo.GetFieldsAndPropertiesWithAttributeDict<SerializeItemAttribute>())
                 {
@@ -355,8 +348,7 @@ namespace MKLibCS.Serialization
                 var member = value.GetSerializeObjectSingleMember();
                 if (member == null)
                     throw new WritingFailureException(exceptionInfo, WritingFailureException.Reason_0);
-                else
-                    WriteNode(node, member.GetValue(value), member);
+                WriteNode(node, member.GetValue(value), member);
             }
             else if (typeInfo.IsGenericType)
             {

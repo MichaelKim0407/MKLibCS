@@ -7,7 +7,6 @@ namespace MKLibCS.Generic
     /// </summary>
     [AttributeUsage(
         AttributeTargets.Class | AttributeTargets.Struct,
-        AllowMultiple = false,
         Inherited = false
         )]
     public class GenericUsageAttribute : Attribute

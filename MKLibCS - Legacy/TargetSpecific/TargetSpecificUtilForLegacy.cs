@@ -18,7 +18,7 @@ namespace MKLibCS.TargetSpecific
         {
             TargetSpecificUtil.Target = FrameworkLegacy;
 
-            TargetSpecificUtil.GetMemberType.Add<MemberInfo>(m => (MemberTypes) m.MemberType);
+            TargetSpecificUtil.GetMemberType.Add<MemberInfo>(m => m.MemberType);
 
             TargetSpecificUtil.StreamReader.Add<string>(path => new StreamReader(path));
             TargetSpecificUtil.StreamReader.Add<string, Encoding>((path, encoding) => new StreamReader(path, encoding));

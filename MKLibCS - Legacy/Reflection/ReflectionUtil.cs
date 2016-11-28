@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq.Expressions;
 using System.Reflection;
 
 namespace MKLibCS.Reflection
@@ -32,7 +31,7 @@ namespace MKLibCS.Reflection
             where T : Attribute
         {
             if (assembly == null)
-                throw new ArgumentNullException("assembly");
+                throw new ArgumentNullException(nameof(assembly));
             return (T) assembly.GetCustomAttribute(typeof(T));
         }
 
@@ -56,7 +55,7 @@ namespace MKLibCS.Reflection
             where T : Attribute
         {
             if (m == null)
-                throw new ArgumentNullException("m");
+                throw new ArgumentNullException(nameof(m));
             return (T) m.GetCustomAttribute(typeof(T));
         }
 

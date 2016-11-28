@@ -1,6 +1,6 @@
 ﻿using System;
-using MKLibCS.Serialization;
 using MKLibCS.Generic;
+using MKLibCS.Serialization;
 #if LEGACY
 using MKLibCS.Reflection;
 
@@ -75,8 +75,7 @@ namespace MKLibCS.Maths.Advanced
         {
             if (obj is Vector1<T>)
                 return Equals((Vector1<T>) obj);
-            else
-                return false;
+            return false;
         }
 
         /// <summary>
@@ -104,8 +103,7 @@ namespace MKLibCS.Maths.Advanced
         {
             if (typeof(T).GetTypeInfo().IsSubclassOf(typeof(IFormattable)))
                 return "(" + (x as IFormattable).ToString(format, provider) + ")";
-            else
-                return ToString();
+            return ToString();
         }
 
         /// <summary>

@@ -15,7 +15,7 @@ namespace MKLibCS.Collections
         /// <returns></returns>
         public static int Hash_XOR<T>(this IEnumerable<T> collection)
         {
-            int result = 0;
+            var result = 0;
             foreach (var item in collection)
                 result ^= item.GetHashCode();
             return result;
@@ -33,7 +33,7 @@ namespace MKLibCS.Collections
             int prime
             )
         {
-            int result = 0;
+            var result = 0;
             foreach (var item in collection)
             {
                 result *= prime;
@@ -56,7 +56,7 @@ namespace MKLibCS.Collections
             int prime2
             )
         {
-            int result = 0;
+            var result = 0;
             foreach (var item in collection)
             {
                 result *= prime;

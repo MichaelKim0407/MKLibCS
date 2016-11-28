@@ -56,23 +56,6 @@ namespace MKLibCS.Collections
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TOutput"></typeparam>
-        /// <param name="collection"></param>
-        /// <param name="converter"></param>
-        /// <returns></returns>
-        public static IEnumerable<TOutput> ConvertAll<T, TOutput>(
-            this IEnumerable<T> collection,
-            Func<T, TOutput> converter // NOTE: System.Converter is no longer supported
-            )
-        {
-            foreach (var item in collection)
-                yield return converter(item);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="size"></param>
         /// <param name="item"></param>
         /// <returns></returns>
@@ -90,7 +73,7 @@ namespace MKLibCS.Collections
         /// <returns></returns>
         public static IEnumerable<T> CreateCollection<T>(this T item, int size)
         {
-            return new object[size].ConvertAll(o => item);
+            return new object[size].Select(o => item);
         }
 
         /// <summary>
@@ -128,17 +111,17 @@ namespace MKLibCS.Collections
         /// <returns></returns>
         public static IEnumerable<T> CreateNumericCollection<T>(T start, T end, T step) where T : IComparable<T>
         {
-            int compare = step.CompareTo(MathGenerics.Zero.GetValue<T>());
+            var compare = step.CompareTo(MathGenerics.Zero.GetValue<T>());
             if (compare == 0)
-                throw new ArgumentException("cannot be zero", "step");
-            else if (compare > 0)
+                throw new ArgumentException("cannot be zero", nameof(step));
+            if (compare > 0)
             {
-                for (T i = start; i.CompareTo(end) <= 0; i = (T) MathGenerics.Add.Do(i, step))
+                for (var i = start; i.CompareTo(end) <= 0; i = (T) MathGenerics.Add.Do(i, step))
                     yield return i;
             }
             else
             {
-                for (T i = start; i.CompareTo(end) >= 0; i = (T) MathGenerics.Add.Do(i, step))
+                for (var i = start; i.CompareTo(end) >= 0; i = (T) MathGenerics.Add.Do(i, step))
                     yield return i;
             }
         }
@@ -193,25 +176,6 @@ namespace MKLibCS.Collections
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
-        /// <param name="match"></param>
-        /// <returns></returns>
-        [Obsolete("Use Where instead", true)]
-        public static IEnumerable<T> FindAll<T>(
-            this IEnumerable<T> collection,
-            Predicate<T> match
-            )
-        {
-            if (collection is List<T>)
-                return (collection as List<T>).FindAll(match);
-            else
-                return collection.ToList().FindAll(match);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="collection"></param>
         /// <param name="action"></param>
         public static void ForEach<T>(
             this IEnumerable<T> collection,
@@ -235,10 +199,10 @@ namespace MKLibCS.Collections
         /// <returns></returns>
         public static int IndexOf<T>(this IEnumerable<T> collection, T item)
         {
-            if (collection is List<T>)
-                return (collection as List<T>).IndexOf(item);
-            else
-                return collection.ToList().IndexOf(item);
+            var list = collection as List<T>;
+            if (list != null)
+                return list.IndexOf(item);
+            return collection.ToList().IndexOf(item);
         }
 
         /// <summary>
@@ -272,10 +236,12 @@ namespace MKLibCS.Collections
             Func<T, U, V> operation
             )
         {
-            if (other.Count() != collection.Count())
-                throw new ArgumentException("does not have the correct length", "other");
-            for (int i = 0; i < collection.Count(); i++)
-                yield return operation(collection.ElementAt(i), other.ElementAt(i));
+            var list = collection as IList<T> ?? collection.ToList();
+            var otherList = other as IList<U> ?? other.ToList();
+            if (otherList.Count() != list.Count())
+                throw new ArgumentException("does not have the correct length", nameof(other));
+            for (var i = 0; i < list.Count(); i++)
+                yield return operation(list.ElementAt(i), otherList.ElementAt(i));
         }
 
         #endregion
@@ -292,8 +258,9 @@ namespace MKLibCS.Collections
         /// <returns></returns>
         public static IEnumerable<T> Take<T>(this IEnumerable<T> collection, int start, int count)
         {
-            for (int i = 0; i < count; i++)
-                yield return collection.ElementAt(start + i);
+            var list = collection as IList<T> ?? collection.ToList();
+            for (var i = 0; i < count; i++)
+                yield return list.ElementAt(start + i);
         }
 
         /// <summary>
@@ -324,14 +291,15 @@ namespace MKLibCS.Collections
             string seperator
             )
         {
-            string result = "";
-            for (int i = 0; i < collection.Count() - 1; i++)
+            var result = "";
+            var list = collection as IList<T> ?? collection.ToList();
+            for (var i = 0; i < list.Count() - 1; i++)
             {
-                result += toStringFunc(collection.ElementAt(i));
+                result += toStringFunc(list.ElementAt(i));
                 result += seperator;
             }
-            if (collection.Count() > 0)
-                result += toStringFunc(collection.Last());
+            if (!list.IsEmpty())
+                result += toStringFunc(list.Last());
             return result;
         }
 

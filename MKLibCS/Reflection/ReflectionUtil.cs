@@ -547,18 +547,17 @@ namespace MKLibCS.Reflection
         {
             if (member is ConstructorInfo)
                 return MemberTypes.Constructor;
-            else if (member is EventInfo)
+            if (member is EventInfo)
                 return MemberTypes.Event;
-            else if (member is FieldInfo)
+            if (member is FieldInfo)
                 return MemberTypes.Field;
-            else if (member is MethodInfo)
+            if (member is MethodInfo)
                 return MemberTypes.Method;
-            else if (member is PropertyInfo)
+            if (member is PropertyInfo)
                 return MemberTypes.Property;
-            else if (member is TypeInfo)
+            if (member is TypeInfo)
                 return MemberTypes.TypeInfo;
-            else
-                return MemberTypes.All;
+            return MemberTypes.All;
         }
 
         /// <summary>
@@ -606,10 +605,9 @@ namespace MKLibCS.Reflection
                 throw new ArgumentNullException(nameof(member));
             if (member is FieldInfo)
                 return (member as FieldInfo).GetValue(obj);
-            else if (member is PropertyInfo)
+            if (member is PropertyInfo)
                 return (member as PropertyInfo).GetValue(obj, null);
-            else
-                throw new ArgumentException(nameof(member) + " is not FieldInfo or PropertyInfo");
+            throw new ArgumentException(nameof(member) + " is not FieldInfo or PropertyInfo");
         }
 
         /// <summary>
@@ -624,10 +622,9 @@ namespace MKLibCS.Reflection
                 throw new ArgumentNullException(nameof(member));
             if (member is FieldInfo)
                 return (member as FieldInfo).FieldType;
-            else if (member is PropertyInfo)
+            if (member is PropertyInfo)
                 return (member as PropertyInfo).PropertyType;
-            else
-                throw new ArgumentException(nameof(member) + " is not FieldInfo or PropertyInfo");
+            throw new ArgumentException(nameof(member) + " is not FieldInfo or PropertyInfo");
         }
 
         #endregion

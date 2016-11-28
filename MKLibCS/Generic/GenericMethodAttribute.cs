@@ -28,7 +28,6 @@ namespace MKLibCS.Generic
     /// </summary>
     [AttributeUsage(
         AttributeTargets.Method | AttributeTargets.Property,
-        AllowMultiple = false,
         Inherited = false
         )]
     public class GenericMethodAttribute : Attribute

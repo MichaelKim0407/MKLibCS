@@ -41,10 +41,10 @@ namespace MKLibCS.Logging.Handlers
         /// <param name="fileName"></param>
         public FileLogHandler(string fileName)
         {
-            this.FileName = fileName;
-            this.Level = DefaultLevel;
-            this.Format = DefaultFormat;
-            this.TimeFormat = DefaultTimeFormat;
+            FileName = fileName;
+            Level = DefaultLevel;
+            Format = DefaultFormat;
+            TimeFormat = DefaultTimeFormat;
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace MKLibCS.Logging.Handlers
         /// <param name="lines"></param>
         private void WriteLines(params string[] lines)
         {
-            StreamWriter writer = TargetSpecificUtil.StreamWriter.Do(FileName, true) as StreamWriter;
+            var writer = TargetSpecificUtil.StreamWriter.Do(FileName, true) as StreamWriter;
             // StreamWriter writer = new StreamWriter(FileName, true);
             foreach (var line in lines)
                 writer.WriteLine(line);

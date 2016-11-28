@@ -62,7 +62,7 @@ namespace MKLibCS.Generic
 
         private GenericMethod(string name)
         {
-            this.Name = name;
+            Name = name;
         }
 
         /// <summary>
@@ -85,14 +85,14 @@ namespace MKLibCS.Generic
 
         /// <summary>
         /// </summary>
-        public IEnumerable<Type[]> SupportedTypes => methods.ConvertAll(m => m.types);
+        public IEnumerable<Type[]> SupportedTypes => methods.Select(m => m.types);
 
         private static Type[] NextMatchingTypes(Type[] types, Type[] subs)
         {
             var count = types.Count();
-            Type[] result = new Type[count];
-            bool next = true;
-            for (int i = count - 1; i >= 0; i--)
+            var result = new Type[count];
+            var next = true;
+            for (var i = count - 1; i >= 0; i--)
             {
                 if (next)
                 {
@@ -110,8 +110,7 @@ namespace MKLibCS.Generic
             }
             if (next)
                 return null;
-            else
-                return result;
+            return result;
         }
 
         private static IEnumerable<Type[]> AllMatchingTypes(Type[] types)
@@ -223,7 +222,7 @@ namespace MKLibCS.Generic
     /// <returns></returns>
         public bool Contains(params TypeInfo[] types)
         {
-            return Contains(Enumerable.ToArray(types.ConvertAll(t => t.AsType())));
+            return Contains(Enumerable.ToArray(types.Select(t => t.AsType())));
         }
 #endif
 
@@ -258,7 +257,7 @@ namespace MKLibCS.Generic
         /// <exception cref="MKLibCS.Generic.MissingGenericMethodException">Method for types is not defined.</exception>
         public Delegate Get(params Type[] types)
         {
-            int i = -1;
+            var i = -1;
             foreach (var t in AllMatchingTypes(types))
             {
                 i = IndexOf(t);
@@ -343,7 +342,7 @@ namespace MKLibCS.Generic
         /// <exception cref="MKLibCS.Generic.MissingGenericMethodException">Method for types of parameters is not defined.</exception>
         public object Do(params object[] parameters)
         {
-            var method = Get(CollectionsUtil.ConvertAll(parameters, p => p.GetType()).ToArray());
+            var method = Get(parameters.Select(p => p.GetType()).ToArray());
             return method.DynamicInvoke(parameters);
         }
 
@@ -355,7 +354,7 @@ namespace MKLibCS.Generic
         public object GetValue(Type type)
         {
             var valueGetter = Get(type);
-            return valueGetter.DynamicInvoke(new object[0]);
+            return valueGetter.DynamicInvoke();
         }
 
         /// <summary>
@@ -377,7 +376,7 @@ namespace MKLibCS.Generic
         public object Parse(Type type, object item)
         {
             var parser = GetParser(type);
-            return parser.DynamicInvoke(CollectionsUtil.CreateArray(item, 1));
+            return parser.DynamicInvoke(item.CreateArray(1));
         }
 
         /// <summary>

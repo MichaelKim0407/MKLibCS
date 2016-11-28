@@ -28,16 +28,15 @@ namespace MKLibCS.Generic
         public static void InitType(Type type)
         {
             var attr = type.GetTypeInfo().GetCustomAttribute<GenericUsageAttribute>();
-            if (attr != null && !initFinished.Contains(type) && !initOngoing.Contains(type))
-            {
-                foreach (var prereq in attr.prerequisites)
-                    InitType(prereq);
-                initOngoing.Add(type);
-                ForceInit(type);
-                LoadGenericMethods(type);
-                initOngoing.Remove(type);
-                initFinished.Add(type);
-            }
+            if (attr == null || initFinished.Contains(type) || initOngoing.Contains(type))
+                return;
+            foreach (var prereq in attr.prerequisites)
+                InitType(prereq);
+            initOngoing.Add(type);
+            ForceInit(type);
+            LoadGenericMethods(type);
+            initOngoing.Remove(type);
+            initFinished.Add(type);
         }
 
         private static void ForceInit(Type type)
@@ -53,16 +52,11 @@ namespace MKLibCS.Generic
         {
 #if V3
             // TODO: typeArgs.Length > 7
-            if (typeArgs.Last() == typeof(void))
-            {
-                var actionTypeArgs = typeArgs.ToList();
-                actionTypeArgs.RemoveAt(actionTypeArgs.Count - 1);
-                return Expression.GetActionType(actionTypeArgs.ToArray());
-            }
-            else
-            {
+            if (typeArgs.Last() != typeof(void))
                 return Expression.GetFuncType(typeArgs);
-            }
+            var actionTypeArgs = typeArgs.ToList();
+            actionTypeArgs.RemoveAt(actionTypeArgs.Count - 1);
+            return Expression.GetActionType(actionTypeArgs.ToArray());
 #else
             return Expression.GetDelegateType(typeArgs);
 #endif
@@ -81,7 +75,7 @@ namespace MKLibCS.Generic
                 var method = member.GetMemberType() == MemberTypes.Property
                     ? (member as PropertyInfo).GetGetMethod()
                     : (member as MethodInfo);
-                List<Type> paramTypes = method.GetParameters().ConvertAll(p => p.ParameterType).ToList();
+                var paramTypes = method.GetParameters().Select(p => p.ParameterType).ToList();
                 if (!method.IsStatic)
                     paramTypes.Insert(0, type);
                 var types = gmattr.types;
@@ -106,7 +100,7 @@ namespace MKLibCS.Generic
                     paramTypes[0] = paramTypes[0].MakeByRefType();
                 paramTypes.Add(method.ReturnType);
                 var delegType = GetDelegateType(paramTypes.ToArray());
-                Delegate deleg = method.CreateDelegate(delegType);
+                var deleg = method.CreateDelegate(delegType);
                 gm.Add(deleg, types);
             }
         }

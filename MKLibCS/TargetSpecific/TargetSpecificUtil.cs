@@ -6,7 +6,7 @@ namespace MKLibCS.TargetSpecific
     /// </summary>
     public static class TargetSpecificUtil
     {
-        private static string _Target = null;
+        private static string _Target;
 
         /// <summary>
         /// </summary>

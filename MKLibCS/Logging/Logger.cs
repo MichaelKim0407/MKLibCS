@@ -75,7 +75,7 @@ namespace MKLibCS.Logging
         /// <param name="type"></param>
         public Logger(Type type)
         {
-            this.name = type.FullName;
+            name = type.FullName;
         }
 
         /// <summary>
