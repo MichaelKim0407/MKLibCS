@@ -27,10 +27,7 @@ namespace MKLibCS.Serialization
 
         public static bool IsSerializePredefCustom(this TypeInfo type)
         {
-            return type.IsGenericType
-                   && (type.GetGenericTypeDefinition() == typeof(List<>)
-                       || type.GetGenericTypeDefinition() == typeof(Dictionary<,>)
-                       || type.GetGenericTypeDefinition() == typeof(KeyValuePair<,>));
+            return type.IsList() || type.IsDict() || type.IsKeyValuePair();
         }
 
         public static bool IsSerializeCustom(this TypeInfo type)

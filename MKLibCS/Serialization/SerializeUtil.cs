@@ -60,7 +60,7 @@ namespace MKLibCS.Serialization
         /// <param name="fileName"></param>
         public static void SaveFile(this object obj, string fileName)
         {
-            SerializeNode node = new SerializeNode();
+            var node = new SerializeNode();
             obj.Save(node);
             node.WriteFile(fileName);
         }
@@ -110,7 +110,7 @@ namespace MKLibCS.Serialization
             string name
             )
         {
-            object val = member.GetValue(obj);
+            var val = member.GetValue(obj);
             Read(node, name, ref val, member);
             member.SetValue(obj, val);
         }
@@ -193,7 +193,7 @@ namespace MKLibCS.Serialization
                     throw new ParsingFailureException(exceptionInfo, ParsingFailureException.Reason_0);
                 else
                 {
-                    object val = member.GetValue(result);
+                    var val = member.GetValue(result);
                     if (val == null)
                         val = CreateObject(member.GetValueType());
                     ReadItem(value, ref val, member);
@@ -232,25 +232,25 @@ namespace MKLibCS.Serialization
                     throw new ParsingFailureException(exceptionInfo, ParsingFailureException.Reason_0);
                 else
                 {
-                    object val = member.GetValue(result);
+                    var val = member.GetValue(result);
                     if (val == null)
                         val = CreateObject(member.GetValueType());
                     ReadNode(node, ref val, member);
                     member.SetValue(result, val);
                 }
             }
-            else if (typeInfo.IsGenericType) // TODO: Change loading logic
+            else if (typeInfo.IsGenericType) // TODO: Change loading logic <- I forgot what I wanted to change
             {
-                var genericType = typeInfo.GetGenericTypeDefinition();
-                var paramTypes = typeInfo.GetGenericArguments();
-                if (genericType == typeof(List<>))
+                Type[] paramTypes;
+                if (typeInfo.IsList(out paramTypes))
                 {
+                    var itemType = paramTypes[0];
                     typeInfo.GetMethod("Clear").Invoke(result, null);
                     if (node.ContainsItem("item"))
                     {
-                        foreach (string value in node.GetItems("item"))
+                        foreach (var value in node.GetItems("item"))
                         {
-                            object item = CreateObject(paramTypes[0]);
+                            var item = CreateObject(itemType);
                             ReadItem(value, ref item, exceptionInfo);
                             object[] par = {item};
                             typeInfo.GetMethod("Add").Invoke(result, par);
@@ -258,24 +258,25 @@ namespace MKLibCS.Serialization
                     }
                     else if (node.ContainsNode("item"))
                     {
-                        foreach (SerializeNode itemNode in node.GetNodes("item"))
+                        foreach (var itemNode in node.GetNodes("item"))
                         {
-                            object item = CreateObject(paramTypes[0]);
+                            var item = CreateObject(paramTypes[0]);
                             ReadNode(itemNode, ref item, exceptionInfo);
                             object[] par = {item};
                             typeInfo.GetMethod("Add").Invoke(result, par);
                         }
                     }
                 }
-                else if (genericType == typeof(Dictionary<,>))
+                else if (typeInfo.IsDict(out paramTypes))
                 {
+                    var keyType = paramTypes[0];
+                    var valueType = paramTypes[1];
                     typeInfo.GetMethod("Clear").Invoke(result, null);
-                    foreach (SerializeNode itemNode in node.GetNodes("item"))
+                    foreach (var itemNode in node.GetNodes("item"))
                     {
-                        object key = CreateObject(paramTypes[0]);
-                        object val = CreateObject(paramTypes[1]);
-                        var kvpType =
-                            typeof(KeyValuePair<,>).MakeGenericType(paramTypes[0], paramTypes[1]).GetTypeInfo();
+                        var key = CreateObject(keyType);
+                        var val = CreateObject(valueType);
+                        var kvpType = typeof(KeyValuePair<,>).MakeGenericType(keyType, valueType).GetTypeInfo();
                         Read(itemNode, "key", ref key, kvpType.GetProperty("Key"));
                         Read(itemNode, "value", ref val, kvpType.GetProperty("Value"));
                         object[] par = {key, val};
@@ -333,8 +334,7 @@ namespace MKLibCS.Serialization
             ExceptionInfo exceptionInfo
             )
         {
-            var type = value.GetType();
-            var typeInfo = type.GetTypeInfo();
+            var typeInfo = value.GetObjTypeInfo();
             if (typeInfo.IsSerializePredefSingle())
                 throw new WritingFailureException(exceptionInfo, WritingFailureException.Reason_1);
             else if (value.IsSerializeObjectStruct())
@@ -360,22 +360,21 @@ namespace MKLibCS.Serialization
             }
             else if (typeInfo.IsGenericType)
             {
-                var genericType = type.GetGenericTypeDefinition();
-                if (genericType == typeof(List<>) || genericType == typeof(Dictionary<,>))
+                if (typeInfo.IsList() || typeInfo.IsDict())
                 {
-                    IEnumerator enumerator =
+                    var enumerator =
                         (IEnumerator) typeInfo.GetMethod("GetEnumerator").Invoke(value, null);
                     while (enumerator.MoveNext())
                     {
-                        object item = enumerator.Current;
+                        var item = enumerator.Current;
                         Write(node, "item", item, exceptionInfo);
                     }
                 }
-                else if (genericType == typeof(KeyValuePair<,>))
+                else if (typeInfo.IsKeyValuePair())
                 {
-                    object key = value.GetObjTypeInfo().GetMethod("get_Key").Invoke(value, null);
+                    var key = value.GetObjTypeInfo().GetMethod("get_Key").Invoke(value, null);
                     Write(node, "key", key, exceptionInfo);
-                    object val = value.GetObjTypeInfo().GetMethod("get_Value").Invoke(value, null);
+                    var val = value.GetObjTypeInfo().GetMethod("get_Value").Invoke(value, null);
                     Write(node, "value", val, exceptionInfo);
                 }
             }

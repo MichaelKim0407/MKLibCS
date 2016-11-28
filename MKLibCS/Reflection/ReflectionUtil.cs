@@ -609,7 +609,7 @@ namespace MKLibCS.Reflection
             else if (member is PropertyInfo)
                 return (member as PropertyInfo).GetValue(obj, null);
             else
-                throw new ArgumentException("member is not FieldInfo or PropertyInfo");
+                throw new ArgumentException(nameof(member) + " is not FieldInfo or PropertyInfo");
         }
 
         /// <summary>
@@ -627,7 +627,7 @@ namespace MKLibCS.Reflection
             else if (member is PropertyInfo)
                 return (member as PropertyInfo).PropertyType;
             else
-                throw new ArgumentException("member is not FieldInfo or PropertyInfo");
+                throw new ArgumentException(nameof(member) + " is not FieldInfo or PropertyInfo");
         }
 
         #endregion
@@ -651,7 +651,98 @@ namespace MKLibCS.Reflection
             else if (member is PropertyInfo)
                 (member as PropertyInfo).SetValue(obj, value, null);
             else
-                throw new ArgumentException("member is not FieldInfo or PropertyInfo");
+                throw new ArgumentException(nameof(member) + " is not FieldInfo or PropertyInfo");
+        }
+
+        #endregion
+
+        #region Is
+
+        /// <summary>
+        ///     Check if a type is an implementation of the class List&lt;&gt;,
+        ///     and output the type parameters.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="paramTypes"></param>
+        /// <returns></returns>
+        public static bool IsList(this TypeInfo type, out Type[] paramTypes)
+        {
+            paramTypes = null;
+            if (!type.IsGenericType)
+                return false;
+            if (type.GetGenericTypeDefinition() != typeof(List<>))
+                return false;
+            paramTypes = type.GetGenericArguments();
+            return true;
+        }
+
+        /// <summary>
+        ///     Check if a type is an implementation of the class List&lt;&gt;.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsList(this TypeInfo type)
+        {
+            Type[] paramTypes;
+            return type.IsList(out paramTypes);
+        }
+
+        /// <summary>
+        ///     Check if a type is an implementation of the class Dictionary&lt;&gt;,
+        ///     and output the type parameters.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="paramTypes"></param>
+        /// <returns></returns>
+        public static bool IsDict(this TypeInfo type, out Type[] paramTypes)
+        {
+            paramTypes = null;
+            if (!type.IsGenericType)
+                return false;
+            if (type.GetGenericTypeDefinition() != typeof(Dictionary<,>))
+                return false;
+            paramTypes = type.GetGenericArguments();
+            return true;
+        }
+
+        /// <summary>
+        ///     Check if a type is an implementation of the class Dictionary&lt;&gt;.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsDict(this TypeInfo type)
+        {
+            Type[] paramTypes;
+            return type.IsDict(out paramTypes);
+        }
+
+        /// <summary>
+        ///     Check if a type is an implementation of the class KeyValuePair&lt;&gt;,
+        ///     and output the type parameters.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="paramTypes"></param>
+        /// <returns></returns>
+        public static bool IsKeyValuePair(this TypeInfo type, out Type[] paramTypes)
+        {
+            paramTypes = null;
+            if (!type.IsGenericType)
+                return false;
+            if (type.GetGenericTypeDefinition() != typeof(KeyValuePair<,>))
+                return false;
+            paramTypes = type.GetGenericArguments();
+            return true;
+        }
+
+        /// <summary>
+        ///     Check if a type is an implementation of the class KeyValuePair&lt;&gt;.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsKeyValuePair(this TypeInfo type)
+        {
+            Type[] paramTypes;
+            return type.IsKeyValuePair(out paramTypes);
         }
 
         #endregion
