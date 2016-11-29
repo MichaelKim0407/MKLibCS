@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using MKLibCS.Generic;
 using MKLibCS.Reflection;
@@ -95,18 +96,9 @@ namespace MKLibCS.Serialization
             return member.GetCustomAttribute<SerializeItemAttribute>();
         }
 
-        public static MemberInfo GetSerializeObjectSingleMember(this object obj)
+        public static MemberInfo GetSerializeObjectSingleMember(this TypeInfo type)
         {
-            foreach (var kvp in obj.GetObjTypeInfo()
-                .GetFieldsAndPropertiesWithAttributeDict<SerializeItemAttribute>())
-            {
-                var member = kvp.Key;
-                var att = kvp.Value[0];
-                if (att == null || att.SkipItem(member.GetValue(obj)))
-                    continue;
-                return member;
-            }
-            return null;
+            return type.GetFieldsAndPropertiesWithAttribute<SerializeItemAttribute>().FirstOrDefault();
         }
 
         public static Action<SerializeNode> GetSerializeObjectCustomLoadMethod(this object obj)

@@ -16,24 +16,30 @@ namespace MKLibCS.Serialization
 
         private static void LoadDefault(this object obj)
         {
-            if (obj.GetObjTypeInfo().IsSerializeObjectLoadDefaultType())
-            {
-                logger.InternalDebug("Loading default value for object of type {0}", obj.GetType().FullName);
-                obj.GetSerializeObjectLoadDefaultMethod()();
-            }
+            if (!obj.GetObjTypeInfo().IsSerializeObjectLoadDefaultType())
+                return;
+            logger.InternalDebug("Loading default value for object of type {0}", obj.GetType().FullName);
+            obj.GetSerializeObjectLoadDefaultMethod()();
         }
 
         #region Load & Save
 
         /// <summary>
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="type"></param>
         /// <param name="node"></param>
-        public static void Load(this object obj, SerializeNode node)
+        public static object Load(this Type type, SerializeNode node)
         {
-            obj.LoadDefault();
-            if (node != null)
-                ReadNode(node, ref obj, null);
+            return node != null ? ReadNode(node, type, null) : CreateObject(type);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="node"></param>
+        public static T Load<T>(SerializeNode node)
+        {
+            return (T) Load(typeof(T), node);
         }
 
         /// <summary>
@@ -47,11 +53,20 @@ namespace MKLibCS.Serialization
 
         /// <summary>
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="type"></param>
         /// <param name="fileName"></param>
-        public static void LoadFile(this object obj, string fileName)
+        public static object LoadFile(this Type type, string fileName)
         {
-            obj.Load(new SerializeNode(fileName));
+            return type.Load(new SerializeNode(fileName));
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="fileName"></param>
+        public static T LoadFile<T>(string fileName)
+        {
+            return (T) LoadFile(typeof(T), fileName);
         }
 
         /// <summary>
@@ -69,16 +84,14 @@ namespace MKLibCS.Serialization
         /// </summary>
         /// <param name="node"></param>
         /// <param name="name"></param>
-        /// <param name="val"></param>
         /// <param name="member"></param>
-        public static void LoadItem(
+        public static object LoadItem(
             this SerializeNode node,
             string name,
-            ref object val,
             MemberInfo member
             )
         {
-            Read(node, name, ref val, member);
+            return Read(node, name, member);
         }
 
         /// <summary>
@@ -110,20 +123,20 @@ namespace MKLibCS.Serialization
             string name
             )
         {
-            var val = member.GetValue(obj);
-            Read(node, name, ref val, member);
+            var val = Read(node, name, member);
             member.SetValue(obj, val);
         }
 
         private static object CreateObject(Type type)
         {
-            return GenericUtil.CreateInstance(type);
+            var obj = GenericUtil.CreateInstance(type);
+            obj.LoadDefault();
+            return obj;
         }
 
-        private static void Read(
+        private static object Read(
             SerializeNode node,
             string name,
-            ref object result,
             MemberInfo member
             )
         {
@@ -132,20 +145,17 @@ namespace MKLibCS.Serialization
             var type = itemInfo.Type;
             var typeInfo = type.GetTypeInfo();
             logger.InternalDebug("Item \"{0}\" has type \"{1}\"", name, typeInfo.FullName);
-            if (result != null)
-                result.LoadDefault();
+            var result = CreateObject(type);
             if (node.ContainsItem(name) &&
                 (typeInfo.IsSerializePredefSingle() || typeInfo.IsSerializeObjectSingleType()))
             {
-                result = CreateObject(type);
                 logger.InternalDebug("Parsing item \"{0}\"", name);
-                ReadItem(node.GetItem(name), ref result, exceptionInfo);
+                result = ReadItem(node.GetItem(name), type, exceptionInfo);
             }
             else if (node.ContainsNode(name) && (typeInfo.IsSerializeCustom() || typeInfo.IsSerializeObjectSingleType()))
             {
-                result = CreateObject(type);
                 logger.InternalDebug("Creating node \"{0}\"", name);
-                ReadNode(node.GetNode(name), ref result, exceptionInfo);
+                result = ReadNode(node.GetNode(name), type, exceptionInfo);
             }
             else // no matching item or node found
             {
@@ -165,15 +175,16 @@ namespace MKLibCS.Serialization
                 else
                     logger.InternalDebug("Item \"{0}\" not found in node. Do nothing.", name);
             }
+            return result;
         }
 
-        private static void ReadItem(
+        private static object ReadItem(
             string value,
-            ref object result,
+            Type type,
             ExceptionInfo exceptionInfo
             )
         {
-            var type = result.GetType();
+            var result = CreateObject(type);
             var typeInfo = type.GetTypeInfo();
             if (GenericUtil.Parse.Contains(type))
             {
@@ -182,32 +193,31 @@ namespace MKLibCS.Serialization
             }
             else if (typeInfo.IsEnum)
             {
-                object i = (int) result;
-                ReadItem(value, ref i, exceptionInfo);
-                result = i;
+                result = ReadItem(value, typeof(int), exceptionInfo);
             }
             else if (result.IsSerializeObjectSingle())
             {
-                var member = result.GetSerializeObjectSingleMember();
+                var member = typeInfo.GetSerializeObjectSingleMember();
                 if (member == null)
                     throw new ParsingFailureException(exceptionInfo, ParsingFailureException.Reason_0);
                 var val = member.GetValue(result);
                 if (val == null)
                     val = CreateObject(member.GetValueType());
-                ReadItem(value, ref val, member);
+                result = ReadItem(value, type, member);
                 member.SetValue(result, val);
             }
             else
                 throw new TypeNotSupportedException(true, type);
+            return result;
         }
 
-        private static void ReadNode(
+        private static object ReadNode(
             SerializeNode node,
-            ref object result,
+            Type type,
             ExceptionInfo exceptionInfo
             )
         {
-            var type = result.GetType();
+            var result = CreateObject(type);
             var typeInfo = type.GetTypeInfo();
             if (result.IsSerializeObjectStruct())
             {
@@ -224,13 +234,13 @@ namespace MKLibCS.Serialization
                 result.GetSerializeObjectCustomLoadMethod()(node);
             else if (result.IsSerializeObjectSingle())
             {
-                var member = result.GetSerializeObjectSingleMember();
+                var member = typeInfo.GetSerializeObjectSingleMember();
                 if (member == null)
                     throw new ParsingFailureException(exceptionInfo, ParsingFailureException.Reason_0);
                 var val = member.GetValue(result);
                 if (val == null)
                     val = CreateObject(member.GetValueType());
-                ReadNode(node, ref val, member);
+                result = ReadNode(node, type, member);
                 member.SetValue(result, val);
             }
             else if (typeInfo.IsGenericType)
@@ -244,8 +254,7 @@ namespace MKLibCS.Serialization
                     {
                         foreach (var value in node.GetItems("item"))
                         {
-                            var item = CreateObject(itemType);
-                            ReadItem(value, ref item, exceptionInfo);
+                            var item = ReadItem(value, itemType, exceptionInfo);
                             object[] par = {item};
                             typeInfo.GetMethod("Add").Invoke(result, par);
                         }
@@ -254,8 +263,7 @@ namespace MKLibCS.Serialization
                     {
                         foreach (var itemNode in node.GetNodes("item"))
                         {
-                            var item = CreateObject(paramTypes[0]);
-                            ReadNode(itemNode, ref item, exceptionInfo);
+                            var item = ReadNode(itemNode, paramTypes[0], exceptionInfo);
                             object[] par = {item};
                             typeInfo.GetMethod("Add").Invoke(result, par);
                         }
@@ -268,11 +276,9 @@ namespace MKLibCS.Serialization
                     var valueType = paramTypes[1];
                     foreach (var itemNode in node.GetNodes("item"))
                     {
-                        var key = CreateObject(keyType);
-                        var val = CreateObject(valueType);
                         var kvpType = typeof(KeyValuePair<,>).MakeGenericType(keyType, valueType).GetTypeInfo();
-                        Read(itemNode, "key", ref key, kvpType.GetProperty("Key"));
-                        Read(itemNode, "value", ref val, kvpType.GetProperty("Value"));
+                        var key = Read(itemNode, "key", kvpType.GetProperty("Key"));
+                        var val = Read(itemNode, "value", kvpType.GetProperty("Value"));
                         object[] par = {key, val};
                         typeInfo.GetMethod("Add").Invoke(result, par);
                     }
@@ -282,6 +288,7 @@ namespace MKLibCS.Serialization
             }
             else
                 throw new TypeNotSupportedException(true, result.GetType());
+            return result;
         }
 
         #endregion
@@ -312,7 +319,7 @@ namespace MKLibCS.Serialization
                 WriteNode(node.AddNode(name), value, exceptionInfo);
             else if (value.IsSerializeObjectSingle())
             {
-                var member = value.GetSerializeObjectSingleMember();
+                var member = typeInfo.GetSerializeObjectSingleMember();
                 if (member == null)
                     throw new WritingFailureException(exceptionInfo, WritingFailureException.Reason_0);
                 Write(node, name, member.GetValue(value), member);
@@ -345,7 +352,7 @@ namespace MKLibCS.Serialization
                 value.GetSerializeObjectCustomSaveMethod()(node);
             else if (value.IsSerializeObjectSingle())
             {
-                var member = value.GetSerializeObjectSingleMember();
+                var member = typeInfo.GetSerializeObjectSingleMember();
                 if (member == null)
                     throw new WritingFailureException(exceptionInfo, WritingFailureException.Reason_0);
                 WriteNode(node, member.GetValue(value), member);
