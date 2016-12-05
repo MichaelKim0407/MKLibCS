@@ -6,14 +6,14 @@ using MKLibCS.Maths;
 namespace MKLibCS.Collections
 {
     /// <summary>
-    /// Utilities and extensions for System.Collections &amp; System.Collections.Generic types
+    ///     Utilities and extensions for System.Collections &amp; System.Collections.Generic types
     /// </summary>
     public static class CollectionsUtil
     {
         #region A
 
         /// <summary>
-        /// Adds identical items to a list
+        ///     Adds identical items to a list
         /// </summary>
         /// <typeparam name="T">The type of elements in the list, as well as the item added</typeparam>
         /// <param name="list"></param>
@@ -29,7 +29,7 @@ namespace MKLibCS.Collections
         #region C
 
         /// <summary>
-        /// Combines collections into a single collection
+        ///     Combines collections into a single collection
         /// </summary>
         /// <typeparam name="T">The type of elements in collections</typeparam>
         /// <param name="collections">A collection of collections</param>
@@ -42,7 +42,7 @@ namespace MKLibCS.Collections
         }
 
         /// <summary>
-        /// Combines collections into a single collection
+        ///     Combines collections into a single collection
         /// </summary>
         /// <typeparam name="T">The type of elements in collections</typeparam>
         /// <param name="collections">An array of collections</param>
@@ -53,7 +53,6 @@ namespace MKLibCS.Collections
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="size"></param>
@@ -65,7 +64,6 @@ namespace MKLibCS.Collections
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="item"></param>
@@ -77,7 +75,6 @@ namespace MKLibCS.Collections
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="size"></param>
@@ -89,7 +86,6 @@ namespace MKLibCS.Collections
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="start"></param>
@@ -102,7 +98,6 @@ namespace MKLibCS.Collections
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="start"></param>
@@ -127,7 +122,6 @@ namespace MKLibCS.Collections
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="start"></param>
@@ -144,7 +138,6 @@ namespace MKLibCS.Collections
         #region E
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
@@ -156,7 +149,6 @@ namespace MKLibCS.Collections
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
@@ -172,7 +164,6 @@ namespace MKLibCS.Collections
         #region F
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
@@ -191,7 +182,6 @@ namespace MKLibCS.Collections
         #region I
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
@@ -206,7 +196,6 @@ namespace MKLibCS.Collections
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
@@ -221,7 +210,6 @@ namespace MKLibCS.Collections
         #region O
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="U"></typeparam>
@@ -249,7 +237,6 @@ namespace MKLibCS.Collections
         #region T
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
@@ -264,7 +251,6 @@ namespace MKLibCS.Collections
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="U"></typeparam>
@@ -278,41 +264,82 @@ namespace MKLibCS.Collections
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
         /// <param name="toStringFunc"></param>
-        /// <param name="seperator"></param>
+        /// <param name="separator"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         /// <returns></returns>
         public static string ToString<T>(
             this IEnumerable<T> collection,
             Func<T, string> toStringFunc,
-            string seperator
+            string separator,
+            string start,
+            string end
             )
         {
             var result = "";
+            result += start;
             var list = collection as IList<T> ?? collection.ToList();
             for (var i = 0; i < list.Count() - 1; i++)
             {
                 result += toStringFunc(list.ElementAt(i));
-                result += seperator;
+                result += separator;
             }
             if (!list.IsEmpty())
                 result += toStringFunc(list.Last());
+            result += end;
             return result;
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
-        /// <param name="seperator"></param>
+        /// <param name="toStringFunc"></param>
+        /// <param name="separator"></param>
         /// <returns></returns>
-        public static string ToString<T>(this IEnumerable<T> collection, string seperator)
+        public static string ToString<T>(
+            this IEnumerable<T> collection,
+            Func<T, string> toStringFunc,
+            string separator
+            )
         {
-            return collection.ToString(i => i.ToString(), seperator);
+            return collection.ToString(toStringFunc, separator, "", "");
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection"></param>
+        /// <param name="separator"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public static string ToString<T>(
+            this IEnumerable<T> collection,
+            string separator,
+            string start,
+            string end
+            )
+        {
+            return collection.ToString(i => i.ToString(), separator, start, end);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection"></param>
+        /// <param name="separator"></param>
+        /// <returns></returns>
+        public static string ToString<T>(
+            this IEnumerable<T> collection,
+            string separator
+            )
+        {
+            return collection.ToString(separator, "", "");
         }
 
         #endregion

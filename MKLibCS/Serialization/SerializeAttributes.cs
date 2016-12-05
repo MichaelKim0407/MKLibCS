@@ -18,10 +18,9 @@ namespace MKLibCS.Serialization
 
         /// <summary>
         ///     <para>Custom behaviour is defined for serialization.</para>
-        ///     <para>
-        ///         Add [GenericUsage] to the class, and [GenericMethod("Serialize_Load")]
-        ///         and [GenericMethod("Serialize_Save")] to respective methods.
-        ///     </para>
+        ///     <para>Add [GenericUsage(typeof(SerializeUtil))] to the class.</para>
+        ///     <para>Add [GenericMethod("Serialize_Load")] and [GenericMethod("Serialize_Save")] to respective methods.</para>
+        ///     <para>Alternatively, name the methods "Load" and "Save", and just add [GenericMethod] to them.</para>
         ///     <para>Method takes one SerializeNode argument.</para>
         /// </summary>
         Custom
@@ -48,7 +47,10 @@ namespace MKLibCS.Serialization
         public SerializeObjectMethod Method;
 
         /// <summary>
-        ///     <para>If true, add [GenericUsage] to class, and [GenericMethod("Serialize_Default")] to method.</para>
+        ///     <para>If true:</para>
+        ///     <para>Add [GenericUsage(typeof(SerializeUtil))] to the class.</para>
+        ///     <para>Add [GenericMethod("Serialize_Default")] to method.</para>
+        ///     <para>Alternatively, name the method "LoadDefault", and just add [GenericMethod] to it.</para>
         ///     <para>Method takes no arguments.</para>
         /// </summary>
         public bool LoadDefault = false;

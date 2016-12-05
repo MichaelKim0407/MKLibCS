@@ -53,8 +53,10 @@ namespace MKLibCS.Reflection
             if (!method.IsStatic)
                 types.Insert(0, declaringType);
             paramTypes = types.ToArray();
+#if !V3
             if (!method.IsStatic && typeInfo.IsValueType)
                 types[0] = types[0].MakeByRefType();
+#endif
             types.Add(method.ReturnType);
             var delegType = GetDelegateType(types.ToArray());
             return method.CreateDelegate(delegType);

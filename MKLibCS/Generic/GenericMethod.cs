@@ -87,6 +87,10 @@ namespace MKLibCS.Generic
         /// </summary>
         public IEnumerable<Type[]> SupportedTypes => methods.Select(m => m.types);
 
+        /// <summary>
+        /// </summary>
+        public string SupportedTypesString => SupportedTypes.ToString(types => types.ToString(", ", "<", ">"), "\n");
+
         private static Type[] NextMatchingTypes(Type[] types, Type[] subs)
         {
             var count = types.Count();

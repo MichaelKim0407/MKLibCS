@@ -10,13 +10,21 @@ namespace MKLibCS.Serialization
 {
     /// <summary>
     /// </summary>
+    [GenericUsage]
     public static class SerializeUtil
     {
         private static readonly Logger logger = new Logger(typeof(SerializeUtil));
-        
-        private static readonly GenericMethod _default = GenericMethod.Get("Serialize_Default");
-        private static readonly GenericMethod _load = GenericMethod.Get("Serialize_Load");
-        private static readonly GenericMethod _save = GenericMethod.Get("Serialize_Save");
+
+        private static readonly GenericMethod _default;
+        private static readonly GenericMethod _load;
+        private static readonly GenericMethod _save;
+
+        static SerializeUtil()
+        {
+            _default = GenericMethod.Get("Serialize_Default", "LoadDefault");
+            _load = GenericMethod.Get("Serialize_Load", "Load");
+            _save = GenericMethod.Get("Serialize_Save", "Save");
+        }
 
         private static void LoadDefault(this object obj)
         {
