@@ -44,24 +44,6 @@ namespace MKLibCS.Generic
             RuntimeHelpers.RunClassConstructor(type.TypeHandle);
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="typeArgs"></param>
-        /// <returns></returns>
-        public static Type GetDelegateType(Type[] typeArgs)
-        {
-#if V3
-            // TODO: typeArgs.Length > 7
-            if (typeArgs.Last() != typeof(void))
-                return Expression.GetFuncType(typeArgs);
-            var actionTypeArgs = typeArgs.ToList();
-            actionTypeArgs.RemoveAt(actionTypeArgs.Count - 1);
-            return Expression.GetActionType(actionTypeArgs.ToArray());
-#else
-            return Expression.GetDelegateType(typeArgs);
-#endif
-        }
-
         private static void LoadGenericMethods(Type type)
         {
             var typeInfo = type.GetTypeInfo();
@@ -75,16 +57,15 @@ namespace MKLibCS.Generic
                 var method = member.GetMemberType() == MemberTypes.Property
                     ? (member as PropertyInfo).GetGetMethod()
                     : (member as MethodInfo);
-                var paramTypes = method.GetParameters().Select(p => p.ParameterType).ToList();
-                if (!method.IsStatic)
-                    paramTypes.Insert(0, type);
                 var types = gmattr.types;
+                Type[] paramTypes;
+                var deleg = method.CreateDelegate(type, out paramTypes);
                 if (types.IsEmpty())
                 {
                     switch (gmattr.methodType)
                     {
                         case GenericMethodType.Method:
-                            types = paramTypes.ToArray();
+                            types = paramTypes;
                             break;
                         case GenericMethodType.Creator:
                             types = method.ReturnType.CreateArray(1);
@@ -96,11 +77,6 @@ namespace MKLibCS.Generic
                             break;
                     }
                 }
-                if (!method.IsStatic && typeInfo.IsValueType)
-                    paramTypes[0] = paramTypes[0].MakeByRefType();
-                paramTypes.Add(method.ReturnType);
-                var delegType = GetDelegateType(paramTypes.ToArray());
-                var deleg = method.CreateDelegate(delegType);
                 gm.Add(deleg, types);
             }
         }

@@ -13,13 +13,17 @@ namespace MKLibCS.Serialization
     public static class SerializeUtil
     {
         private static readonly Logger logger = new Logger(typeof(SerializeUtil));
+        
+        private static readonly GenericMethod _default = GenericMethod.Get("Serialize_Default");
+        private static readonly GenericMethod _load = GenericMethod.Get("Serialize_Load");
+        private static readonly GenericMethod _save = GenericMethod.Get("Serialize_Save");
 
         private static void LoadDefault(this object obj)
         {
             if (!obj.GetObjTypeInfo().IsSerializeObjectLoadDefaultType())
                 return;
             logger.InternalDebug("Loading default value for object of type {0}", obj.GetType().FullName);
-            obj.GetSerializeObjectLoadDefaultMethod()();
+            _default.Do(obj);
         }
 
         #region Load & Save
@@ -231,7 +235,7 @@ namespace MKLibCS.Serialization
                 }
             }
             else if (result.IsSerializeObjectCustom())
-                result.GetSerializeObjectCustomLoadMethod()(node);
+                _load.Do(result, node);
             else if (result.IsSerializeObjectSingle())
             {
                 var member = typeInfo.GetSerializeObjectSingleMember();
@@ -349,7 +353,7 @@ namespace MKLibCS.Serialization
                 }
             }
             else if (value.IsSerializeObjectCustom())
-                value.GetSerializeObjectCustomSaveMethod()(node);
+                _save.Do(value, node);
             else if (value.IsSerializeObjectSingle())
             {
                 var member = typeInfo.GetSerializeObjectSingleMember();

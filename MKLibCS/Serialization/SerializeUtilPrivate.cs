@@ -101,27 +101,6 @@ namespace MKLibCS.Serialization
             return type.GetFieldsAndPropertiesWithAttribute<SerializeItemAttribute>().FirstOrDefault();
         }
 
-        public static Action<SerializeNode> GetSerializeObjectCustomLoadMethod(this object obj)
-        {
-            return obj.GetObjTypeInfo()
-                .GetMethod(obj.GetObjTypeInfo().GetSerializeObjectAttribute().LoadMethod)
-                .CreateDelegate<Action<SerializeNode>>();
-        }
-
-        public static Action<SerializeNode> GetSerializeObjectCustomSaveMethod(this object obj)
-        {
-            return obj.GetObjTypeInfo()
-                .GetMethod(obj.GetObjTypeInfo().GetSerializeObjectAttribute().SaveMethod)
-                .CreateDelegate<Action<SerializeNode>>();
-        }
-
-        public static Action GetSerializeObjectLoadDefaultMethod(this object obj)
-        {
-            return obj.GetObjTypeInfo()
-                .GetMethod(obj.GetObjTypeInfo().GetSerializeObjectAttribute().LoadDefaultMethod)
-                .CreateDelegate<Action>();
-        }
-
         #endregion
     }
 }

@@ -17,7 +17,12 @@ namespace MKLibCS.Serialization
         Struct,
 
         /// <summary>
-        ///     Custom behaviour is defined for serialization.
+        ///     <para>Custom behaviour is defined for serialization.</para>
+        ///     <para>
+        ///         Add [GenericUsage] to the class, and [GenericMethod("Serialize_Load")]
+        ///         and [GenericMethod("Serialize_Save")] to respective methods.
+        ///     </para>
+        ///     <para>Method takes one SerializeNode argument.</para>
         /// </summary>
         Custom
     }
@@ -43,20 +48,10 @@ namespace MKLibCS.Serialization
         public SerializeObjectMethod Method;
 
         /// <summary>
-        /// </summary>
-        public string SaveMethod = "Save";
-
-        /// <summary>
-        /// </summary>
-        public string LoadMethod = "Load";
-
-        /// <summary>
+        ///     <para>If true, add [GenericUsage] to class, and [GenericMethod("Serialize_Default")] to method.</para>
+        ///     <para>Method takes no arguments.</para>
         /// </summary>
         public bool LoadDefault = false;
-
-        /// <summary>
-        /// </summary>
-        public string LoadDefaultMethod = "LoadDefault";
     }
 
     /// <summary>
@@ -73,7 +68,6 @@ namespace MKLibCS.Serialization
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="serializeName"></param>
         public SerializeItemAttribute(string serializeName)

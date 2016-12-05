@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using MKLibCS.Collections;
 using MKLibCS.Generic;
@@ -21,13 +22,64 @@ namespace MKLibCS.Reflection
         #region Create
 
         /// <summary>
-        ///     Get the delegate from a method.
         /// </summary>
-        /// <typeparam name="T">The delegate type.</typeparam>
-        /// <param name="method">The System.Reflection.MethodInfo object representing the method.</param>
-        public static T CreateDelegate<T>(this MethodInfo method)
+        /// <param name="typeArgs"></param>
+        /// <returns></returns>
+        public static Type GetDelegateType(Type[] typeArgs)
         {
-            return (T) (object) method.CreateDelegate(typeof(T));
+#if V3
+            // TODO: typeArgs.Length > 7
+            if (typeArgs.Last() != typeof(void))
+                return Expression.GetFuncType(typeArgs);
+            var actionTypeArgs = typeArgs.ToList();
+            actionTypeArgs.RemoveAt(actionTypeArgs.Count - 1);
+            return Expression.GetActionType(actionTypeArgs.ToArray());
+#else
+            return Expression.GetDelegateType(typeArgs);
+#endif
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="declaringType"></param>
+        /// <param name="paramTypes"></param>
+        /// <returns></returns>
+        public static Delegate CreateDelegate(this MethodInfo method, Type declaringType, out Type[] paramTypes)
+        {
+            var typeInfo = declaringType.GetTypeInfo();
+            var types = method.GetParameters().Select(p => p.ParameterType).ToList();
+            if (!method.IsStatic)
+                types.Insert(0, declaringType);
+            paramTypes = types.ToArray();
+            if (!method.IsStatic && typeInfo.IsValueType)
+                types[0] = types[0].MakeByRefType();
+            types.Add(method.ReturnType);
+            var delegType = GetDelegateType(types.ToArray());
+            return method.CreateDelegate(delegType);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="paramTypes"></param>
+        /// <returns></returns>
+        public static Delegate CreateDelegate(this MethodInfo method, out Type[] paramTypes)
+        {
+            return method.CreateDelegate(method.DeclaringType, out paramTypes);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        public static Delegate CreateDelegate(this MethodInfo method)
+        {
+            Type[] paramTypes;
+            return method.CreateDelegate(out paramTypes);
         }
 
         #endregion
