@@ -83,5 +83,14 @@ namespace MKLibCS.Reflection
         {
             return Delegate.CreateDelegate(type, method);
         }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="deleg"></param>
+        /// <returns></returns>
+        public static MethodInfo GetMethodInfo(this Delegate deleg)
+        {
+            return deleg.Method;
+        }
     }
 }

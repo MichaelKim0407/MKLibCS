@@ -40,7 +40,6 @@ namespace MKLibCS.Reflection
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="method"></param>
         /// <param name="declaringType"></param>
@@ -53,17 +52,34 @@ namespace MKLibCS.Reflection
             if (!method.IsStatic)
                 types.Insert(0, declaringType);
             paramTypes = types.ToArray();
-#if !V3
+            Type delegType;
             if (!method.IsStatic && typeInfo.IsValueType)
+            {
+#if V3
+                // Make it a lambda
+                var count = 0;
+                var expressionParams = types.Select(t => Expression.Parameter(t, "arg" + (count++))).ToList();
+                var obj = expressionParams[0];
+                var methodParams = expressionParams.Take(1, expressionParams.Count - 1).ToArray();
+                types.Add(method.ReturnType);
+                delegType = GetDelegateType(types.ToArray());
+                var call = Expression.Call(obj, method, methodParams.ToArray());
+                var lambda = Expression.Lambda(
+                    delegType,
+                    call,
+                    expressionParams
+                    ).Compile();
+                return lambda;
+#else
                 types[0] = types[0].MakeByRefType();
 #endif
+            }
             types.Add(method.ReturnType);
-            var delegType = GetDelegateType(types.ToArray());
+            delegType = GetDelegateType(types.ToArray());
             return method.CreateDelegate(delegType);
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="method"></param>
         /// <param name="paramTypes"></param>
@@ -74,7 +90,6 @@ namespace MKLibCS.Reflection
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
