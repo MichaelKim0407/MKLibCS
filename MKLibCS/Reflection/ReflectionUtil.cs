@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using MKLibCS.Collections;
 using MKLibCS.Generic;
+using MKLibCS.Logging;
 using MKLibCS.TargetSpecific;
 
 namespace MKLibCS.Reflection
@@ -19,7 +20,9 @@ namespace MKLibCS.Reflection
     /// </summary>
     public static partial class ReflectionUtil
     {
-        #region Create
+        private static readonly Logger logger = new Logger(typeof(ReflectionUtil));
+
+        #region Delegate
 
         /// <summary>
         /// </summary>
@@ -45,7 +48,7 @@ namespace MKLibCS.Reflection
         /// <param name="declaringType"></param>
         /// <param name="paramTypes"></param>
         /// <returns></returns>
-        public static Delegate CreateDelegate(this MethodInfo method, Type declaringType, out Type[] paramTypes)
+        public static Delegate CreateDelegateSmart(this MethodInfo method, Type declaringType, out Type[] paramTypes)
         {
             var typeInfo = declaringType.GetTypeInfo();
             var types = method.GetParameters().Select(p => p.ParameterType).ToList();
@@ -69,6 +72,8 @@ namespace MKLibCS.Reflection
                     call,
                     expressionParams
                     ).Compile();
+                logger.InternalDebug("Converted struct <{0}> member method \"{1}\" to lambda", typeInfo.FullName,
+                    method.Name);
                 return lambda;
 #else
                 types[0] = types[0].MakeByRefType();
@@ -84,24 +89,49 @@ namespace MKLibCS.Reflection
         /// <param name="method"></param>
         /// <param name="paramTypes"></param>
         /// <returns></returns>
-        public static Delegate CreateDelegate(this MethodInfo method, out Type[] paramTypes)
+        public static Delegate CreateDelegateSmart(this MethodInfo method, out Type[] paramTypes)
         {
-            return method.CreateDelegate(method.DeclaringType, out paramTypes);
+            return method.CreateDelegateSmart(method.DeclaringType, out paramTypes);
         }
 
         /// <summary>
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        public static Delegate CreateDelegate(this MethodInfo method)
+        public static Delegate CreateDelegateSmart(this MethodInfo method)
         {
             Type[] paramTypes;
-            return method.CreateDelegate(out paramTypes);
+            return method.CreateDelegateSmart(out paramTypes);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="deleg"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public static object DynamicInvokeSafe(this Delegate deleg, params object[] parameters)
+        {
+#if Mono
+            try
+            {
+                return deleg.DynamicInvoke(parameters);
+            }
+            catch (TargetParameterCountException)
+            {
+                // There is something wrong with Mono's DynamicInvoke
+                var method = deleg.Method;
+                var obj = parameters[0];
+                parameters = parameters.Take(1, parameters.Length - 1).ToArray();
+                return method.Invoke(obj, parameters);
+            }
+#else
+            return deleg.DynamicInvoke(parameters);
+#endif
         }
 
         #endregion
 
-        #region Get
+        #region Get Members
 
         /// <summary>
         ///     Get all public fields and properties declared in a class/struct.
@@ -698,7 +728,7 @@ namespace MKLibCS.Reflection
 
         #endregion
 
-        #region Set
+        #region Set Members
 
         /// <summary>
         ///     Sets the value of the field/property member of an object.
@@ -722,7 +752,7 @@ namespace MKLibCS.Reflection
 
         #endregion
 
-        #region Is
+        #region Type
 
         /// <summary>
         ///     Check if a type is an implementation of the class List&lt;&gt;,

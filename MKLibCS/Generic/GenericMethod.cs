@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MKLibCS.Collections;
+using MKLibCS.Logging;
 using MKLibCS.Reflection;
 #if LEGACY
 using TypeInfo = System.Type;
@@ -17,9 +18,13 @@ namespace MKLibCS.Generic
     /// </summary>
     public class GenericMethod
     {
-        private static Dictionary<string, GenericMethod> allMethods = new Dictionary<string, GenericMethod>();
+        private static readonly Logger logger = new Logger(typeof(GenericMethod));
 
-        private static Dictionary<string, string> methodBinding = new Dictionary<string, string>();
+        private static readonly Dictionary<string, GenericMethod> allMethods
+            = new Dictionary<string, GenericMethod>();
+
+        private static readonly Dictionary<string, string> methodBinding
+            = new Dictionary<string, string>();
 
         /// <summary>
         /// </summary>
@@ -112,9 +117,7 @@ namespace MKLibCS.Generic
                 else
                     result[i] = subs[i];
             }
-            if (next)
-                return null;
-            return result;
+            return next ? null : result;
         }
 
         private static IEnumerable<Type[]> AllMatchingTypes(Type[] types)
@@ -146,6 +149,7 @@ namespace MKLibCS.Generic
             if (i != -1)
                 methods.RemoveAt(i);
             methods.Add(new TypeMethod(method, types));
+            logger.InternalDebug("GenericMethod<{0}>: Adding types {1}", Name, types.ToString(", ", "[", "]"));
         }
 
         /// <summary>
@@ -270,6 +274,8 @@ namespace MKLibCS.Generic
             }
             if (i == -1)
                 throw new MissingGenericMethodException(Name, types);
+            logger.InternalDebug("GenericMethod<{0}>: Retriving method for types {1}", Name,
+                types.ToString(", ", "[", "]"));
             return methods[i].method;
         }
 
@@ -347,7 +353,7 @@ namespace MKLibCS.Generic
         public object Do(params object[] parameters)
         {
             var method = Get(parameters.Select(p => p.GetType()).ToArray());
-            return method.DynamicInvoke(parameters);
+            return method.DynamicInvokeSafe(parameters);
         }
 
         /// <summary>
@@ -358,7 +364,7 @@ namespace MKLibCS.Generic
         public object GetValue(Type type)
         {
             var valueGetter = Get(type);
-            return valueGetter.DynamicInvoke();
+            return valueGetter.DynamicInvokeSafe();
         }
 
         /// <summary>
@@ -380,7 +386,7 @@ namespace MKLibCS.Generic
         public object Parse(Type type, object item)
         {
             var parser = GetParser(type);
-            return parser.DynamicInvoke(item.CreateArray(1));
+            return parser.DynamicInvokeSafe(item.CreateArray(1));
         }
 
         /// <summary>

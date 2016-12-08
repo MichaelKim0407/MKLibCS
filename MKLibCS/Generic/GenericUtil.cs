@@ -59,7 +59,7 @@ namespace MKLibCS.Generic
                     : (member as MethodInfo);
                 var types = gmattr.types;
                 Type[] paramTypes;
-                var deleg = method.CreateDelegate(type, out paramTypes);
+                var deleg = method.CreateDelegateSmart(type, out paramTypes);
                 if (types.IsEmpty())
                 {
                     switch (gmattr.methodType)
