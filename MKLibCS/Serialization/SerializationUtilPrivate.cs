@@ -11,7 +11,7 @@ namespace MKLibCS.Serialization
 
 #endif
 
-    internal static class SerializeUtilPrivate
+    internal static class SerializationUtilPrivate
     {
         public static bool IsStruct(this TypeInfo type)
         {

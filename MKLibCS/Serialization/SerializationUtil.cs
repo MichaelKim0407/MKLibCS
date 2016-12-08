@@ -11,15 +11,15 @@ namespace MKLibCS.Serialization
     /// <summary>
     /// </summary>
     [GenericUsage]
-    public static class SerializeUtil
+    public static class SerializationUtil
     {
-        private static readonly Logger logger = new Logger(typeof(SerializeUtil));
+        private static readonly Logger logger = new Logger(typeof(SerializationUtil));
 
         private static readonly GenericMethod _default;
         private static readonly GenericMethod _load;
         private static readonly GenericMethod _save;
 
-        static SerializeUtil()
+        static SerializationUtil()
         {
             _default = GenericMethod.Get("Serialize_Default", "LoadDefault");
             _load = GenericMethod.Get("Serialize_Load", "Load");
