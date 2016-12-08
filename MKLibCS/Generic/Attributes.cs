@@ -3,28 +3,23 @@
 namespace MKLibCS.Generic
 {
     /// <summary>
-    /// 
     /// </summary>
     public enum GenericMethodType
     {
         /// <summary>
-        /// 
         /// </summary>
         Method,
 
         /// <summary>
-        /// 
         /// </summary>
         Creator,
 
         /// <summary>
-        /// 
         /// </summary>
         Parser
     }
 
     /// <summary>
-    /// 
     /// </summary>
     [AttributeUsage(
         AttributeTargets.Method | AttributeTargets.Property,
@@ -33,7 +28,6 @@ namespace MKLibCS.Generic
     public class GenericMethodAttribute : Attribute
     {
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="name"></param>
         /// <param name="methodType"></param>
@@ -46,7 +40,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="name"></param>
         /// <param name="types"></param>
@@ -56,7 +49,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="methodType"></param>
         /// <param name="types"></param>
@@ -66,7 +58,6 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="types"></param>
         public GenericMethodAttribute(params Type[] types)
@@ -75,18 +66,36 @@ namespace MKLibCS.Generic
         }
 
         /// <summary>
-        /// 
         /// </summary>
         public readonly string name;
 
         /// <summary>
-        /// 
         /// </summary>
         public readonly GenericMethodType methodType;
 
         /// <summary>
-        /// 
         /// </summary>
         public readonly Type[] types;
+    }
+
+    /// <summary>
+    /// </summary>
+    [AttributeUsage(
+        AttributeTargets.Class | AttributeTargets.Struct,
+        Inherited = false
+        )]
+    public class GenericUsageAttribute : Attribute
+    {
+        /// <summary>
+        /// </summary>
+        /// <param name="prerequisites"></param>
+        public GenericUsageAttribute(params Type[] prerequisites)
+        {
+            this.prerequisites = prerequisites;
+        }
+
+        /// <summary>
+        /// </summary>
+        public readonly Type[] prerequisites;
     }
 }

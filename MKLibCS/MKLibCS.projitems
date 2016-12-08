@@ -16,15 +16,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\ExceptionInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\Exceptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\SerializeNode.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Serialization\SerializeAttributes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\Attributes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\SerializeItemInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\SerializeUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\SerializeUtilPrivate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Generic\Create.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Generic\Exceptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Generic\GenericMethod.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Generic\GenericMethodAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Generic\GenericUsageAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Generic\Attributes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Generic\GenericUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Generic\ParseFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logging\Logger.cs" />
