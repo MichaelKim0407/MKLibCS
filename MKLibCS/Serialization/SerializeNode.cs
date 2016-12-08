@@ -370,6 +370,7 @@ namespace MKLibCS.Serialization
         private const string ValueIs_Str = " = ";
         private const string Comment = "//";
         private const string Space = " ";
+        private static readonly char[] Space_ChrArr = {' '};
         private const string Tab = "\t";
 
         #region Read
@@ -424,10 +425,8 @@ namespace MKLibCS.Serialization
                     var splitIndex = oldline.IndexOf(ValueIs);
                     var key = oldline.Substring(0, splitIndex);
                     var value = oldline.Substring(splitIndex + 1);
-                    while (key.EndsWith(Space))
-                        key = key.Remove(key.Length - 1);
-                    while (value.StartsWith(Space))
-                        value = value.Remove(0, 1);
+                    key = key.Trim(Space_ChrArr);
+                    value = value.TrimStart(Space_ChrArr); // Don't remove whitespaces after value: possibly part of string
                     if (key == "" || value == "")
                         throw new CorruptFileException(nLine);
                     logger.InternalDebug("In node \"{0}\": new item \"{1}\" = {2}", Name, key, value);
