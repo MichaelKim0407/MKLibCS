@@ -32,7 +32,7 @@ namespace MKLibCS.Maths.Advanced
 
         /// <summary>
         /// </summary>
-        virtual public int Dimensions
+        public virtual int Dimensions
         {
             get { return list.Count; }
             set
@@ -127,7 +127,7 @@ namespace MKLibCS.Maths.Advanced
         /// <returns></returns>
         public bool Equals(Vector<T> other)
         {
-            return list.SequenceEqual(other.list);
+            return other != null && list.SequenceEqual(other.list);
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace MKLibCS.Maths.Advanced
         /// <returns></returns>
         public static bool operator ==(Vector<T> vec1, Vector<T> vec2)
         {
-            return vec1.Equals(vec2);
+            return vec1 != null && vec1.Equals(vec2);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace MKLibCS.Maths.Advanced
         public override bool Equals(object obj)
         {
             if (obj is Vector<T>)
-                return Equals(obj as Vector<T>);
+                return Equals((Vector<T>) obj);
             return false;
         }
 
@@ -263,10 +263,7 @@ namespace MKLibCS.Maths.Advanced
 
         /// <summary>
         /// </summary>
-        public Vector<T> Negative
-        {
-            get { return -this; }
-        }
+        public Vector<T> Negative => -this;
 
         /// <summary>
         /// </summary>
@@ -427,31 +424,19 @@ namespace MKLibCS.Maths.Advanced
 
         /// <summary>
         /// </summary>
-        public T r
-        {
-            get { return r2.Sqrt(); }
-        }
+        public T r => r2.Sqrt();
 
         /// <summary>
         /// </summary>
-        public T r2
-        {
-            get { return this*this; }
-        }
+        public T r2 => this*this;
 
         /// <summary>
         /// </summary>
-        public T r3
-        {
-            get { return (T) MathGenerics.Multiply.Do(r2, r); }
-        }
+        public T r3 => (T) MathGenerics.Multiply.Do(r2, r);
 
         /// <summary>
         /// </summary>
-        public Vector<T> Dir
-        {
-            get { return this == Zero() ? this : this/r; }
-        }
+        public Vector<T> Dir => this == Zero() ? this : this/r;
 
         /// <summary>
         /// </summary>

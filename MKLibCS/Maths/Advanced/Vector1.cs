@@ -18,6 +18,12 @@ namespace MKLibCS.Maths.Advanced
     [SerializeObject(SerializeObjectMethod.Single)]
     public struct Vector1<T> : IVector<T, Vector1<T>>
     {
+        static Vector1()
+        {
+            Zero = MathGenerics.Zero.GetValue<T>();
+            XUnit = MathGenerics.One.GetValue<T>();
+        }
+
         /// <summary>
         /// </summary>
         [SerializeItem] public T x;
@@ -109,18 +115,12 @@ namespace MKLibCS.Maths.Advanced
         /// <summary>
         /// </summary>
         [GenericMethod(GenericMethodType.Creator)]
-        public static Vector1<T> Zero
-        {
-            get { return MathGenerics.Zero.GetValue<T>(); }
-        }
+        public static Vector1<T> Zero { get; }
 
         /// <summary>
         /// </summary>
         [GenericMethod("One", GenericMethodType.Creator)]
-        public static Vector1<T> XUnit
-        {
-            get { return MathGenerics.One.GetValue<T>(); }
-        }
+        public static Vector1<T> XUnit { get; }
 
         /// <summary>
         /// </summary>
@@ -134,10 +134,7 @@ namespace MKLibCS.Maths.Advanced
 
         /// <summary>
         /// </summary>
-        public Vector1<T> Negative
-        {
-            get { return -this; }
-        }
+        public Vector1<T> Negative => -this;
 
         /// <summary>
         /// </summary>
@@ -249,44 +246,26 @@ namespace MKLibCS.Maths.Advanced
         /// <summary>
         /// </summary>
         [GenericMethod]
-        public Vector1<T> Abs
-        {
-            get { return x.Abs(); }
-        }
+        public Vector1<T> Abs => x.Abs();
 
         /// <summary>
         /// </summary>
-        public T r
-        {
-            get { return x; }
-        }
+        public T r => x;
 
         /// <summary>
         /// </summary>
-        public T r2
-        {
-            get { return Dot(this); }
-        }
+        public T r2 => Dot(this);
 
         /// <summary>
         /// </summary>
-        public T r3
-        {
-            get { return (T) MathGenerics.Multiply.Do(r2, r); }
-        }
+        public T r3 => (T) MathGenerics.Multiply.Do(r2, r);
 
         /// <summary>
         /// </summary>
-        public Vector1<T> Dir
-        {
-            get { return this == Zero ? this : this/r; }
-        }
+        public Vector1<T> Dir => this == Zero ? this : this/r;
 
         /// <summary>
         /// </summary>
-        public T Sum
-        {
-            get { return x; }
-        }
+        public T Sum => x;
     }
 }
