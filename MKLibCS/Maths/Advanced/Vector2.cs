@@ -51,7 +51,7 @@ namespace MKLibCS.Maths.Advanced
         /// <returns></returns>
         public bool Equals(Vector2<T> other)
         {
-            return x.Equals(other.x);
+            return x.Equals(other.x) && y.Equals(other.y);
         }
 
         /// <summary>

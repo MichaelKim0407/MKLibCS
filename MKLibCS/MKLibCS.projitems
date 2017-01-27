@@ -33,7 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Advanced\Vector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Advanced\Vector1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\ReflectionUtil.cs" />
-    <None Include="$(MSBuildThisFileDirectory)Maths\Advanced\Vector3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maths\Advanced\Vector3.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Abs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Add.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Divide.cs" />
