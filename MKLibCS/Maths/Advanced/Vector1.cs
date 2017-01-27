@@ -14,19 +14,19 @@ namespace MKLibCS.Maths.Advanced
     /// <summary>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [GenericUsage(typeof(MathGenerics))]
+    [GenericUsage(typeof(Calculable<>))]
     [SerializeObject(SerializeObjectMethod.Single)]
     public struct Vector1<T> : IVector<T, Vector1<T>>
     {
         static Vector1()
         {
-            Zero = MathGenerics.Zero.GetValue<T>();
-            XUnit = MathGenerics.One.GetValue<T>();
+            Zero = (Vector1<T>) Calculable<T>.Zero;
+            XUnit = (Vector1<T>) Calculable<T>.One;
         }
 
         /// <summary>
         /// </summary>
-        [SerializeItem] public T x;
+        [SerializeItem] public Calculable<T> x;
 
         /// <summary>
         /// </summary>
@@ -39,9 +39,17 @@ namespace MKLibCS.Maths.Advanced
         /// <summary>
         /// </summary>
         /// <param name="x"></param>
-        public static implicit operator Vector1<T>(T x)
+        public static explicit operator Vector1<T>(T x)
         {
             return new Vector1<T>(x);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="x"></param>
+        public static explicit operator Vector1<T>(Calculable<T> x)
+        {
+            return new Vector1<T>(x.value);
         }
 
         /// <summary>
@@ -129,7 +137,7 @@ namespace MKLibCS.Maths.Advanced
         [GenericMethod]
         public static Vector1<T> operator -(Vector1<T> vec)
         {
-            return (T) MathGenerics.Negative.Do(vec.x);
+            return (Vector1<T>) (-vec.x);
         }
 
         /// <summary>
@@ -144,7 +152,7 @@ namespace MKLibCS.Maths.Advanced
         [GenericMethod]
         public static Vector1<T> operator +(Vector1<T> vec1, Vector1<T> vec2)
         {
-            return (T) MathGenerics.Add.Do(vec1.x, vec2.x);
+            return (Vector1<T>) (vec1.x + vec2.x);
         }
 
         /// <summary>
@@ -164,7 +172,7 @@ namespace MKLibCS.Maths.Advanced
         [GenericMethod]
         public static Vector1<T> operator -(Vector1<T> vec1, Vector1<T> vec2)
         {
-            return (T) MathGenerics.Subtract.Do(vec1.x, vec2.x);
+            return (Vector1<T>) (vec1.x - vec2.x);
         }
 
         /// <summary>
@@ -182,9 +190,20 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec2"></param>
         /// <returns></returns>
         [GenericMethod]
-        public static Vector1<T> operator *(Vector1<T> vec1, Vector1<T> vec2)
+        public static T operator *(Vector1<T> vec1, Vector1<T> vec2)
         {
-            return (T) MathGenerics.Multiply.Do(vec1.x, vec2.x);
+            return vec1.x*vec2.x;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="vec"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        [GenericMethod]
+        public static Vector1<T> operator *(Vector1<T> vec, T num)
+        {
+            return (Vector1<T>) (vec.x*num);
         }
 
         /// <summary>
@@ -202,9 +221,20 @@ namespace MKLibCS.Maths.Advanced
         /// <param name="vec2"></param>
         /// <returns></returns>
         [GenericMethod]
-        public static Vector1<T> operator /(Vector1<T> vec1, Vector1<T> vec2)
+        public static T operator /(Vector1<T> vec1, Vector1<T> vec2)
         {
-            return (T) MathGenerics.Divide.Do(vec1.x, vec2.x);
+            return vec1.x/vec2.x;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="vec"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        [GenericMethod]
+        public static Vector1<T> operator /(Vector1<T> vec, T num)
+        {
+            return (Vector1<T>) (vec.x/num);
         }
 
         /// <summary>
@@ -222,7 +252,7 @@ namespace MKLibCS.Maths.Advanced
         /// <returns></returns>
         public T Dot(Vector1<T> other)
         {
-            return (this*other).x;
+            return this*other;
         }
 
         /// <summary>
@@ -231,7 +261,7 @@ namespace MKLibCS.Maths.Advanced
         /// <returns></returns>
         public Vector1<T> RespectivelyMultiply(Vector1<T> other)
         {
-            return this*other;
+            return (Vector1<T>) (x*other.x);
         }
 
         /// <summary>
@@ -240,13 +270,13 @@ namespace MKLibCS.Maths.Advanced
         /// <returns></returns>
         public Vector1<T> RespectivelyDivide(Vector1<T> other)
         {
-            return this/other;
+            return (Vector1<T>) (x/other.x);
         }
 
         /// <summary>
         /// </summary>
         [GenericMethod]
-        public Vector1<T> Abs => x.Abs();
+        public Vector1<T> Abs => (Vector1<T>) x.Abs();
 
         /// <summary>
         /// </summary>

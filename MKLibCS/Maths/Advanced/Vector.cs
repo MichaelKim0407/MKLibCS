@@ -17,7 +17,7 @@ namespace MKLibCS.Maths.Advanced
     /// <summary>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [GenericUsage(typeof(MathGenerics))]
+    [GenericUsage(typeof(Calculable<>))]
     [SerializeObject(SerializeObjectMethod.Single)]
     public class Vector<T> : IVector<T, Vector<T>>
     {
@@ -28,7 +28,7 @@ namespace MKLibCS.Maths.Advanced
 
         /// <summary>
         /// </summary>
-        [SerializeItem] public List<Vector1<T>> list;
+        [SerializeItem] public List<Calculable<T>> list;
 
         /// <summary>
         /// </summary>
@@ -41,7 +41,7 @@ namespace MKLibCS.Maths.Advanced
                 if (diff == 0)
                     return;
                 if (diff > 0)
-                    list.AddRange(Vector1<T>.Zero, diff);
+                    list.AddRange(Calculable<T>.Zero, diff);
                 else
                     list.RemoveRange(value, diff);
             }
@@ -53,7 +53,7 @@ namespace MKLibCS.Maths.Advanced
         /// <returns></returns>
         public T this[int index]
         {
-            get { return list[index].x; }
+            get { return list[index].value; }
             set { list[index] = value; }
         }
 
@@ -64,11 +64,11 @@ namespace MKLibCS.Maths.Advanced
             get
             {
                 foreach (var v in list)
-                    yield return v.x;
+                    yield return v.value;
             }
             set
             {
-                list = new List<Vector1<T>>();
+                list = new List<Calculable<T>>();
                 foreach (var v in value)
                     list.Add(v);
             }
@@ -116,7 +116,7 @@ namespace MKLibCS.Maths.Advanced
             return new Vector<T>(values);
         }
 
-        private Vector(IEnumerable<Vector1<T>> list)
+        private Vector(IEnumerable<Calculable<T>> list)
         {
             this.list = list.ToList();
         }
@@ -198,7 +198,7 @@ namespace MKLibCS.Maths.Advanced
         /// <returns></returns>
         public static Vector<T> Zero(int dimensions)
         {
-            return new Vector<T>(Vector1<T>.Zero.CreateCollection(dimensions));
+            return new Vector<T>(Calculable<T>.Zero.CreateCollection(dimensions));
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace MKLibCS.Maths.Advanced
         public static Vector<T> Unit(int dimensions, int dimension)
         {
             var zero = Zero(dimensions);
-            zero.list[dimension] = Vector1<T>.XUnit;
+            zero.list[dimension] = Calculable<T>.One;
             return zero;
         }
 
@@ -232,7 +232,7 @@ namespace MKLibCS.Maths.Advanced
 
         private static Vector<T> DoOperation(
             Vector<T> vec,
-            Func<Vector1<T>, Vector1<T>> oper
+            Func<Calculable<T>, Calculable<T>> oper
             )
         {
             return new Vector<T>(
@@ -242,7 +242,7 @@ namespace MKLibCS.Maths.Advanced
         private static Vector<T> DoOperation(
             Vector<T> vec1,
             Vector<T> vec2,
-            Func<Vector1<T>, Vector1<T>, Vector1<T>> oper
+            Func<Calculable<T>, Calculable<T>, Calculable<T>> oper
             )
         {
             return new Vector<T>(
@@ -444,10 +444,10 @@ namespace MKLibCS.Maths.Advanced
         {
             get
             {
-                var sum = Vector1<T>.Zero;
+                var sum = Calculable<T>.Zero;
                 foreach (var value in list)
                     sum += value;
-                return sum.Sum;
+                return sum;
             }
         }
     }
