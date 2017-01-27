@@ -166,7 +166,7 @@ namespace MKLibCS.Maths.Advanced
         /// <returns></returns>
         public override int GetHashCode()
         {
-            return list.Hash_Prime(31);
+            return list.Hash_Prime(MathUtil.HashFactor);
         }
 
         /// <summary>

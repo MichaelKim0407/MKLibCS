@@ -65,6 +65,10 @@ namespace MKLibCS.Maths
         /// </summary>
         public const double DegToRad = 1/RadToDeg;
 
+        /// <summary>
+        /// </summary>
+        public const int HashFactor = 31;
+
         #endregion
 
         #region Generic
