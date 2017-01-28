@@ -137,7 +137,7 @@ namespace MKLibCS.Reflection
         ///     Get all public fields and properties declared in a class/struct.
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
         public static IEnumerable<MemberInfo> GetFieldsAndProperties(this TypeInfo type)
         {
             if (type == null)
@@ -233,8 +233,8 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentException">attributeType is not subclass of Attribute.</exception>
         public static Dictionary<MemberInfo, Attribute[]> GetMembersWithAttributeDict(
             this TypeInfo type,
             Type attributeType
@@ -249,7 +249,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
         public static Dictionary<MemberInfo, T[]> GetMembersWithAttributeDict<T>(
             this TypeInfo type
             )
@@ -263,8 +263,8 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentException">attributeType is not subclass of Attribute.</exception>
         public static IEnumerable<MemberInfo> GetMembersWithAttribute(
             this TypeInfo type,
             Type attributeType
@@ -278,7 +278,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
         public static IEnumerable<MemberInfo> GetMembersWithAttribute<T>(
             this TypeInfo type
             )
@@ -297,8 +297,8 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentException">attributeType is not subclass of Attribute.</exception>
         public static Dictionary<FieldInfo, Attribute[]> GetFieldsWithAttributeDict(
             this TypeInfo type,
             Type attributeType
@@ -313,7 +313,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
         public static Dictionary<FieldInfo, T[]> GetFieldsWithAttributeDict<T>(
             this TypeInfo type
             )
@@ -327,8 +327,8 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentException">attributeType is not subclass of Attribute.</exception>
         public static IEnumerable<FieldInfo> GetFieldsWithAttribute(
             this TypeInfo type,
             Type attributeType
@@ -342,7 +342,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
         public static IEnumerable<FieldInfo> GetFieldsWithAttribute<T>(
             this TypeInfo type
             )
@@ -361,8 +361,8 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentException">attributeType is not subclass of Attribute.</exception>
         public static Dictionary<PropertyInfo, Attribute[]> GetPropertiesWithAttributeDict(
             this TypeInfo type,
             Type attributeType
@@ -377,7 +377,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
         public static Dictionary<PropertyInfo, T[]> GetPropertiesWithAttributeDict<T>(
             this TypeInfo type
             )
@@ -391,8 +391,8 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentException">attributeType is not subclass of Attribute.</exception>
         public static IEnumerable<PropertyInfo> GetPropertiesWithAttribute(
             this TypeInfo type,
             Type attributeType
@@ -406,7 +406,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
         public static IEnumerable<PropertyInfo> GetPropertiesWithAttribute<T>(
             this TypeInfo type
             )
@@ -425,8 +425,8 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentException">attributeType is not subclass of Attribute.</exception>
         public static Dictionary<MemberInfo, Attribute[]> GetFieldsAndPropertiesWithAttributeDict(
             this TypeInfo type,
             Type attributeType
@@ -441,7 +441,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
         public static Dictionary<MemberInfo, T[]> GetFieldsAndPropertiesWithAttributeDict<T>(
             this TypeInfo type
             )
@@ -455,8 +455,8 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentException">attributeType is not subclass of Attribute.</exception>
         public static IEnumerable<MemberInfo> GetFieldsAndPropertiesWithAttribute(
             this TypeInfo type,
             Type attributeType
@@ -470,7 +470,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
         public static IEnumerable<MemberInfo> GetFieldsAndPropertiesWithAttribute<T>(
             this TypeInfo type
             )
@@ -489,8 +489,8 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentException">attributeType is not subclass of Attribute.</exception>
         public static Dictionary<MethodInfo, Attribute[]> GetMethodsWithAttributeDict(
             this TypeInfo type,
             Type attributeType
@@ -505,7 +505,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
         public static Dictionary<MethodInfo, T[]> GetMethodsWithAttributeDict<T>(
             this TypeInfo type
             )
@@ -519,8 +519,8 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentException">attributeType is not subclass of Attribute.</exception>
         public static IEnumerable<MethodInfo> GetMethodsWithAttribute(
             this TypeInfo type,
             Type attributeType
@@ -534,7 +534,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
         public static IEnumerable<MethodInfo> GetMethodsWithAttribute<T>(
             this TypeInfo type
             )
@@ -553,8 +553,8 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentException">attributeType is not subclass of Attribute.</exception>
         public static Dictionary<TypeInfo, Attribute[]> GetNestedTypesWithAttributeDict(
             this TypeInfo type,
             Type attributeType
@@ -569,7 +569,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
         public static Dictionary<TypeInfo, T[]> GetNestedTypesWithAttributeDict<T>(
             this TypeInfo type
             )
@@ -583,8 +583,8 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <param name="type">The type of the class/struct.</param>
         /// <param name="attributeType">The type of the attribute.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
-        /// <exception cref="System.ArgumentException">attributeType is not subclass of Attribute.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentException">attributeType is not subclass of Attribute.</exception>
         public static IEnumerable<TypeInfo> GetNestedTypesWithAttribute(
             this TypeInfo type,
             Type attributeType
@@ -598,7 +598,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="type">The type of the class/struct.</param>
-        /// <exception cref="System.ArgumentNullException">type is null.</exception>
+        /// <exception cref="ArgumentNullException">type is null.</exception>
         public static IEnumerable<TypeInfo> GetNestedTypesWithAttribute<T>(
             this TypeInfo type
             )
@@ -616,7 +616,7 @@ namespace MKLibCS.Reflection
         /// <param name="assembly"></param>
         /// <param name="attributeType"></param>
         /// <returns></returns>
-        /// <exception cref="System.ArgumentNullException">assembly is null.</exception>
+        /// <exception cref="ArgumentNullException">assembly is null.</exception>
         public static IEnumerable<TypeInfo> GetTypesWithAttribute(this Assembly assembly, Type attributeType)
         {
             if (assembly == null)
@@ -631,7 +631,7 @@ namespace MKLibCS.Reflection
         /// <typeparam name="T"></typeparam>
         /// <param name="assembly"></param>
         /// <returns></returns>
-        /// <exception cref="System.ArgumentNullException">assembly is null.</exception>
+        /// <exception cref="ArgumentNullException">assembly is null.</exception>
         public static IEnumerable<TypeInfo> GetTypesWithAttribute<T>(this Assembly assembly)
             where T : Attribute
         {
@@ -696,8 +696,8 @@ namespace MKLibCS.Reflection
         /// <param name="member">The System.Reflection.MemberInfo object that provides information for the member.</param>
         /// <param name="obj">The object that contains the member.</param>
         /// <returns>The value of the member.</returns>
-        /// <exception cref="System.ArgumentNullException">member is null.</exception>
-        /// <exception cref="System.ArgumentException">member is not System.Reflection.FieldInfo or System.Reflection.PropertyInfo.</exception>
+        /// <exception cref="ArgumentNullException">member is null.</exception>
+        /// <exception cref="ArgumentException">member is not System.Reflection.FieldInfo or System.Reflection.PropertyInfo.</exception>
         public static object GetValue(this MemberInfo member, object obj)
         {
             if (member == null)
@@ -713,8 +713,8 @@ namespace MKLibCS.Reflection
         ///     Get the type of the member.
         /// </summary>
         /// <param name="member">The System.Reflection.MemberInfo object that provides information for the member.</param>
-        /// <exception cref="System.ArgumentNullException">member is null.</exception>
-        /// <exception cref="System.ArgumentException">member is not System.Reflection.FieldInfo or System.Reflection.PropertyInfo.</exception>
+        /// <exception cref="ArgumentNullException">member is null.</exception>
+        /// <exception cref="ArgumentException">member is not System.Reflection.FieldInfo or System.Reflection.PropertyInfo.</exception>
         public static Type GetValueType(this MemberInfo member)
         {
             if (member == null)
@@ -736,8 +736,8 @@ namespace MKLibCS.Reflection
         /// <param name="member">The System.Reflection.MemberInfo object that provides information for the member.</param>
         /// <param name="obj">The object that contains the member.</param>
         /// <param name="value">The value to set.</param>
-        /// <exception cref="System.ArgumentNullException">member is null.</exception>
-        /// <exception cref="System.ArgumentException">member is not System.Reflection.FieldInfo or System.Reflection.PropertyInfo.</exception>
+        /// <exception cref="ArgumentNullException">member is null.</exception>
+        /// <exception cref="ArgumentException">member is not System.Reflection.FieldInfo or System.Reflection.PropertyInfo.</exception>
         public static void SetValue(this MemberInfo member, object obj, object value)
         {
             if (member == null)

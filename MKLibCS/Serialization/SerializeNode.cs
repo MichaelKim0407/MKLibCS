@@ -85,8 +85,8 @@ namespace MKLibCS.Serialization
         /// </summary>
         public sealed class Item : IItemOrNode
         {
-            /// <exception cref="System.ArgumentNullException"></exception>
-            /// <exception cref="System.ArgumentException"></exception>
+            /// <exception cref="ArgumentNullException"></exception>
+            /// <exception cref="ArgumentException"></exception>
             public Item(string key, string value)
             {
                 if (key == null)
@@ -150,7 +150,7 @@ namespace MKLibCS.Serialization
                 return list.GetEnumerator();
             }
 
-            /// <exception cref="System.Collections.Generic.KeyNotFoundException"></exception>
+            /// <exception cref="KeyNotFoundException"></exception>
             public Item GetItem(string key)
             {
                 if (ContainsKey(key))
@@ -222,8 +222,8 @@ namespace MKLibCS.Serialization
         /// </summary>
         public sealed class Node : IItemOrNode
         {
-            /// <exception cref="System.ArgumentNullException"></exception>
-            /// <exception cref="System.ArgumentException"></exception>
+            /// <exception cref="ArgumentNullException"></exception>
+            /// <exception cref="ArgumentException"></exception>
             public Node(string key, SerializeNode parent)
             {
                 if (key == null)
@@ -287,7 +287,7 @@ namespace MKLibCS.Serialization
                 return list.GetEnumerator();
             }
 
-            /// <exception cref="System.Collections.Generic.KeyNotFoundException"></exception>
+            /// <exception cref="KeyNotFoundException"></exception>
             public Node GetNode(string key)
             {
                 if (ContainsKey(key))

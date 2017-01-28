@@ -48,6 +48,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Generics\Zero.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\MathGenerics.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\MathUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)System\Path.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TargetSpecific\TargetSpecificUtil.cs" />
   </ItemGroup>
 </Project>

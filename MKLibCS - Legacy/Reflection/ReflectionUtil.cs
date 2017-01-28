@@ -26,7 +26,7 @@ namespace MKLibCS.Reflection
         /// <typeparam name="T"></typeparam>
         /// <param name="assembly"></param>
         /// <returns></returns>
-        /// <exception cref="System.ArgumentNullException">assembly is null.</exception>
+        /// <exception cref="ArgumentNullException">assembly is null.</exception>
         public static T GetCustomAttribute<T>(this Assembly assembly)
             where T : Attribute
         {
@@ -50,7 +50,7 @@ namespace MKLibCS.Reflection
         /// </summary>
         /// <typeparam name="T">The type of the attribute.</typeparam>
         /// <param name="m">The member.</param>
-        /// <exception cref="System.ArgumentNullException">m is null.</exception>
+        /// <exception cref="ArgumentNullException">m is null.</exception>
         public static T GetCustomAttribute<T>(this MemberInfo m)
             where T : Attribute
         {
