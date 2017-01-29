@@ -7,7 +7,7 @@
     <ProjectGuid>{66A25AA9-05C2-4A1D-B6FE-E56FD1AD676A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MKLibCS.Unity</RootNamespace>
+    <RootNamespace>MKLibCS</RootNamespace>
     <AssemblyName>MKLibUnity</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -28,7 +28,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Release\</OutputPath>
-    <DefineConstants>TRACE;LEGACY, V3, Mono</DefineConstants>
+    <DefineConstants>TRACE;LEGACY, V3, Mono, Unity</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>

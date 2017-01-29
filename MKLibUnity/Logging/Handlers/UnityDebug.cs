@@ -1,9 +1,7 @@
 ﻿using System;
 using UnityEngine;
-using ILogHandler = MKLibCS.Logging.ILogHandler;
-using Logger = MKLibCS.Logging.Logger;
 
-namespace MKLibCS.Unity.Logging.Handlers
+namespace MKLibCS.Logging.Handlers
 {
     /// <summary>
     /// </summary>

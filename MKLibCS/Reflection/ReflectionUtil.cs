@@ -111,7 +111,7 @@ namespace MKLibCS.Reflection
         /// <returns></returns>
         public static object DynamicInvokeSafe(this Delegate deleg, params object[] parameters)
         {
-#if Mono
+#if Unity
             try
             {
                 return deleg.DynamicInvoke(parameters);
