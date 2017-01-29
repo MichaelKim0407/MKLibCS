@@ -34,8 +34,8 @@ namespace MKLibCS.System
         private const string WindowsPathSeperatorStr = "\\";
         private const string UnixPathSeperatorStr = "/";
 
-        private string disc;
-        private List<string> directories;
+        private readonly string disc;
+        private readonly List<string> directories;
 
         /// <summary>
         /// </summary>
@@ -66,7 +66,22 @@ namespace MKLibCS.System
         public Path(string path, params string[] directories)
             : this(path)
         {
-            Join(directories);
+            Append(directories);
+        }
+
+        /// <summary>
+        /// </summary>
+        public Path()
+            : this(".")
+        {
+        }
+
+        private Path(Path parent, params string[] directories)
+        {
+            disc = parent.disc;
+            this.directories = new List<string>();
+            this.directories.AddRange(parent.directories);
+            Append(directories);
         }
 
         private static List<string> Split(string dir)
@@ -92,13 +107,19 @@ namespace MKLibCS.System
             }
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="directories"></param>
-        public void Join(params string[] directories)
+        private void Append(params string[] directories)
         {
             foreach (var dir in directories)
                 this.directories.AddRange(Split(dir));
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="directories"></param>
+        /// <returns></returns>
+        public Path Join(params string[] directories)
+        {
+            return new Path(this, directories);
         }
 
         /// <summary>
@@ -120,6 +141,6 @@ namespace MKLibCS.System
 
         /// <summary>
         /// </summary>
-        public static Path CurPath => new Path(".").AbsPath;
+        public static Path CurPath => new Path().AbsPath;
     }
 }
