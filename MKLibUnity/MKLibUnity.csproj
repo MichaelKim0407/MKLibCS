@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Logging\Handlers\UnityDebug.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unity\UnityUtil.cs" />
   </ItemGroup>
   <Import Project="..\MKLibCS\MKLibCS.projitems" Label="Shared" />
   <Import Project="..\MKLibCS - Legacy\MKLibCS - Legacy.projitems" Label="Shared" />
