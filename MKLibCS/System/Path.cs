@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using MKLibCS.Collections;
+using MKLibCS.TargetSpecific;
 
 namespace MKLibCS.System
 {
     /// <summary>
-    /// TODO: WIP
     /// </summary>
     public class Path
     {
@@ -104,5 +104,22 @@ namespace MKLibCS.System
         /// <summary>
         /// </summary>
         public bool IsAbsPath => disc != null;
+
+        /// <summary>
+        /// </summary>
+        public Path AbsPath
+        {
+            get
+            {
+                if (IsAbsPath)
+                    return this;
+                var absPath = (string) TargetSpecificUtil.GetFullPath.Do(ToString());
+                return new Path(absPath);
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        public static Path CurPath => new Path(".").AbsPath;
     }
 }

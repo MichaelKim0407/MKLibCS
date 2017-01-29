@@ -18,6 +18,7 @@ namespace MKLibCS.TargetSpecific
                 GetMemberType = GenericMethod.Get("GetMemberType" + value);
                 StreamReader = GenericMethod.Get("StreamReader" + value);
                 StreamWriter = GenericMethod.Get("StreamWriter" + value);
+                GetFullPath = GenericMethod.Get("GetFullPath" + value);
                 _Target = value;
             }
         }
@@ -33,5 +34,9 @@ namespace MKLibCS.TargetSpecific
         /// <summary>
         /// </summary>
         public static GenericMethod StreamWriter { get; private set; }
+
+        /// <summary>
+        /// </summary>
+        public static GenericMethod GetFullPath { get; private set; }
     }
 }

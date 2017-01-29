@@ -29,6 +29,8 @@ namespace MKLibCS.TargetSpecific
             TargetSpecificUtil.StreamWriter.Add<string, bool>((path, append) => new StreamWriter(path, append));
             TargetSpecificUtil.StreamWriter.Add<string, bool, Encoding>(
                 (path, append, encoding) => new StreamWriter(path, append, encoding));
+
+            TargetSpecificUtil.GetFullPath.Add<string>(Path.GetFullPath);
         }
     }
 }
