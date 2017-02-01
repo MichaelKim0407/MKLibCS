@@ -38,12 +38,14 @@
     <DocumentationFile>..\Release\MKLibCSP.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\ReflectionUtil.cs" />
     <Compile Include="Reflection\MemberTypes.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.IO.FileSystem">
+      <HintPath>C:\Users\michael\.nuget\packages\System.IO.FileSystem\4.0.0\ref\dotnet\System.IO.FileSystem.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="..\MKLibCS\MKLibCS.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

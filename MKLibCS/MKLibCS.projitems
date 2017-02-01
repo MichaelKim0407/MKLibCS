@@ -15,6 +15,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Logging\ILogHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Advanced\Calculable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Maths\Advanced\Vector2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resource\Attributes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resource\Exceptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resource\ResourceLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\ExceptionInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\Exceptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\SerializeNode.cs" />
